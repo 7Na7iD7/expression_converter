@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../providers/converter_provider.dart';
 import 'conversion_result_screen.dart';
 
+/// Single unified home/converter screen - replaces both HomeScreen and ConverterScreen
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -39,6 +40,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  /// Public method to load example expressions (called from MainScreen)
   void loadExample(String expression, String conversionType) {
     setState(() {
       _controller.text = expression;
@@ -112,6 +114,20 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         builder: (context) => const ConversionResultScreen(),
       ),
     );
+  }
+
+  String _getHintText() {
+    switch (_selectedConversion) {
+      case 'Infix to Postfix':
+      case 'Infix to Prefix':
+        return 'e.g., A+B*C or (A+B)*(C-D)';
+      case 'Postfix to Infix':
+        return 'e.g., ABC*+ or AB+CD-*';
+      case 'Prefix to Infix':
+        return 'e.g., +A*BC or *+AB-CD';
+      default:
+        return 'Enter your expression';
+    }
   }
 
   @override
@@ -241,20 +257,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         setState(() {});
       },
     );
-  }
-
-  String _getHintText() {
-    switch (_selectedConversion) {
-      case 'Infix to Postfix':
-      case 'Infix to Prefix':
-        return 'e.g., A+B*C or (A+B)*(C-D)';
-      case 'Postfix to Infix':
-        return 'e.g., ABC*+ or AB+CD-*';
-      case 'Prefix to Infix':
-        return 'e.g., +A*BC or *+AB-CD';
-      default:
-        return 'Enter your expression';
-    }
   }
 
   Widget _buildActionButtons() {
