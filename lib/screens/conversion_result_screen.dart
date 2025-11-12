@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../providers/converter_provider.dart';
+import '../l10n/app_localizations.dart';
 import '../widgets/advanced_step_card.dart';
 import 'dart:async';
 
@@ -73,9 +74,11 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Conversion Steps'),
+        title: Text(l10n.translate('conversion_steps')),
         centerTitle: true,
         actions: [
           IconButton(
@@ -84,23 +87,24 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
               provider.setCurrentStepIndex(0);
             },
             icon: const Icon(Icons.restart_alt),
-            tooltip: 'Reset to Start',
+            tooltip: l10n.translate('reset_to_start'),
           ),
         ],
       ),
       body: Consumer<ConverterProvider>(
         builder: (context, provider, child) {
           if (provider.steps.isEmpty) {
-            return _buildEmptyState();
+            return _buildEmptyState(l10n);
           }
 
           return CustomScrollView(
+            controller: _scrollController,
             slivers: [
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                    _buildResultCard(provider),
-                    _buildControlBar(provider),
+                    _buildResultCard(provider, l10n),
+                    _buildControlBar(provider, l10n),
                   ],
                 ),
               ),
@@ -133,7 +137,7 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
     );
   }
 
-  Widget _buildResultCard(ConverterProvider provider) {
+  Widget _buildResultCard(ConverterProvider provider, AppLocalizations l10n) {
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
@@ -171,7 +175,7 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
               ),
               const SizedBox(width: 12),
               Text(
-                'Result',
+                l10n.translate('result'),
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -205,7 +209,7 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
               ),
               const SizedBox(width: 8),
               Text(
-                '${provider.steps.length} steps completed',
+                '${provider.steps.length} ${l10n.translate('steps_completed')}',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
@@ -220,7 +224,7 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
         .shimmer(duration: 1000.ms);
   }
 
-  Widget _buildControlBar(ConverterProvider provider) {
+  Widget _buildControlBar(ConverterProvider provider, AppLocalizations l10n) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(12),
@@ -233,7 +237,9 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
           IconButton(
             onPressed: provider.isAnimating ? _stopAutoPlay : _startAutoPlay,
             icon: Icon(provider.isAnimating ? Icons.pause : Icons.play_arrow),
-            tooltip: provider.isAnimating ? 'Pause' : 'Auto Play',
+            tooltip: provider.isAnimating
+                ? l10n.translate('pause')
+                : l10n.translate('auto_play'),
             style: IconButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
             ),
@@ -245,7 +251,7 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
               min: 0,
               max: (provider.steps.length - 1).toDouble(),
               divisions: provider.steps.length - 1,
-              label: 'Step ${provider.currentStepIndex + 1}',
+              label: '${l10n.translate('step')} ${provider.currentStepIndex + 1}',
               onChanged: (value) {
                 provider.setCurrentStepIndex(value.toInt());
                 _scrollToCurrentStep();
@@ -264,7 +270,7 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -276,7 +282,7 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
           ),
           const SizedBox(height: 16),
           Text(
-            'No conversion data available',
+            l10n.translate('no_conversion_data'),
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 8),
@@ -285,7 +291,7 @@ class _ConversionResultScreenState extends State<ConversionResultScreen> with Ti
               Navigator.of(context).pop();
             },
             icon: const Icon(Icons.arrow_back),
-            label: const Text('Go Back'),
+            label: Text(l10n.translate('go_back')),
           ),
         ],
       ),

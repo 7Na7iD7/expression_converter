@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../providers/theme_provider.dart';
+import '../l10n/app_localizations.dart';
 import 'home_screen.dart';
 import 'examples_screen.dart';
 import 'tutorial_screen.dart';
 import 'settings_screen.dart';
 
-/// MainScreen - Primary Navigation Hub
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -19,7 +19,6 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
   int _selectedIndex = 0;
   late AnimationController _animationController;
 
-  // Key for HomeScreen to call its methods
   final GlobalKey<HomeScreenState> _homeScreenKey = GlobalKey<HomeScreenState>();
 
   @override
@@ -39,20 +38,16 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
     super.dispose();
   }
 
-  /// Handle example selection from ExamplesScreen
   void _handleExampleSelection(String expression, String conversionType) {
-    // Navigate to HomeScreen (index 0)
     setState(() {
       _selectedIndex = 0;
     });
 
-    // Pass data to HomeScreen
     Future.delayed(const Duration(milliseconds: 100), () {
       _homeScreenKey.currentState?.loadExample(expression, conversionType);
     });
   }
 
-  /// Build screens list
   Widget _getScreen() {
     switch (_selectedIndex) {
       case 0:
@@ -70,12 +65,14 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
     }
   }
 
-  final List<String> _screenTitles = const [
-    'Expression Converter',
-    'Practice Examples',
-    'Tutorial & Guide',
-    'Settings',
-  ];
+  List<String> _getScreenTitles(AppLocalizations l10n) {
+    return [
+      l10n.translate('app_title'),
+      l10n.translate('practice_examples'),
+      l10n.translate('welcome_title'),
+      l10n.translate('reset_settings'),
+    ];
+  }
 
   final List<IconData> _screenIcons = const [
     Icons.calculate,
@@ -97,6 +94,8 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final l10n = AppLocalizations.of(context)!;
+    final screenTitles = _getScreenTitles(l10n);
 
     return Scaffold(
       appBar: AppBar(
@@ -128,11 +127,14 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
               ),
             ),
             const SizedBox(width: 12),
-            Text(
-              _screenTitles[_selectedIndex],
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 18,
+            Expanded(
+              child: Text(
+                screenTitles[_selectedIndex],
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
@@ -159,7 +161,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
             onPressed: () {
               themeProvider.toggleTheme();
             },
-            tooltip: 'Toggle Theme',
+            tooltip: l10n.translate('toggle_theme'),
           ),
           const SizedBox(width: 8),
         ],
@@ -185,11 +187,11 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
           child: _getScreen(),
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
+      bottomNavigationBar: _buildBottomNavigationBar(l10n),
     );
   }
 
-  Widget _buildBottomNavigationBar() {
+  Widget _buildBottomNavigationBar(AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -210,22 +212,22 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
           NavigationDestination(
             icon: const Icon(Icons.calculate_outlined),
             selectedIcon: _buildSelectedIcon(Icons.calculate, Colors.blue),
-            label: 'Converter',
+            label: l10n.translate('nav_converter'),
           ),
           NavigationDestination(
             icon: const Icon(Icons.lightbulb_outlined),
             selectedIcon: _buildSelectedIcon(Icons.lightbulb, Colors.amber),
-            label: 'Examples',
+            label: l10n.translate('nav_examples'),
           ),
           NavigationDestination(
             icon: const Icon(Icons.school_outlined),
             selectedIcon: _buildSelectedIcon(Icons.school, Colors.green),
-            label: 'Tutorial',
+            label: l10n.translate('nav_tutorial'),
           ),
           NavigationDestination(
             icon: const Icon(Icons.settings_outlined),
             selectedIcon: _buildSelectedIcon(Icons.settings, Colors.purple),
-            label: 'Settings',
+            label: l10n.translate('nav_settings'),
           ),
         ],
       ),

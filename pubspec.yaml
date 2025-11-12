@@ -11,12 +11,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   provider: ^6.1.1
   cupertino_icons: ^1.0.2
   google_fonts: ^6.1.0
   animate_do: ^3.1.2
   flutter_animate: ^4.3.0
   shared_preferences: ^2.2.2
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +29,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: false
 
   assets:
     - assets/icon/

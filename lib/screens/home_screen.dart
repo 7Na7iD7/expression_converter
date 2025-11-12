@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../providers/converter_provider.dart';
+import '../l10n/app_localizations.dart';
 import 'conversion_result_screen.dart';
 
-/// Single unified home/converter screen - replaces both HomeScreen and ConverterScreen
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -40,14 +40,12 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  /// Public method to load example expressions (called from MainScreen)
   void loadExample(String expression, String conversionType) {
     setState(() {
       _controller.text = expression;
       _selectedConversion = conversionType;
     });
 
-    // Auto-convert after loading
     Future.delayed(const Duration(milliseconds: 300), () {
       _convert();
     });
@@ -55,10 +53,11 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void _convert() {
     final provider = Provider.of<ConverterProvider>(context, listen: false);
+    final l10n = AppLocalizations.of(context)!;
     final expression = _controller.text.trim();
 
     if (expression.isEmpty) {
-      _showSnackBar('Please enter an expression', Colors.red);
+      _showSnackBar(l10n.translate('enter_expression_msg'), Colors.red);
       return;
     }
 
@@ -81,9 +80,9 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           break;
       }
       _resultAnimationController.forward();
-      _showSnackBar('Conversion completed successfully!', Colors.green);
+      _showSnackBar(l10n.translate('conversion_success'), Colors.green);
     } catch (e) {
-      _showSnackBar('Error: Invalid expression', Colors.red);
+      _showSnackBar(l10n.translate('invalid_expression'), Colors.red);
     }
   }
 
@@ -116,7 +115,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  String _getHintText() {
+  String _getHintText(AppLocalizations l10n) {
     switch (_selectedConversion) {
       case 'Infix to Postfix':
       case 'Infix to Prefix':
@@ -130,22 +129,39 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
+  String _getLocalizedConversionType(AppLocalizations l10n, String type) {
+    switch (type) {
+      case 'Infix to Postfix':
+        return l10n.translate('infix_to_postfix');
+      case 'Infix to Prefix':
+        return l10n.translate('infix_to_prefix');
+      case 'Postfix to Infix':
+        return l10n.translate('postfix_to_infix');
+      case 'Prefix to Infix':
+        return l10n.translate('prefix_to_infix');
+      default:
+        return type;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildInputSection(),
+            _buildInputSection(l10n),
             const SizedBox(height: 20),
             Consumer<ConverterProvider>(
               builder: (context, provider, child) {
                 if (provider.steps.isEmpty) {
-                  return _buildEmptyState();
+                  return _buildEmptyState(l10n);
                 }
-                return _buildResultPreview(provider);
+                return _buildResultPreview(provider, l10n);
               },
             ),
           ],
@@ -154,7 +170,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildInputSection() {
+  Widget _buildInputSection(AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -172,18 +188,18 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildConversionTypeSelector(),
+            _buildConversionTypeSelector(l10n),
             const SizedBox(height: 16),
-            _buildInputField(),
+            _buildInputField(l10n),
             const SizedBox(height: 16),
-            _buildActionButtons(),
+            _buildActionButtons(l10n),
           ],
         ),
       ),
     ).animate().fadeIn(duration: 400.ms).slideY(begin: -0.1, end: 0);
   }
 
-  Widget _buildConversionTypeSelector() {
+  Widget _buildConversionTypeSelector(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
@@ -200,7 +216,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: DropdownButtonFormField<String>(
         value: _selectedConversion,
         decoration: InputDecoration(
-          labelText: 'Conversion Type',
+          labelText: l10n.translate('conversion_type'),
           prefixIcon: Icon(
             _conversionTypes.firstWhere((e) => e['value'] == _selectedConversion)['icon'],
             color: _conversionTypes.firstWhere((e) => e['value'] == _selectedConversion)['color'],
@@ -216,7 +232,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 Icon(type['icon'], color: type['color'], size: 20),
                 const SizedBox(width: 12),
                 Text(
-                  type['value'],
+                  _getLocalizedConversionType(l10n, type['value']),
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
               ],
@@ -234,13 +250,13 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildInputField() {
+  Widget _buildInputField(AppLocalizations l10n) {
     return TextField(
       controller: _controller,
       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
       decoration: InputDecoration(
-        labelText: 'Enter Expression',
-        hintText: _getHintText(),
+        labelText: l10n.translate('enter_expression'),
+        hintText: _getHintText(l10n),
         prefixIcon: const Icon(Icons.edit_note),
         suffixIcon: _controller.text.isNotEmpty
             ? IconButton(
@@ -259,16 +275,16 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildActionButtons() {
+  Widget _buildActionButtons(AppLocalizations l10n) {
     return Row(
       children: [
         Expanded(
           child: ElevatedButton.icon(
             onPressed: _controller.text.isNotEmpty ? _convert : null,
             icon: const Icon(Icons.play_arrow, size: 24),
-            label: const Text(
-              'Convert',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            label: Text(
+              l10n.translate('convert'),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
@@ -296,7 +312,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(AppLocalizations l10n) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -312,7 +328,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               .shake(duration: 500.ms),
           const SizedBox(height: 24),
           Text(
-            'Ready to Convert!',
+            l10n.translate('ready_to_convert'),
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).colorScheme.onSurface,
@@ -320,7 +336,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           const SizedBox(height: 12),
           Text(
-            'Enter an expression or try an example\nfrom the Examples tab',
+            l10n.translate('ready_description'),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -331,7 +347,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildResultPreview(ConverterProvider provider) {
+  Widget _buildResultPreview(ConverterProvider provider, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -371,7 +387,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Result',
+                    l10n.translate('result'),
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -405,7 +421,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${provider.steps.length} steps completed',
+                    '${provider.steps.length} ${l10n.translate('steps_completed')}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
@@ -414,7 +430,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ElevatedButton.icon(
                 onPressed: _navigateToResultScreen,
                 icon: const Icon(Icons.visibility),
-                label: const Text('View Detailed Steps'),
+                label: Text(l10n.translate('view_detailed_steps')),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Theme.of(context).colorScheme.onPrimary,

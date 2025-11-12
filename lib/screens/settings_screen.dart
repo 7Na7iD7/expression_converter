@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../providers/theme_provider.dart';
+import '../providers/locale_provider.dart';
+import '../l10n/app_localizations.dart';
 import '../utils/theme_styles.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -9,28 +11,32 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        _buildAppInfoCard(context),
+        _buildAppInfoCard(context, l10n),
         const SizedBox(height: 20),
-        _buildThemeSection(context),
+        _buildLanguageSection(context, l10n),
         const SizedBox(height: 20),
-        _buildColorSection(context),
+        _buildThemeSection(context, l10n),
         const SizedBox(height: 20),
-        _buildMaterialYouSection(context),
+        _buildColorSection(context, l10n),
         const SizedBox(height: 20),
-        _buildAboutSection(context),
+        _buildMaterialYouSection(context, l10n),
         const SizedBox(height: 20),
-        _buildResourcesSection(context),
+        _buildAboutSection(context, l10n),
         const SizedBox(height: 20),
-        _buildResetSection(context),
+        _buildResourcesSection(context, l10n),
+        const SizedBox(height: 20),
+        _buildResetSection(context, l10n),
         const SizedBox(height: 80),
       ],
     );
   }
 
-  Widget _buildAppInfoCard(BuildContext context) {
+  Widget _buildAppInfoCard(BuildContext context, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: ThemeStyles.floatingElement(context),
@@ -47,7 +53,7 @@ class SettingsScreen extends StatelessWidget {
           ),
           const SizedBox(height: ThemeStyles.l),
           Text(
-            'Expression Converter Pro',
+            l10n.translate('app_title'),
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -61,7 +67,7 @@ class SettingsScreen extends StatelessWidget {
             ),
             decoration: ThemeStyles.modernChip(context, selected: true),
             child: Text(
-              'Version 1.0.0',
+              l10n.translate('version'),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -72,7 +78,7 @@ class SettingsScreen extends StatelessWidget {
     ).animate().fadeIn(duration: 600.ms).scale();
   }
 
-  Widget _buildThemeSection(BuildContext context) {
+  Widget _buildLanguageSection(BuildContext context, AppLocalizations l10n) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -95,53 +101,46 @@ class SettingsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: ThemeStyles.modernIcon(context),
                     child: const Icon(
-                      Icons.palette,
+                      Icons.language,
                       color: Colors.white,
                       size: 20,
                     ),
                   ),
                   const SizedBox(width: ThemeStyles.l),
-                  Text(
-                    'Theme Mode',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Text(
+                      'Language / زبان / 语言 / Idioma',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: ThemeStyles.l),
               Text(
-                'Choose your preferred theme mode',
+                'Choose your preferred language',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: ThemeStyles.xl),
-              Consumer<ThemeProvider>(
-                builder: (context, themeProvider, child) {
+              Consumer<LocaleProvider>(
+                builder: (context, localeProvider, child) {
                   return Column(
-                    children: [
-                      _buildThemeOption(
-                        context,
-                        AppTheme.light,
-                        themeProvider.selectedTheme == AppTheme.light,
-                            () => themeProvider.setTheme(AppTheme.light),
-                      ),
-                      const SizedBox(height: ThemeStyles.m),
-                      _buildThemeOption(
-                        context,
-                        AppTheme.dark,
-                        themeProvider.selectedTheme == AppTheme.dark,
-                            () => themeProvider.setTheme(AppTheme.dark),
-                      ),
-                      const SizedBox(height: ThemeStyles.m),
-                      _buildThemeOption(
-                        context,
-                        AppTheme.system,
-                        themeProvider.selectedTheme == AppTheme.system,
-                            () => themeProvider.setTheme(AppTheme.system),
-                      ),
-                    ],
+                    children: LocaleProvider.supportedLocales.map((localeOption) {
+                      // isLocaleSelected
+                      final isSelected = localeProvider.isLocaleSelected(localeOption.locale);
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: ThemeStyles.m),
+                        child: _buildLanguageOption(
+                          context,
+                          localeOption,
+                          isSelected,
+                              () => localeProvider.setLocale(localeOption.locale),
+                        ),
+                      );
+                    }).toList(),
                   );
                 },
               ),
@@ -149,12 +148,12 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
       ),
-    ).animate().fadeIn(duration: 600.ms, delay: 100.ms).slideX(begin: 0.2, end: 0);
+    ).animate().fadeIn(duration: 600.ms, delay: 50.ms).slideX(begin: 0.2, end: 0);
   }
 
-  Widget _buildThemeOption(
+  Widget _buildLanguageOption(
       BuildContext context,
-      AppTheme theme,
+      LocaleOption localeOption,
       bool isSelected,
       VoidCallback onTap,
       ) {
@@ -178,12 +177,9 @@ class SettingsScreen extends StatelessWidget {
                     ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).colorScheme.surfaceContainerHighest,
               ),
-              child: Icon(
-                theme.icon,
-                color: isSelected
-                    ? Colors.white
-                    : Theme.of(context).colorScheme.onSurfaceVariant,
-                size: 20,
+              child: Text(
+                localeOption.flag,
+                style: const TextStyle(fontSize: 24),
               ),
             ),
             const SizedBox(width: ThemeStyles.l),
@@ -192,7 +188,7 @@ class SettingsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    theme.displayName,
+                    localeOption.nativeName,
                     style: TextStyle(
                       fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
                       fontSize: 16,
@@ -203,7 +199,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    theme.description,
+                    localeOption.name,
                     style: TextStyle(
                       fontSize: 12,
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -240,7 +236,197 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildColorSection(BuildContext context) {
+  Widget _buildThemeSection(BuildContext context, AppLocalizations l10n) {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(ThemeStyles.radiusXXL),
+        side: BorderSide(
+          color: Theme.of(context).colorScheme.outline.withOpacity(0.15),
+          width: 1,
+        ),
+      ),
+      child: Container(
+        decoration: ThemeStyles.glassCard(context),
+        child: Padding(
+          padding: const EdgeInsets.all(ThemeStyles.xl),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: ThemeStyles.modernIcon(context),
+                    child: const Icon(
+                      Icons.palette,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: ThemeStyles.l),
+                  Text(
+                    l10n.translate('theme_mode'),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: ThemeStyles.l),
+              Text(
+                l10n.translate('theme_description'),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: ThemeStyles.xl),
+              Consumer<ThemeProvider>(
+                builder: (context, themeProvider, child) {
+                  return Column(
+                    children: [
+                      _buildThemeOption(
+                        context,
+                        l10n,
+                        AppTheme.light,
+                        themeProvider.selectedTheme == AppTheme.light,
+                            () => themeProvider.setTheme(AppTheme.light),
+                      ),
+                      const SizedBox(height: ThemeStyles.m),
+                      _buildThemeOption(
+                        context,
+                        l10n,
+                        AppTheme.dark,
+                        themeProvider.selectedTheme == AppTheme.dark,
+                            () => themeProvider.setTheme(AppTheme.dark),
+                      ),
+                      const SizedBox(height: ThemeStyles.m),
+                      _buildThemeOption(
+                        context,
+                        l10n,
+                        AppTheme.system,
+                        themeProvider.selectedTheme == AppTheme.system,
+                            () => themeProvider.setTheme(AppTheme.system),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    ).animate().fadeIn(duration: 600.ms, delay: 100.ms).slideX(begin: 0.2, end: 0);
+  }
+
+  Widget _buildThemeOption(
+      BuildContext context,
+      AppLocalizations l10n,
+      AppTheme theme,
+      bool isSelected,
+      VoidCallback onTap,
+      ) {
+    String themeKey;
+    String themeDescKey;
+
+    switch (theme) {
+      case AppTheme.light:
+        themeKey = 'light';
+        themeDescKey = 'light_desc';
+        break;
+      case AppTheme.dark:
+        themeKey = 'dark';
+        themeDescKey = 'dark_desc';
+        break;
+      case AppTheme.system:
+        themeKey = 'system';
+        themeDescKey = 'system_desc';
+        break;
+    }
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(ThemeStyles.radiusL),
+      child: AnimatedContainer(
+        duration: ThemeStyles.normalDuration,
+        curve: ThemeStyles.springCurve,
+        padding: const EdgeInsets.all(ThemeStyles.l),
+        decoration: isSelected
+            ? ThemeStyles.activeCard(context)
+            : ThemeStyles.neumorphism(context),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(ThemeStyles.s),
+              decoration: ThemeStyles.circleIcon(
+                context,
+                color: isSelected
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.surfaceContainerHighest,
+              ),
+              child: Icon(
+                theme.icon,
+                color: isSelected
+                    ? Colors.white
+                    : Theme.of(context).colorScheme.onSurfaceVariant,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: ThemeStyles.l),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.translate(themeKey),
+                    style: TextStyle(
+                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+                      fontSize: 16,
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    l10n.translate(themeDescKey),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: ThemeStyles.neonGlow(
+                    Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                child: Icon(
+                  Icons.check,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 14,
+                ),
+              )
+                  .animate(onPlay: (controller) => controller.repeat(reverse: true))
+                  .scale(
+                duration: 1000.ms,
+                begin: const Offset(0.9, 0.9),
+                end: const Offset(1.0, 1.0),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildColorSection(BuildContext context, AppLocalizations l10n) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -273,7 +459,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: ThemeStyles.l),
                   Text(
-                    'Primary Color',
+                    l10n.translate('primary_color'),
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -282,7 +468,7 @@ class SettingsScreen extends StatelessWidget {
               ),
               const SizedBox(height: ThemeStyles.l),
               Text(
-                'Choose your preferred accent color',
+                l10n.translate('color_description'),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -361,7 +547,7 @@ class SettingsScreen extends StatelessWidget {
     ).animate().fadeIn(duration: 600.ms, delay: 200.ms).slideX(begin: 0.2, end: 0);
   }
 
-  Widget _buildMaterialYouSection(BuildContext context) {
+  Widget _buildMaterialYouSection(BuildContext context, AppLocalizations l10n) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -408,7 +594,7 @@ class SettingsScreen extends StatelessWidget {
                       const SizedBox(width: ThemeStyles.l),
                       Expanded(
                         child: Text(
-                          'Material You',
+                          l10n.translate('material_you'),
                           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -434,7 +620,7 @@ class SettingsScreen extends StatelessWidget {
                         const SizedBox(width: ThemeStyles.s),
                         Expanded(
                           child: Text(
-                            'Dynamic color theming that adapts to your selected primary color',
+                            l10n.translate('material_you_desc'),
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Theme.of(context).colorScheme.onSurfaceVariant,
                             ),
@@ -452,7 +638,7 @@ class SettingsScreen extends StatelessWidget {
     ).animate().fadeIn(duration: 600.ms, delay: 300.ms).slideX(begin: 0.2, end: 0);
   }
 
-  Widget _buildAboutSection(BuildContext context) {
+  Widget _buildAboutSection(BuildContext context, AppLocalizations l10n) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -485,7 +671,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: ThemeStyles.l),
                   Text(
-                    'About',
+                    l10n.translate('about'),
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -494,7 +680,7 @@ class SettingsScreen extends StatelessWidget {
               ),
               const SizedBox(height: ThemeStyles.l),
               Text(
-                'A powerful tool for converting mathematical expressions between Infix, Postfix, and Prefix notations with detailed step-by-step visualization using stack data structure.',
+                l10n.translate('about_description'),
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   height: 1.6,
                 ),
@@ -504,12 +690,12 @@ class SettingsScreen extends StatelessWidget {
                 spacing: ThemeStyles.s,
                 runSpacing: ThemeStyles.s,
                 children: [
-                  _buildFeatureChip(context, 'Stack Visualization', Icons.layers),
-                  _buildFeatureChip(context, 'Step-by-Step', Icons.format_list_numbered),
-                  _buildFeatureChip(context, 'Auto-Play', Icons.play_circle),
-                  _buildFeatureChip(context, '42+ Examples', Icons.lightbulb),
-                  _buildFeatureChip(context, 'Dark Mode', Icons.dark_mode),
-                  _buildFeatureChip(context, 'Material You', Icons.auto_awesome),
+                  _buildFeatureChip(context, l10n, 'stack_visualization_feature', Icons.layers),
+                  _buildFeatureChip(context, l10n, 'step_by_step_feature', Icons.format_list_numbered),
+                  _buildFeatureChip(context, l10n, 'auto_play_feature', Icons.play_circle),
+                  _buildFeatureChip(context, l10n, 'examples_feature', Icons.lightbulb),
+                  _buildFeatureChip(context, l10n, 'dark_mode_feature', Icons.dark_mode),
+                  _buildFeatureChip(context, l10n, 'material_you_feature', Icons.auto_awesome),
                 ],
               ),
             ],
@@ -519,7 +705,7 @@ class SettingsScreen extends StatelessWidget {
     ).animate().fadeIn(duration: 600.ms, delay: 400.ms).slideX(begin: 0.2, end: 0);
   }
 
-  Widget _buildFeatureChip(BuildContext context, String label, IconData icon) {
+  Widget _buildFeatureChip(BuildContext context, AppLocalizations l10n, String key, IconData icon) {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: ThemeStyles.m,
@@ -536,7 +722,7 @@ class SettingsScreen extends StatelessWidget {
           ),
           const SizedBox(width: ThemeStyles.xs + 2),
           Text(
-            label,
+            l10n.translate(key),
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -548,7 +734,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildResourcesSection(BuildContext context) {
+  Widget _buildResourcesSection(BuildContext context, AppLocalizations l10n) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -581,7 +767,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: ThemeStyles.l),
                   Text(
-                    'Resources',
+                    l10n.translate('resources'),
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -591,24 +777,27 @@ class SettingsScreen extends StatelessWidget {
               const SizedBox(height: ThemeStyles.l),
               _buildResourceTile(
                 context,
-                'Tutorial',
-                'Learn about expression conversion',
+                l10n,
+                'tutorial',
+                'tutorial_desc',
                 Icons.school,
                     () {},
               ),
               const SizedBox(height: ThemeStyles.m),
               _buildResourceTile(
                 context,
-                'Documentation',
-                'Read the full documentation',
+                l10n,
+                'documentation',
+                'documentation_desc',
                 Icons.description,
                     () {},
               ),
               const SizedBox(height: ThemeStyles.m),
               _buildResourceTile(
                 context,
-                'Source Code',
-                'View on GitHub',
+                l10n,
+                'source_code',
+                'source_code_desc',
                 Icons.code,
                     () {},
               ),
@@ -621,8 +810,9 @@ class SettingsScreen extends StatelessWidget {
 
   Widget _buildResourceTile(
       BuildContext context,
-      String title,
-      String subtitle,
+      AppLocalizations l10n,
+      String titleKey,
+      String subtitleKey,
       IconData icon,
       VoidCallback onTap,
       ) {
@@ -649,14 +839,14 @@ class SettingsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    l10n.translate(titleKey),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
                   Text(
-                    subtitle,
+                    l10n.translate(subtitleKey),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
@@ -673,7 +863,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildResetSection(BuildContext context) {
+  Widget _buildResetSection(BuildContext context, AppLocalizations l10n) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
@@ -718,7 +908,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: ThemeStyles.l),
                   Text(
-                    'Reset Settings',
+                    l10n.translate('reset_settings'),
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -727,7 +917,7 @@ class SettingsScreen extends StatelessWidget {
               ),
               const SizedBox(height: ThemeStyles.l),
               Text(
-                'Reset all settings to default values',
+                l10n.translate('reset_description'),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -745,14 +935,12 @@ class SettingsScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(ThemeStyles.radiusXL),
                             ),
-                            title: const Text('Reset Settings?'),
-                            content: const Text(
-                              'This will reset all theme settings to their default values. This action cannot be undone.',
-                            ),
+                            title: Text(l10n.translate('reset_dialog_title')),
+                            content: Text(l10n.translate('reset_dialog_content')),
                             actions: [
                               TextButton(
                                 onPressed: () => Navigator.pop(context),
-                                child: const Text('Cancel'),
+                                child: Text(l10n.translate('cancel')),
                               ),
                               FilledButton(
                                 onPressed: () {
@@ -760,7 +948,7 @@ class SettingsScreen extends StatelessWidget {
                                   Navigator.pop(context);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: const Text('Settings reset to defaults'),
+                                      content: Text(l10n.translate('settings_reset')),
                                       behavior: SnackBarBehavior.floating,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(ThemeStyles.radiusM),
@@ -771,14 +959,14 @@ class SettingsScreen extends StatelessWidget {
                                 style: FilledButton.styleFrom(
                                   backgroundColor: Colors.red,
                                 ),
-                                child: const Text('Reset'),
+                                child: Text(l10n.translate('reset')),
                               ),
                             ],
                           ),
                         );
                       },
                       icon: const Icon(Icons.restore, color: Colors.red),
-                      label: const Text('Reset to Defaults'),
+                      label: Text(l10n.translate('reset_to_defaults')),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: Colors.red,
                         side: const BorderSide(color: Colors.red, width: 2),

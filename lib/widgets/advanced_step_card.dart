@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/conversion_step.dart';
-import 'stack_visualizer.dart';
+import '../l10n/app_localizations.dart';
+import '../widgets/stack_visualizer.dart';
 
 class AdvancedStepCard extends StatelessWidget {
   final ConversionStep step;
@@ -38,8 +39,30 @@ class AdvancedStepCard extends StatelessWidget {
     }
   }
 
+  String _getActionDisplayName(AppLocalizations l10n, StepAction action) {
+    switch (action) {
+      case StepAction.start:
+        return l10n.translate('action_start');
+      case StepAction.pushOperand:
+        return l10n.translate('action_push_operand');
+      case StepAction.pushOperator:
+        return l10n.translate('action_push_operator');
+      case StepAction.popOperator:
+        return l10n.translate('action_pop_operator');
+      case StepAction.pushParenthesis:
+        return l10n.translate('action_push_parenthesis');
+      case StepAction.popParenthesis:
+        return l10n.translate('action_pop_parenthesis');
+      case StepAction.combine:
+        return l10n.translate('action_combine');
+      case StepAction.complete:
+        return l10n.translate('action_complete');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final actionColor = _getActionColor(context, step.action);
     final borderColor = isActive
         ? Theme.of(context).colorScheme.primary
@@ -73,14 +96,14 @@ class AdvancedStepCard extends StatelessWidget {
               : Theme.of(context).colorScheme.surface,
           child: InkWell(
             onTap: () {
-              _showStepDetails(context);
+              _showStepDetails(context, l10n);
             },
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildHeader(context, actionColor),
+                  _buildHeader(context, l10n, actionColor),
                   const SizedBox(height: 16),
                   _buildDescription(context),
                   const SizedBox(height: 16),
@@ -93,7 +116,7 @@ class AdvancedStepCard extends StatelessWidget {
                   ),
                   if (step.poppedValue != null || step.pushedValue != null) ...[
                     const SizedBox(height: 16),
-                    _buildActionInfo(context),
+                    _buildActionInfo(context, l10n),
                   ],
                 ],
               ),
@@ -108,7 +131,7 @@ class AdvancedStepCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, Color actionColor) {
+  Widget _buildHeader(BuildContext context, AppLocalizations l10n, Color actionColor) {
     return Row(
       children: [
         Container(
@@ -153,11 +176,13 @@ class AdvancedStepCard extends StatelessWidget {
                     style: const TextStyle(fontSize: 20),
                   ),
                   const SizedBox(width: 8),
-                  Text(
-                    step.action.displayName,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: actionColor,
+                  Expanded(
+                    child: Text(
+                      _getActionDisplayName(l10n, step.action),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: actionColor,
+                      ),
                     ),
                   ),
                 ],
@@ -170,7 +195,7 @@ class AdvancedStepCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  'Token: ${step.currentToken}',
+                  '${l10n.translate('current_token')}: ${step.currentToken}',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontFamily: 'monospace',
                     fontWeight: FontWeight.w600,
@@ -219,7 +244,7 @@ class AdvancedStepCard extends StatelessWidget {
     );
   }
 
-  Widget _buildActionInfo(BuildContext context) {
+  Widget _buildActionInfo(BuildContext context, AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -237,7 +262,8 @@ class AdvancedStepCard extends StatelessWidget {
             Expanded(
               child: _buildInfoChip(
                 context,
-                'Popped',
+                l10n,
+                'popped',
                 step.poppedValue!,
                 Icons.arrow_upward,
                 Colors.red,
@@ -250,7 +276,8 @@ class AdvancedStepCard extends StatelessWidget {
             Expanded(
               child: _buildInfoChip(
                 context,
-                'Pushed',
+                l10n,
+                'pushed',
                 step.pushedValue!,
                 Icons.arrow_downward,
                 Colors.green,
@@ -264,7 +291,8 @@ class AdvancedStepCard extends StatelessWidget {
 
   Widget _buildInfoChip(
       BuildContext context,
-      String label,
+      AppLocalizations l10n,
+      String labelKey,
       String value,
       IconData icon,
       Color color,
@@ -286,7 +314,7 @@ class AdvancedStepCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  label,
+                  l10n.translate(labelKey),
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: color,
                     fontWeight: FontWeight.bold,
@@ -308,7 +336,7 @@ class AdvancedStepCard extends StatelessWidget {
     );
   }
 
-  void _showStepDetails(BuildContext context) {
+  void _showStepDetails(BuildContext context, AppLocalizations l10n) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -330,79 +358,83 @@ class AdvancedStepCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                          borderRadius: BorderRadius.circular(12),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            step.action.icon,
+                            style: const TextStyle(fontSize: 24),
+                          ),
                         ),
-                        child: Text(
-                          step.action.icon,
-                          style: const TextStyle(fontSize: 24),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Step $stepNumber',
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${l10n.translate('step')} $stepNumber',
+                                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Text(
-                              step.action.displayName,
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
+                              Text(
+                                _getActionDisplayName(l10n, step.action),
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-                  _buildDetailRow(context, 'Current Token', step.currentToken),
-                  const SizedBox(height: 16),
-                  _buildDetailRow(
-                    context,
-                    'Stack State',
-                    step.stack.isEmpty ? 'Empty' : step.stack.join(', '),
-                  ),
-                  const SizedBox(height: 16),
-                  _buildDetailRow(
-                    context,
-                    'Output',
-                    step.output.isEmpty ? 'Empty' : step.output,
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Description',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    step.description,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  const SizedBox(height: 24),
-                  StackVisualizer(
-                    stack: step.stack,
-                    output: step.output,
-                    isAnimated: true,
-                  ),
-                ],
+                    const SizedBox(height: 24),
+                    _buildDetailRow(context, l10n, 'current_token', step.currentToken),
+                    const SizedBox(height: 16),
+                    _buildDetailRow(
+                      context,
+                      l10n,
+                      'stack_state',
+                      step.stack.isEmpty ? l10n.translate('empty') : step.stack.join(', '),
+                    ),
+                    const SizedBox(height: 16),
+                    _buildDetailRow(
+                      context,
+                      l10n,
+                      'output',
+                      step.output.isEmpty ? l10n.translate('empty') : step.output,
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      l10n.translate('description'),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      step.description,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    const SizedBox(height: 24),
+                    StackVisualizer(
+                      stack: step.stack,
+                      output: step.output,
+                      isAnimated: true,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -411,7 +443,7 @@ class AdvancedStepCard extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailRow(BuildContext context, String label, String value) {
+  Widget _buildDetailRow(BuildContext context, AppLocalizations l10n, String labelKey, String value) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -424,7 +456,7 @@ class AdvancedStepCard extends StatelessWidget {
           SizedBox(
             width: 100,
             child: Text(
-              label,
+              l10n.translate(labelKey),
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.primary,

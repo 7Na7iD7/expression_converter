@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../l10n/app_localizations.dart';
 
 class TutorialScreen extends StatefulWidget {
   const TutorialScreen({super.key});
@@ -13,26 +14,28 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return ListView(
       padding: const EdgeInsets.all(16.0),
       children: [
-        _buildWelcomeCard(),
+        _buildWelcomeCard(l10n),
         const SizedBox(height: 20),
-        _buildStackSection(),
+        _buildStackSection(l10n),
         const SizedBox(height: 20),
-        _buildNotationsSection(),
+        _buildNotationsSection(l10n),
         const SizedBox(height: 20),
-        _buildPrecedenceSection(),
+        _buildPrecedenceSection(l10n),
         const SizedBox(height: 20),
-        _buildExamplesSection(),
+        _buildExamplesSection(l10n),
         const SizedBox(height: 20),
-        _buildTipsCard(),
+        _buildTipsCard(l10n),
         const SizedBox(height: 20),
       ],
     );
   }
 
-  Widget _buildWelcomeCard() {
+  Widget _buildWelcomeCard(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -67,7 +70,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Welcome to Expression Converter',
+            l10n.translate('welcome_title'),
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -75,7 +78,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Learn how to convert between Infix, Postfix, and Prefix notations using stack data structure',
+            l10n.translate('welcome_description'),
             style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
@@ -84,29 +87,30 @@ class _TutorialScreenState extends State<TutorialScreen> {
     ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.2, end: 0);
   }
 
-  Widget _buildStackSection() {
+  Widget _buildStackSection(AppLocalizations l10n) {
     return _buildExpandableCard(
       0,
-      'What is a Stack?',
+      l10n.translate('what_is_stack'),
       Icons.layers,
       Colors.blue,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'A stack is a linear data structure that follows the Last-In-First-Out (LIFO) principle.',
-            style: TextStyle(fontSize: 16, height: 1.6),
+          Text(
+            l10n.translate('stack_description'),
+            style: const TextStyle(fontSize: 16, height: 1.6),
           ),
           const SizedBox(height: 16),
-          _buildStackVisualization(),
+          _buildStackVisualization(l10n),
           const SizedBox(height: 16),
-          _buildOperationsList(),
+          _buildOperationsList(l10n),
         ],
       ),
+      l10n,
     );
   }
 
-  Widget _buildStackVisualization() {
+  Widget _buildStackVisualization(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -124,7 +128,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
       child: Column(
         children: [
           Text(
-            'Stack Visualization',
+            l10n.translate('stack_visualization'),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.blue.shade700,
@@ -132,11 +136,11 @@ class _TutorialScreenState extends State<TutorialScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          _buildStackBox('C', true, 'TOP'),
+          _buildStackBox('C', true, l10n.translate('top')),
           const SizedBox(height: 8),
           _buildStackBox('B', false, ''),
           const SizedBox(height: 8),
-          _buildStackBox('A', false, 'BOTTOM'),
+          _buildStackBox('A', false, l10n.translate('bottom')),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -144,7 +148,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
               Icon(Icons.arrow_upward, color: Colors.blue.shade700, size: 20),
               const SizedBox(width: 8),
               Text(
-                'Push/Pop Direction',
+                l10n.translate('push_pop_direction'),
                 style: TextStyle(
                   color: Colors.blue.shade700,
                   fontWeight: FontWeight.w600,
@@ -213,20 +217,20 @@ class _TutorialScreenState extends State<TutorialScreen> {
     ).animate().scale(delay: 200.ms, duration: 300.ms);
   }
 
-  Widget _buildOperationsList() {
+  Widget _buildOperationsList(AppLocalizations l10n) {
     final operations = [
-      {'icon': Icons.add_circle, 'name': 'Push', 'desc': 'Add element to top', 'color': Colors.green},
-      {'icon': Icons.remove_circle, 'name': 'Pop', 'desc': 'Remove top element', 'color': Colors.red},
-      {'icon': Icons.visibility, 'name': 'Peek', 'desc': 'View top element', 'color': Colors.blue},
-      {'icon': Icons.check_circle, 'name': 'isEmpty', 'desc': 'Check if empty', 'color': Colors.orange},
+      {'icon': Icons.add_circle, 'name': l10n.translate('push'), 'desc': l10n.translate('push_desc'), 'color': Colors.green},
+      {'icon': Icons.remove_circle, 'name': l10n.translate('pop'), 'desc': l10n.translate('pop_desc'), 'color': Colors.red},
+      {'icon': Icons.visibility, 'name': l10n.translate('peek'), 'desc': l10n.translate('peek_desc'), 'color': Colors.blue},
+      {'icon': Icons.check_circle, 'name': l10n.translate('is_empty'), 'desc': l10n.translate('is_empty_desc'), 'color': Colors.orange},
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Stack Operations:',
-          style: TextStyle(
+        Text(
+          l10n.translate('stack_operations'),
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -288,32 +292,32 @@ class _TutorialScreenState extends State<TutorialScreen> {
     );
   }
 
-  Widget _buildNotationsSection() {
+  Widget _buildNotationsSection(AppLocalizations l10n) {
     return _buildExpandableCard(
       1,
-      'Expression Notations',
+      l10n.translate('expression_notations'),
       Icons.text_fields,
       Colors.green,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildNotationItem(
-            'Infix',
-            'Operators between operands',
+            l10n.translate('infix'),
+            l10n.translate('infix_desc'),
             'A + B',
             Colors.green,
           ),
           const SizedBox(height: 12),
           _buildNotationItem(
-            'Postfix (RPN)',
-            'Operators after operands',
+            l10n.translate('postfix'),
+            l10n.translate('postfix_desc'),
             'AB+',
             Colors.orange,
           ),
           const SizedBox(height: 12),
           _buildNotationItem(
-            'Prefix (Polish)',
-            'Operators before operands',
+            l10n.translate('prefix'),
+            l10n.translate('prefix_desc'),
             '+AB',
             Colors.purple,
           ),
@@ -332,9 +336,9 @@ class _TutorialScreenState extends State<TutorialScreen> {
                   children: [
                     Icon(Icons.info_outline, color: Colors.blue.shade700),
                     const SizedBox(width: 8),
-                    const Text(
-                      'Why use Postfix/Prefix?',
-                      style: TextStyle(
+                    Text(
+                      l10n.translate('why_postfix_prefix'),
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -342,18 +346,19 @@ class _TutorialScreenState extends State<TutorialScreen> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  '✓ No parentheses needed\n'
-                      '✓ No operator precedence confusion\n'
-                      '✓ Easy to evaluate using stack\n'
-                      '✓ Used in compilers and calculators',
-                  style: TextStyle(height: 1.6),
+                Text(
+                  '${l10n.translate('no_parentheses')}\n'
+                      '${l10n.translate('no_precedence')}\n'
+                      '${l10n.translate('easy_stack')}\n'
+                      '${l10n.translate('used_in')}',
+                  style: const TextStyle(height: 1.6),
                 ),
               ],
             ),
           ),
         ],
       ),
+      l10n,
     );
   }
 
@@ -417,25 +422,25 @@ class _TutorialScreenState extends State<TutorialScreen> {
     );
   }
 
-  Widget _buildPrecedenceSection() {
+  Widget _buildPrecedenceSection(AppLocalizations l10n) {
     return _buildExpandableCard(
       2,
-      'Operator Precedence',
+      l10n.translate('operator_precedence'),
       Icons.format_list_numbered,
       Colors.orange,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'From Highest to Lowest Priority:',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          Text(
+            l10n.translate('precedence_description'),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           const SizedBox(height: 16),
-          _buildPrecedenceItem(1, '^ (Exponentiation)', 'Highest', Colors.red),
+          _buildPrecedenceItem(1, l10n.translate('exponentiation'), l10n.translate('highest'), Colors.red),
           const SizedBox(height: 8),
-          _buildPrecedenceItem(2, '* / (Multiply, Divide)', 'Medium', Colors.orange),
+          _buildPrecedenceItem(2, l10n.translate('multiply_divide'), 'Medium', Colors.orange),
           const SizedBox(height: 8),
-          _buildPrecedenceItem(3, '+ - (Add, Subtract)', 'Lowest', Colors.green),
+          _buildPrecedenceItem(3, l10n.translate('add_subtract'), l10n.translate('lowest'), Colors.green),
           const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.all(16),
@@ -448,10 +453,10 @@ class _TutorialScreenState extends State<TutorialScreen> {
               children: [
                 Icon(Icons.priority_high, color: Colors.purple.shade700),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Parentheses () have the highest priority and override all operator precedence',
-                    style: TextStyle(
+                    l10n.translate('parentheses_note'),
+                    style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       height: 1.5,
                     ),
@@ -462,6 +467,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
           ),
         ],
       ),
+      l10n,
     );
   }
 
@@ -522,17 +528,17 @@ class _TutorialScreenState extends State<TutorialScreen> {
     );
   }
 
-  Widget _buildExamplesSection() {
+  Widget _buildExamplesSection(AppLocalizations l10n) {
     return _buildExpandableCard(
       3,
-      'Step-by-Step Examples',
+      l10n.translate('step_by_step_examples'),
       Icons.lightbulb,
       Colors.purple,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildExample(
-            'Infix to Postfix',
+            l10n.translate('infix_to_postfix'),
             'A + B * C',
             'ABC*+',
             [
@@ -545,10 +551,11 @@ class _TutorialScreenState extends State<TutorialScreen> {
               '7. Pop + → Output: ABC*+',
             ],
             Colors.blue,
+            l10n,
           ),
           const SizedBox(height: 16),
           _buildExample(
-            'Postfix to Infix',
+            l10n.translate('postfix_to_infix'),
             'AB+C*',
             '(A+B)*C',
             [
@@ -559,9 +566,11 @@ class _TutorialScreenState extends State<TutorialScreen> {
               '5. Read * → Pop C, (A+B) → Result: (A+B)*C',
             ],
             Colors.green,
+            l10n,
           ),
         ],
       ),
+      l10n,
     );
   }
 
@@ -571,6 +580,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
       String output,
       List<String> steps,
       Color color,
+      AppLocalizations l10n,
       ) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -597,13 +607,13 @@ class _TutorialScreenState extends State<TutorialScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          _buildIORow('Input', input, Colors.orange),
+          _buildIORow(l10n.translate('input'), input, Colors.orange),
           const SizedBox(height: 8),
-          _buildIORow('Output', output, Colors.green),
+          _buildIORow(l10n.translate('output'), output, Colors.green),
           const SizedBox(height: 12),
-          const Text(
-            'Process:',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Text(
+            l10n.translate('process'),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           ...steps.map((step) => Padding(
@@ -677,7 +687,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
     );
   }
 
-  Widget _buildTipsCard() {
+  Widget _buildTipsCard(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -714,9 +724,9 @@ class _TutorialScreenState extends State<TutorialScreen> {
                 ),
               ),
               const SizedBox(width: 16),
-              const Text(
-                'Pro Tips',
-                style: TextStyle(
+              Text(
+                l10n.translate('pro_tips'),
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -724,11 +734,11 @@ class _TutorialScreenState extends State<TutorialScreen> {
             ],
           ),
           const SizedBox(height: 20),
-          _buildTipItem(Icons.check_circle, 'Use parentheses to control evaluation order'),
-          _buildTipItem(Icons.check_circle, 'Start with simple expressions first'),
-          _buildTipItem(Icons.check_circle, 'Watch the stack changes carefully'),
-          _buildTipItem(Icons.check_circle, 'Spaces are ignored in expressions'),
-          _buildTipItem(Icons.check_circle, 'Practice makes perfect!'),
+          _buildTipItem(Icons.check_circle, l10n.translate('tip_parentheses')),
+          _buildTipItem(Icons.check_circle, l10n.translate('tip_simple')),
+          _buildTipItem(Icons.check_circle, l10n.translate('tip_watch')),
+          _buildTipItem(Icons.check_circle, l10n.translate('tip_spaces')),
+          _buildTipItem(Icons.check_circle, l10n.translate('tip_practice')),
         ],
       ),
     ).animate().fadeIn(duration: 600.ms, delay: 300.ms).slideY(begin: 0.2, end: 0);
@@ -758,6 +768,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
       IconData icon,
       Color color,
       Widget content,
+      AppLocalizations l10n,
       ) {
     final isExpanded = _expandedIndex == index;
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../l10n/app_localizations.dart';
 
 class StackVisualizer extends StatelessWidget {
   final List<String> stack;
@@ -15,27 +16,29 @@ class StackVisualizer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: _buildStackView(context),
+          child: _buildStackView(context, l10n),
         ),
         const SizedBox(width: 16),
         Expanded(
-          child: _buildOutputView(context),
+          child: _buildOutputView(context, l10n),
         ),
       ],
     );
   }
 
-  Widget _buildStackView(BuildContext context) {
+  Widget _buildStackView(BuildContext context, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildSectionHeader(
           context,
-          'Stack',
+          l10n.translate('stack'),
           Icons.layers,
           Colors.blue,
         ),
@@ -60,15 +63,15 @@ class StackVisualizer extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(14),
             child: stack.isEmpty
-                ? _buildEmptyState(context, 'Empty Stack')
-                : _buildStackItems(context),
+                ? _buildEmptyState(context, l10n, l10n.translate('empty_stack'))
+                : _buildStackItems(context, l10n),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildStackItems(BuildContext context) {
+  Widget _buildStackItems(BuildContext context, AppLocalizations l10n) {
     return Column(
       children: [
         // Top label
@@ -85,7 +88,7 @@ class StackVisualizer extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              '↓ TOP ↓',
+              '↓ ${l10n.translate('top')} ↓',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.blue,
@@ -123,7 +126,7 @@ class StackVisualizer extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              '↑ BOTTOM ↑',
+              '↑ ${l10n.translate('bottom')} ↑',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.blue.withOpacity(0.6),
@@ -203,13 +206,13 @@ class StackVisualizer extends StatelessWidget {
     ).fadeIn(duration: 300.ms, delay: (index * 100).ms);
   }
 
-  Widget _buildOutputView(BuildContext context) {
+  Widget _buildOutputView(BuildContext context, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _buildSectionHeader(
           context,
-          'Output',
+          l10n.translate('output'),
           Icons.output,
           Colors.green,
         ),
@@ -233,14 +236,14 @@ class StackVisualizer extends StatelessWidget {
             ),
           ),
           child: output.isEmpty
-              ? _buildEmptyState(context, 'No Output Yet')
-              : _buildOutputContent(context),
+              ? _buildEmptyState(context, l10n, l10n.translate('no_output_yet'))
+              : _buildOutputContent(context, l10n),
         ),
       ],
     );
   }
 
-  Widget _buildOutputContent(BuildContext context) {
+  Widget _buildOutputContent(BuildContext context, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -252,11 +255,13 @@ class StackVisualizer extends StatelessWidget {
               color: Colors.green.shade700,
             ),
             const SizedBox(width: 8),
-            Text(
-              'Current Output:',
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: Colors.green.shade700,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Text(
+                l10n.translate('current_output'),
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: Colors.green.shade700,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -312,7 +317,7 @@ class StackVisualizer extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Length: ${output.length} characters',
+          '${l10n.translate('length')}: ${output.length} ${l10n.translate('characters')}',
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
             color: Colors.green.shade600,
           ),
@@ -358,7 +363,7 @@ class StackVisualizer extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context, String message) {
+  Widget _buildEmptyState(BuildContext context, AppLocalizations l10n, String message) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -376,6 +381,7 @@ class StackVisualizer extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),

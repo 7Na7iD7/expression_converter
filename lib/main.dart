@@ -2,24 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'providers/theme_provider.dart';
 import 'providers/converter_provider.dart';
+import 'providers/locale_provider.dart';
+import 'l10n/app_localizations.dart';
 import 'screens/main_screen.dart';
 
-/// Application Entry Point
-///
-/// Responsibilities:
-/// - Initialize Flutter binding
-/// - Set device orientation
-/// - Configure providers (State Management)
-/// - Setup Material theme
-/// - Launch main screen
-///
-/// Dependencies: ALL providers must be registered here
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Lock orientation to portrait mode for better UX
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -35,39 +27,43 @@ class ExpressionConverterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // Theme management provider
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
           lazy: false,
         ),
-        // Expression conversion logic provider
         ChangeNotifierProvider(
           create: (_) => ConverterProvider(),
           lazy: false,
         ),
-        // Add new providers here as needed
+        ChangeNotifierProvider(
+          create: (_) => LocaleProvider(),
+          lazy: false,
+        ),
       ],
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
+      child: Consumer2<ThemeProvider, LocaleProvider>(
+        builder: (context, themeProvider, localeProvider, child) {
           return MaterialApp(
             title: 'Expression Converter Pro',
             debugShowCheckedModeBanner: false,
 
-            // Light theme configuration
-            theme: _buildLightTheme(),
+            // Localization delegates
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            // ✅ تغییر اصلی: استفاده از supportedAppLocales استاتیک
+            supportedLocales: LocaleProvider.supportedAppLocales,
+            locale: localeProvider.locale,
 
-            // Dark theme configuration
-            darkTheme: _buildDarkTheme(),
-
-            // Theme mode from provider
+            theme: _buildLightTheme(themeProvider.primaryColor),
+            darkTheme: _buildDarkTheme(themeProvider.primaryColor),
             themeMode: themeProvider.themeMode,
 
-            // Main entry screen
             home: const MainScreen(),
 
-            // Route configuration for navigation
             onGenerateRoute: (settings) {
-              // Add custom routes here if needed
               return null;
             },
           );
@@ -76,10 +72,7 @@ class ExpressionConverterApp extends StatelessWidget {
     );
   }
 
-  /// Professional Light Theme with Material 3
-  ThemeData _buildLightTheme() {
-    const seedColor = Color(0xFF6750A4);
-
+  ThemeData _buildLightTheme(Color seedColor) {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
@@ -88,10 +81,8 @@ class ExpressionConverterApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
 
-      // Custom font from Google Fonts
       textTheme: GoogleFonts.poppinsTextTheme(ThemeData.light().textTheme),
 
-      // Card styling
       cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -103,7 +94,6 @@ class ExpressionConverterApp extends StatelessWidget {
         ),
       ),
 
-      // Elevated button styling
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 0,
@@ -118,7 +108,6 @@ class ExpressionConverterApp extends StatelessWidget {
         ),
       ),
 
-      // Input field styling
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.grey.shade50,
@@ -135,7 +124,7 @@ class ExpressionConverterApp extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             color: seedColor,
             width: 2,
           ),
@@ -149,14 +138,12 @@ class ExpressionConverterApp extends StatelessWidget {
         ),
       ),
 
-      // App bar theme
       appBarTheme: const AppBarTheme(
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 2,
       ),
 
-      // Bottom navigation bar theme
       navigationBarTheme: NavigationBarThemeData(
         height: 70,
         elevation: 0,
@@ -167,10 +154,7 @@ class ExpressionConverterApp extends StatelessWidget {
     );
   }
 
-  /// Professional Dark Theme with Material 3
-  ThemeData _buildDarkTheme() {
-    const seedColor = Color(0xFFD0BCFF);
-
+  ThemeData _buildDarkTheme(Color seedColor) {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
@@ -179,10 +163,8 @@ class ExpressionConverterApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
 
-      // Custom font from Google Fonts
       textTheme: GoogleFonts.poppinsTextTheme(ThemeData.dark().textTheme),
 
-      // Card styling
       cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -194,7 +176,6 @@ class ExpressionConverterApp extends StatelessWidget {
         ),
       ),
 
-      // Elevated button styling
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           elevation: 0,
@@ -209,7 +190,6 @@ class ExpressionConverterApp extends StatelessWidget {
         ),
       ),
 
-      // Input field styling
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.grey.shade900,
@@ -226,7 +206,7 @@ class ExpressionConverterApp extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             color: seedColor,
             width: 2,
           ),
@@ -240,14 +220,12 @@ class ExpressionConverterApp extends StatelessWidget {
         ),
       ),
 
-      // App bar theme
       appBarTheme: const AppBarTheme(
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 2,
       ),
 
-      // Bottom navigation bar theme
       navigationBarTheme: NavigationBarThemeData(
         height: 70,
         elevation: 0,

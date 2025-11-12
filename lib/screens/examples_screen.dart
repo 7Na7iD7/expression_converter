@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/example_model.dart';
+import '../l10n/app_localizations.dart';
 
 class ExamplesScreen extends StatefulWidget {
   final Function(String expression, String conversionType) onExampleSelected;
@@ -21,12 +22,14 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
   final TextEditingController _searchController = TextEditingController();
   final List<ExampleModel> _allExamples = ExampleModel.getAllExamples();
 
-  final List<String> _conversionTypes = [
-    'Infix to Postfix',
-    'Infix to Prefix',
-    'Postfix to Infix',
-    'Prefix to Infix',
-  ];
+  List<String> _getConversionTypes(AppLocalizations l10n) {
+    return [
+      l10n.translate('infix_to_postfix'),
+      l10n.translate('infix_to_prefix'),
+      l10n.translate('postfix_to_infix'),
+      l10n.translate('prefix_to_infix'),
+    ];
+  }
 
   List<ExampleModel> get _filteredExamples {
     var filtered = _allExamples;
@@ -72,6 +75,8 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
@@ -80,30 +85,30 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildHeaderCard(),
+                _buildHeaderCard(l10n),
                 const SizedBox(height: 20),
-                _buildSearchBar(),
+                _buildSearchBar(l10n),
                 const SizedBox(height: 20),
-                _buildDifficultyFilters(),
+                _buildDifficultyFilters(l10n),
                 const SizedBox(height: 16),
-                _buildConversionTypeFilters(),
+                _buildConversionTypeFilters(l10n),
                 const SizedBox(height: 20),
-                _buildStatsRow(),
+                _buildStatsRow(l10n),
                 const SizedBox(height: 16),
-                _buildResultsHeader(),
+                _buildResultsHeader(l10n),
               ],
             ),
           ),
         ),
         _filteredExamples.isEmpty
-            ? SliverFillRemaining(child: _buildEmptyState())
+            ? SliverFillRemaining(child: _buildEmptyState(l10n))
             : SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate(
                   (context, index) {
                 final example = _filteredExamples[index];
-                return _buildExampleCard(example, index);
+                return _buildExampleCard(example, index, l10n);
               },
               childCount: _filteredExamples.length,
             ),
@@ -114,7 +119,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
     );
   }
 
-  Widget _buildHeaderCard() {
+  Widget _buildHeaderCard(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -153,13 +158,13 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Practice Examples',
+                  l10n.translate('practice_examples'),
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  '${_allExamples.length} examples • Tap to try',
+                  '${_allExamples.length} ${l10n.translate('examples_count')}',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
@@ -170,7 +175,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
     ).animate().fadeIn(duration: 600.ms).scale();
   }
 
-  Widget _buildSearchBar() {
+  Widget _buildSearchBar(AppLocalizations l10n) {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerHighest,
@@ -187,7 +192,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
           });
         },
         decoration: InputDecoration(
-          hintText: 'Search examples, expressions, or tags...',
+          hintText: l10n.translate('search_placeholder'),
           prefixIcon: const Icon(Icons.search),
           suffixIcon: _searchQuery.isNotEmpty
               ? IconButton(
@@ -207,14 +212,14 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
     ).animate().fadeIn(duration: 400.ms, delay: 100.ms);
   }
 
-  Widget _buildDifficultyFilters() {
+  Widget _buildDifficultyFilters(AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Text(
-              'Difficulty',
+              l10n.translate('difficulty'),
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -224,7 +229,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
               TextButton.icon(
                 onPressed: _clearFilters,
                 icon: const Icon(Icons.clear_all, size: 16),
-                label: const Text('Clear Filters'),
+                label: Text(l10n.translate('clear_filters')),
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   visualDensity: VisualDensity.compact,
@@ -237,16 +242,16 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              _buildFilterChip('All', null, Icons.apps, _selectedDifficulty == null),
+              _buildFilterChip(l10n.translate('all'), null, Icons.apps, _selectedDifficulty == null, l10n),
               const SizedBox(width: 8),
-              _buildFilterChip('Easy', DifficultyLevel.easy, Icons.check_circle,
-                  _selectedDifficulty == DifficultyLevel.easy),
+              _buildFilterChip(l10n.translate('easy'), DifficultyLevel.easy, Icons.check_circle,
+                  _selectedDifficulty == DifficultyLevel.easy, l10n),
               const SizedBox(width: 8),
-              _buildFilterChip('Medium', DifficultyLevel.medium, Icons.pending,
-                  _selectedDifficulty == DifficultyLevel.medium),
+              _buildFilterChip(l10n.translate('medium'), DifficultyLevel.medium, Icons.pending,
+                  _selectedDifficulty == DifficultyLevel.medium, l10n),
               const SizedBox(width: 8),
               _buildFilterChip(
-                  'Hard', DifficultyLevel.hard, Icons.flag, _selectedDifficulty == DifficultyLevel.hard),
+                  l10n.translate('hard'), DifficultyLevel.hard, Icons.flag, _selectedDifficulty == DifficultyLevel.hard, l10n),
             ],
           ),
         ),
@@ -254,12 +259,12 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
     );
   }
 
-  Widget _buildConversionTypeFilters() {
+  Widget _buildConversionTypeFilters(AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Conversion Type',
+          l10n.translate('conversion_type_label'),
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.bold,
           ),
@@ -269,9 +274,9 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
           spacing: 8,
           runSpacing: 8,
           children: [
-            _buildTypeChip('All Types', null, _selectedConversionType == null),
-            ..._conversionTypes.map(
-                  (type) => _buildTypeChip(type, type, _selectedConversionType == type),
+            _buildTypeChip(l10n.translate('all_types'), null, _selectedConversionType == null, l10n),
+            ..._getConversionTypes(l10n).map(
+                  (type) => _buildTypeChip(type, type, _selectedConversionType == type, l10n),
             ),
           ],
         ),
@@ -279,7 +284,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
     );
   }
 
-  Widget _buildFilterChip(String label, DifficultyLevel? difficulty, IconData icon, bool isSelected) {
+  Widget _buildFilterChip(String label, DifficultyLevel? difficulty, IconData icon, bool isSelected, AppLocalizations l10n) {
     return FilterChip(
       label: Row(
         mainAxisSize: MainAxisSize.min,
@@ -301,23 +306,18 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
     );
   }
 
-  Widget _buildTypeChip(String label, String? type, bool isSelected) {
+  Widget _buildTypeChip(String label, String? type, bool isSelected, AppLocalizations l10n) {
     IconData icon;
-    switch (type) {
-      case 'Infix to Postfix':
-        icon = Icons.arrow_forward;
-        break;
-      case 'Infix to Prefix':
-        icon = Icons.arrow_upward;
-        break;
-      case 'Postfix to Infix':
-        icon = Icons.arrow_back;
-        break;
-      case 'Prefix to Infix':
-        icon = Icons.arrow_downward;
-        break;
-      default:
-        icon = Icons.filter_alt;
+    if (type == l10n.translate('infix_to_postfix')) {
+      icon = Icons.arrow_forward;
+    } else if (type == l10n.translate('infix_to_prefix')) {
+      icon = Icons.arrow_upward;
+    } else if (type == l10n.translate('postfix_to_infix')) {
+      icon = Icons.arrow_back;
+    } else if (type == l10n.translate('prefix_to_infix')) {
+      icon = Icons.arrow_downward;
+    } else {
+      icon = Icons.filter_alt;
     }
 
     return ChoiceChip(
@@ -340,7 +340,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
     );
   }
 
-  Widget _buildStatsRow() {
+  Widget _buildStatsRow(AppLocalizations l10n) {
     final stats = ExampleModel.getStatistics();
     final easyCount = stats[DifficultyLevel.easy] ?? 0;
     final mediumCount = stats[DifficultyLevel.medium] ?? 0;
@@ -348,11 +348,11 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
 
     return Row(
       children: [
-        Expanded(child: _buildStatCard('🟢', 'Easy', easyCount, Colors.green)),
+        Expanded(child: _buildStatCard('🟢', l10n.translate('easy'), easyCount, Colors.green)),
         const SizedBox(width: 12),
-        Expanded(child: _buildStatCard('🟡', 'Medium', mediumCount, Colors.orange)),
+        Expanded(child: _buildStatCard('🟡', l10n.translate('medium'), mediumCount, Colors.orange)),
         const SizedBox(width: 12),
-        Expanded(child: _buildStatCard('🔴', 'Hard', hardCount, Colors.red)),
+        Expanded(child: _buildStatCard('🔴', l10n.translate('hard'), hardCount, Colors.red)),
       ],
     ).animate().fadeIn(duration: 600.ms, delay: 200.ms);
   }
@@ -376,7 +376,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
     );
   }
 
-  Widget _buildResultsHeader() {
+  Widget _buildResultsHeader(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -384,7 +384,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
           Icon(Icons.list_alt, size: 20, color: Theme.of(context).colorScheme.primary),
           const SizedBox(width: 8),
           Text(
-            '${_filteredExamples.length} Result${_filteredExamples.length != 1 ? 's' : ''}',
+            '${_filteredExamples.length} ${_filteredExamples.length != 1 ? l10n.translate('results_plural') : l10n.translate('results')}',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -394,7 +394,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(AppLocalizations l10n) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -408,14 +408,14 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'No examples found',
+              l10n.translate('no_examples_found'),
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Try adjusting your filters or search query',
+              l10n.translate('adjust_filters'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -425,7 +425,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
             FilledButton.icon(
               onPressed: _clearFilters,
               icon: const Icon(Icons.refresh),
-              label: const Text('Clear All Filters'),
+              label: Text(l10n.translate('clear_all_filters')),
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               ),
@@ -436,7 +436,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
     ).animate().fadeIn(duration: 400.ms);
   }
 
-  Widget _buildExampleCard(ExampleModel example, int index) {
+  Widget _buildExampleCard(ExampleModel example, int index, AppLocalizations l10n) {
     Color difficultyColor;
     switch (example.difficulty) {
       case DifficultyLevel.easy:
@@ -467,7 +467,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
                 children: [
                   const Icon(Icons.check_circle, color: Colors.white),
                   const SizedBox(width: 12),
-                  Expanded(child: Text('Example loaded: ${example.title}')),
+                  Expanded(child: Text('${l10n.translate('example_loaded')}: ${example.title}')),
                 ],
               ),
               backgroundColor: difficultyColor,
@@ -539,7 +539,7 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
                   children: [
                     Icon(Icons.code, size: 20, color: Theme.of(context).colorScheme.primary),
                     const SizedBox(width: 8),
-                    Text('Expression:',
+                    Text('${l10n.translate('expression')}:',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.primary)),
@@ -587,9 +587,9 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
                     children: [
                       const Icon(Icons.lightbulb_outline, size: 18, color: Colors.blue),
                       const SizedBox(width: 8),
-                      const Text(
-                        'Hint: ',
-                        style: TextStyle(
+                      Text(
+                        '${l10n.translate('hint')}: ',
+                        style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue,
@@ -617,8 +617,8 @@ class _ExamplesScreenState extends State<ExamplesScreen> {
                   children: [
                     const Icon(Icons.check, size: 16, color: Colors.green),
                     const SizedBox(width: 8),
-                    const Text('Expected:',
-                        style: TextStyle(
+                    Text('${l10n.translate('expected')}:',
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.green, fontSize: 12)),
                     const SizedBox(width: 8),
                     Expanded(
