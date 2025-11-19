@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../l10n/app_localizations.dart';
+import 'advanced_tutorial_screen.dart';
 
 class CustomTutorialScreen extends StatefulWidget {
   const CustomTutorialScreen({super.key});
@@ -23,12 +24,31 @@ class _CustomTutorialScreenState extends State<CustomTutorialScreen> {
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
+        actions: [
+
+          IconButton(
+            icon: const Icon(Icons.rocket_launch),
+            tooltip: 'Advanced Training',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AdvancedTutorialScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
           _buildIntroCard(l10n),
           const SizedBox(height: 20),
+
+          _buildAdvancedAccessCard(l10n),
+          const SizedBox(height: 20),
+
           _buildStackBasicsSection(l10n),
           const SizedBox(height: 20),
           _buildInfixToPostfixSection(l10n),
@@ -42,6 +62,83 @@ class _CustomTutorialScreenState extends State<CustomTutorialScreen> {
         ],
       ),
     );
+  }
+
+  Widget _buildAdvancedAccessCard(AppLocalizations l10n) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AdvancedTutorialScreen(),
+          ),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.deepPurple.shade400,
+              Colors.indigo.shade500,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.deepPurple.withOpacity(0.3),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.rocket_launch,
+                size: 40,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Advanced Training',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Advanced Concepts & Professional Techniques',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white.withOpacity(0.9),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+              size: 24,
+            ),
+          ],
+        ),
+      ),
+    ).animate().fadeIn(duration: 500.ms).slideX(begin: 0.2, end: 0);
   }
 
   Widget _buildIntroCard(AppLocalizations l10n) {
@@ -65,7 +162,7 @@ class _CustomTutorialScreenState extends State<CustomTutorialScreen> {
       ),
       child: Column(
         children: [
-          Icon(
+          const Icon(
             Icons.auto_stories,
             size: 60,
             color: Colors.white,
@@ -73,7 +170,7 @@ class _CustomTutorialScreenState extends State<CustomTutorialScreen> {
           const SizedBox(height: 16),
           Text(
             l10n.translate('custom_intro_title'),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -155,10 +252,10 @@ class _CustomTutorialScreenState extends State<CustomTutorialScreen> {
                       color: Colors.green.shade100,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Icon(Icons.arrow_downward, color: Colors.green, size: 24),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         Text('Push(5)', style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
@@ -176,10 +273,10 @@ class _CustomTutorialScreenState extends State<CustomTutorialScreen> {
                       color: Colors.red.shade100,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Column(
+                    child: const Column(
                       children: [
                         Icon(Icons.arrow_upward, color: Colors.red, size: 24),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         Text('Pop() = 5', style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
@@ -634,11 +731,11 @@ class _CustomTutorialScreenState extends State<CustomTutorialScreen> {
       ),
       child: Column(
         children: [
-          Icon(Icons.fitness_center, size: 50, color: Colors.white),
+          const Icon(Icons.fitness_center, size: 50, color: Colors.white),
           const SizedBox(height: 16),
           Text(
             l10n.translate('practice_title'),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Colors.white,
