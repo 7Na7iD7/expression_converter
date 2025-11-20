@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../l10n/app_localizations.dart';
+import 'advanced_quiz_screen.dart';
 
 class AdvancedTutorialScreen extends StatefulWidget {
   const AdvancedTutorialScreen({super.key});
@@ -1845,11 +1846,10 @@ class _AdvancedTutorialScreenState extends State<AdvancedTutorialScreen> with Ti
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: () {
-              // Navigate to quiz
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(l10n.translate('quiz_coming_soon')),
-                  behavior: SnackBarBehavior.floating,
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AdvancedQuizScreen(),
                 ),
               );
             },
