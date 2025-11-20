@@ -13,7 +13,6 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
-
       // App Name
       'app_title': 'Expression Converter Pro',
 
@@ -226,6 +225,33 @@ class AppLocalizations {
       'start_quiz': 'Start Quiz',
       'quiz_coming_soon': 'Quiz feature coming soon!',
 
+      // Advanced Quiz Screen
+      'advanced_quiz': 'Advanced Quiz',
+      'test_your_knowledge': 'Test Your Knowledge',
+      'question': 'Question',
+      'correct': 'Correct!',
+      'incorrect': 'Incorrect',
+      'times_up': 'Time\'s Up!',
+      'explanation': 'Explanation:',
+      'correct_answer': 'Correct Answer:',
+      'show_hint': 'Show Hint',
+      'hint_label': 'Hint 💡',
+      'next_question': 'Next Question',
+      'finish_quiz': 'Finish Quiz',
+      'quiz_completed': 'Quiz Completed!',
+      'outstanding': 'Outstanding! You\'re a master!',
+      'great_job': 'Great job! Keep it up!',
+      'good_effort': 'Good effort! Review and try again!',
+      'keep_practicing': 'Keep practicing! You\'ll get better!',
+      'score': 'Score',
+      'percentage': 'Percentage',
+      'detailed_results': 'Detailed Results',
+      'retry_quiz': 'Retry Quiz',
+      'back_to_tutorial': 'Back to Tutorial',
+      'your_answer': 'Your answer:',
+      'time_out_no_answer': 'Time out - No answer given',
+      'seconds': 'seconds',
+
       // Custom Tutorial Screen
       'custom_tutorial_title': 'Step-by-Step Tutorial',
       'custom_intro_title': 'Learn Expression Conversion',
@@ -305,7 +331,7 @@ class AppLocalizations {
 
       // Common Mistakes Section
       'common_mistakes': 'Common Mistakes',
-      'wrong_label': '❌ Wrong',
+      'wrong_label': '✗ Wrong',
       'correct_label': '✓ Correct',
       'mistake1_wrong': 'Ignoring operator precedence',
       'mistake1_correct': 'Always follow precedence rules',
@@ -515,6 +541,7 @@ class AppLocalizations {
       'expert_mode': 'حالت تخصصی',
       'bookmark_saved': 'نشانک ذخیره شد',
 
+      // Operator Precedence Section
       'precedence_definition': 'اولویت عملگر',
       'precedence_explanation': 'اولویت عملگر ترتیب ارزیابی عملگرها در یک عبارت را تعیین می‌کند.',
       'precedence_table': 'جدول اولویت',
@@ -525,6 +552,7 @@ class AppLocalizations {
       'precedence_step2': 'سپس: جمع ۳ + ۸ = ۱۱',
       'precedence_step3': 'نتیجه نهایی: ۱۱',
 
+      // Associativity Section
       'associativity': 'شرکت‌پذیری',
       'associativity_definition': 'شرکت‌پذیری',
       'associativity_explanation': 'وقتی عملگرها اولویت یکسانی دارند، شرکت‌پذیری ترتیب ارزیابی را تعیین می‌کند.',
@@ -536,6 +564,7 @@ class AppLocalizations {
       'left_assoc_desc': 'ارزیابی از چپ به راست',
       'right_assoc_desc': 'ارزیابی از راست به چپ',
 
+      // Parentheses Handling Section
       'parentheses_handling': 'مدیریت پرانتزها',
       'parentheses_rules': 'قوانین پرانتز',
       'parentheses_explanation': 'پرانتزها اولویت عملگر را لغو می‌کنند.',
@@ -547,11 +576,13 @@ class AppLocalizations {
       'nested_step2': 'ارزیابی عبارت داخلی',
       'nested_step3': 'تکمیل تبدیل',
 
+      // Complex Examples Section
       'complex_examples': 'مثال‌های پیچیده',
       'complex_example1_desc': 'این عبارت سطوح مختلف اولویت را نشان می‌دهد.',
       'complex_example2_desc': 'نشان می‌دهد چگونه پرانتزهای تودرتو کار می‌کنند.',
       'infix_expression': 'عبارت میانوندی',
 
+      // Algorithm Visualizer Section
       'algorithm_visualizer': 'تصویرساز الگوریتم',
       'visualizing_step': 'تصویرسازی مرحله {0}',
       'current_operation': 'عملیات فعلی',
@@ -559,6 +590,7 @@ class AppLocalizations {
       'animate': 'انیمیشن',
       'next': 'بعدی',
 
+      // Optimization Techniques Section
       'optimization_techniques': 'تکنیک‌های بهینه‌سازی',
       'optimization_intro': 'بهینه‌سازی',
       'optimization_desc': 'یاد بگیرید الگوریتم‌ها را بهینه کنید.',
@@ -572,6 +604,7 @@ class AppLocalizations {
       'before': 'قبل',
       'after': 'بعد',
 
+      // Edge Cases Section
       'edge_cases': 'موارد خاص',
       'edge_cases_intro': 'موارد خاص',
       'edge_cases_desc': 'یاد بگیرید موارد ویژه را مدیریت کنید.',
@@ -588,6 +621,7 @@ class AppLocalizations {
       'edge_case4_example': 'A ++ B',
       'edge_case4_solution': 'اعتبارسنجی توالی',
 
+      // Time Complexity Section
       'time_complexity': 'پیچیدگی زمانی',
       'complexity_analysis': 'تحلیل پیچیدگی',
       'complexity_desc': 'درک پیچیدگی زمانی و فضایی.',
@@ -598,6 +632,7 @@ class AppLocalizations {
       'space_complexity_note': 'پیچیدگی فضایی',
       'space_complexity_explanation': 'پشته در بدترین حالت به O(n) فضا نیاز دارد.',
 
+      // Comparative Analysis Section
       'comparative_analysis': 'تحلیل مقایسه‌ای',
       'notation_comparison': 'مقایسه نمادها',
       'advantages': 'مزایا',
@@ -608,15 +643,45 @@ class AppLocalizations {
       'disadvantage1': 'برای انسان خوانا نیست',
       'disadvantage2': 'نیاز به تبدیل دارد',
 
+      // Interactive Quiz Section
       'quiz_title': 'دانش خود را آزمایش کنید',
       'quiz_desc': 'یک آزمون تعاملی برای آزمایش درک شما',
       'start_quiz': 'شروع آزمون',
       'quiz_coming_soon': 'قابلیت آزمون به زودی!',
 
+      // Advanced Quiz Screen
+      'advanced_quiz': 'آزمون پیشرفته',
+      'test_your_knowledge': 'دانش خود را آزمایش کنید',
+      'question': 'سوال',
+      'correct': 'درست!',
+      'incorrect': 'نادرست',
+      'times_up': 'زمان تمام شد!',
+      'explanation': 'توضیحات:',
+      'correct_answer': 'پاسخ صحیح:',
+      'show_hint': 'نمایش راهنما',
+      'hint_label': 'راهنما 💡',
+      'next_question': 'سوال بعدی',
+      'finish_quiz': 'پایان آزمون',
+      'quiz_completed': 'آزمون تکمیل شد!',
+      'outstanding': 'عالی! شما استاد هستید!',
+      'great_job': 'کار خوبی کردید! ادامه دهید!',
+      'good_effort': 'تلاش خوبی بود! مرور کنید و دوباره امتحان کنید!',
+      'keep_practicing': 'به تمرین ادامه دهید! بهتر خواهید شد!',
+      'score': 'امتیاز',
+      'percentage': 'درصد',
+      'detailed_results': 'نتایج تفصیلی',
+      'retry_quiz': 'تلاش مجدد',
+      'back_to_tutorial': 'بازگشت به آموزش',
+      'your_answer': 'پاسخ شما:',
+      'time_out_no_answer': 'زمان تمام شد - پاسخی داده نشد',
+      'seconds': 'ثانیه',
+
+      // Custom Tutorial Screen
       'custom_tutorial_title': 'آموزش گام‌به‌گام',
       'custom_intro_title': 'یادگیری تبدیل عبارت',
       'custom_intro_desc': 'تسلط بر مبانی تبدیل عبارت',
 
+      // Stack Basics Section
       'stack_how_works': 'نحوه کار پشته',
       'real_world_analogy': 'قیاس دنیای واقعی',
       'stack_plate_analogy': 'به یک پشته بشقاب فکر کنید!',
@@ -624,6 +689,7 @@ class AppLocalizations {
       'what_is_lifo': 'LIFO چیست؟',
       'lifo_explanation': 'آخرین-ورودی-اولین-خروجی',
 
+      // Infix to Postfix Section
       'infix_to_postfix_steps': 'تبدیل میانوندی به پسوندی',
       'why_postfix_title': 'چرا پسوندی؟',
       'why_postfix_reasons': 'نماد پسوندی نیاز به پرانتز را حذف می‌کند.',
@@ -660,6 +726,7 @@ class AppLocalizations {
       'step10_result': 'ABC*+',
       'final_result': 'نتیجه نهایی: ABC*+',
 
+      // Postfix Evaluation Section
       'evaluation_algorithm': 'الگوریتم ارزیابی',
       'evaluation_steps': 'از چپ به راست اسکن کنید.',
       'evaluation_example': 'مثال: ۵ ۳ + ۲ *',
@@ -686,8 +753,9 @@ class AppLocalizations {
       'eval_step7_stack': 'پاسخ: ۱۶',
       'eval_final_answer': 'پاسخ نهایی: ۱۶',
 
+      // Common Mistakes Section
       'common_mistakes': 'اشتباهات رایج',
-      'wrong_label': '❌ اشتباه',
+      'wrong_label': '✗ اشتباه',
       'correct_label': '✓ درست',
       'mistake1_wrong': 'نادیده گرفتن اولویت',
       'mistake1_correct': 'همیشه قوانین را دنبال کنید',
@@ -698,9 +766,11 @@ class AppLocalizations {
       'mistake4_wrong': 'Push کردن عملوندها',
       'mistake4_correct': 'عملوندها را به خروجی بفرستید',
 
+      // Practice Section
       'practice_title': 'آماده تمرین هستید؟',
       'practice_desc': 'ابزار تبدیل را امتحان کنید',
 
+      // Settings Screen
       'version': 'نسخه ۱.۰.۰',
       'theme_mode': 'حالت تم',
       'theme_description': 'حالت تم را انتخاب کنید',
@@ -738,6 +808,7 @@ class AppLocalizations {
       'reset': 'بازنشانی',
       'settings_reset': 'تنظیمات بازنشانی شد',
 
+      // Conversion Result Screen
       'conversion_steps': 'مراحل تبدیل',
       'reset_to_start': 'بازنشانی به ابتدا',
       'no_conversion_data': 'داده در دسترس نیست',
@@ -746,6 +817,7 @@ class AppLocalizations {
       'auto_play': 'پخش خودکار',
       'step': 'مرحله',
 
+      // Step Actions
       'action_start': 'شروع',
       'action_push_operand': 'Push عملوند',
       'action_push_operator': 'Push عملگر',
@@ -755,6 +827,7 @@ class AppLocalizations {
       'action_combine': 'ترکیب',
       'action_complete': 'کامل',
 
+      // Stack Visualizer
       'stack': 'پشته',
       'top': 'بالا',
       'bottom': 'پایین',
@@ -770,11 +843,13 @@ class AppLocalizations {
       'empty': 'خالی',
       'description': 'توضیحات',
 
+      // Messages
       'enter_expression_msg': 'لطفاً عبارت وارد کنید',
       'conversion_success': 'تبدیل با موفقیت انجام شد!',
       'invalid_expression': 'خطا: عبارت نامعتبر',
       'toggle_theme': 'تغییر تم',
 
+      // Colors
       'color_blue': 'آبی',
       'color_green': 'سبز',
       'color_purple': 'بنفش',
@@ -980,13 +1055,39 @@ class AppLocalizations {
       'start_quiz': '开始测验',
       'quiz_coming_soon': '测验功能即将推出！',
 
+      'advanced_quiz': '高级测验',
+      'test_your_knowledge': '测试您的知识',
+      'question': '问题',
+      'correct': '正确！',
+      'incorrect': '不正确',
+      'times_up': '时间到！',
+      'explanation': '解释：',
+      'correct_answer': '正确答案：',
+      'show_hint': '显示提示',
+      'hint_label': '提示 💡',
+      'next_question': '下一题',
+      'finish_quiz': '完成测验',
+      'quiz_completed': '测验完成！',
+      'outstanding': '出色！您是大师！',
+      'great_job': '做得好！继续保持！',
+      'good_effort': '不错的努力！复习后再试！',
+      'keep_practicing': '继续练习！您会变得更好！',
+      'score': '分数',
+      'percentage': '百分比',
+      'detailed_results': '详细结果',
+      'retry_quiz': '重试测验',
+      'back_to_tutorial': '返回教程',
+      'your_answer': '您的答案：',
+      'time_out_no_answer': '超时 - 未给出答案',
+      'seconds': '秒',
+
       'custom_tutorial_title': '分步教程',
       'custom_intro_title': '学习表达式转换',
       'custom_intro_desc': '掌握表达式转换的基础',
 
       'stack_how_works': '栈如何工作',
       'real_world_analogy': '现实世界类比',
-      'stack_plate_analogy': '想象一叠盘子！',
+      'stack_plate_analogy': '想象一堆盘子！',
       'practical_example': '实际示例',
       'what_is_lifo': '什么是LIFO？',
       'lifo_explanation': '后进先出',
@@ -1054,7 +1155,7 @@ class AppLocalizations {
       'eval_final_answer': '最终答案：16',
 
       'common_mistakes': '常见错误',
-      'wrong_label': '❌ 错误',
+      'wrong_label': '✗ 错误',
       'correct_label': '✓ 正确',
       'mistake1_wrong': '忽略操作符优先级',
       'mistake1_correct': '始终遵循优先级规则',
@@ -1347,6 +1448,32 @@ class AppLocalizations {
       'start_quiz': 'Iniciar Cuestionario',
       'quiz_coming_soon': '¡Función de cuestionario próximamente!',
 
+      'advanced_quiz': 'Cuestionario Avanzado',
+      'test_your_knowledge': 'Pruebe Su Conocimiento',
+      'question': 'Pregunta',
+      'correct': '¡Correcto!',
+      'incorrect': 'Incorrecto',
+      'times_up': '¡Se Acabó el Tiempo!',
+      'explanation': 'Explicación:',
+      'correct_answer': 'Respuesta Correcta:',
+      'show_hint': 'Mostrar Pista',
+      'hint_label': 'Pista 💡',
+      'next_question': 'Siguiente Pregunta',
+      'finish_quiz': 'Finalizar Cuestionario',
+      'quiz_completed': '¡Cuestionario Completado!',
+      'outstanding': '¡Sobresaliente! ¡Eres un maestro!',
+      'great_job': '¡Buen trabajo! ¡Sigue así!',
+      'good_effort': '¡Buen esfuerzo! ¡Revisa e inténtalo de nuevo!',
+      'keep_practicing': '¡Sigue practicando! ¡Mejorarás!',
+      'score': 'Puntuación',
+      'percentage': 'Porcentaje',
+      'detailed_results': 'Resultados Detallados',
+      'retry_quiz': 'Reintentar Cuestionario',
+      'back_to_tutorial': 'Volver al Tutorial',
+      'your_answer': 'Tu respuesta:',
+      'time_out_no_answer': 'Tiempo agotado - No se dio respuesta',
+      'seconds': 'segundos',
+
       'custom_tutorial_title': 'Tutorial Paso a Paso',
       'custom_intro_title': 'Aprenda Conversión de Expresiones',
       'custom_intro_desc': 'Domine los fundamentos de la conversión',
@@ -1421,7 +1548,7 @@ class AppLocalizations {
       'eval_final_answer': 'Respuesta Final: 16',
 
       'common_mistakes': 'Errores Comunes',
-      'wrong_label': '❌ Incorrecto',
+      'wrong_label': '✗ Incorrecto',
       'correct_label': '✓ Correcto',
       'mistake1_wrong': 'Ignorar precedencia',
       'mistake1_correct': 'Seguir siempre las reglas',
