@@ -7,6 +7,7 @@ import 'home_screen.dart';
 import 'examples_screen.dart';
 import 'tutorial_screen.dart';
 import 'settings_screen.dart';
+import 'interactive_3d_cube_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -59,6 +60,8 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
       case 2:
         return const TutorialScreen();
       case 3:
+        return const Interactive3DCubeScreen();
+      case 4:
         return const SettingsScreen();
       default:
         return HomeScreen(key: _homeScreenKey);
@@ -70,6 +73,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
       l10n.translate('app_title'),
       l10n.translate('practice_examples'),
       l10n.translate('welcome_title'),
+      '3D Visualization',
       l10n.translate('reset_settings'),
     ];
   }
@@ -78,6 +82,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
     Icons.calculate,
     Icons.lightbulb,
     Icons.school,
+    Icons.view_in_ar,
     Icons.settings,
   ];
 
@@ -223,6 +228,11 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
             icon: const Icon(Icons.school_outlined),
             selectedIcon: _buildSelectedIcon(Icons.school, Colors.green),
             label: l10n.translate('nav_tutorial'),
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.view_in_ar_outlined),
+            selectedIcon: _buildSelectedIcon(Icons.view_in_ar, Colors.cyan),
+            label: '3D Cube',
           ),
           NavigationDestination(
             icon: const Icon(Icons.settings_outlined),
