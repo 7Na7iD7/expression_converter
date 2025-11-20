@@ -13,6 +13,7 @@ class AppLocalizations {
 
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
+
       // App Name
       'app_title': 'Expression Converter Pro',
 
