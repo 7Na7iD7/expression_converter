@@ -298,7 +298,7 @@ class _GlassmorphicLogo extends StatelessWidget {
                               // E letter
                               _buildGradientText('E', 80),
                               const SizedBox(width: 8),
-                              // C letter with arrow - FIXED POSITION
+                              // C letter with arrow
                               Stack(
                                 clipBehavior: Clip.none,
                                 children: [
@@ -306,7 +306,7 @@ class _GlassmorphicLogo extends StatelessWidget {
                                   // Arrow positioned higher
                                   Positioned(
                                     right: -12,
-                                    top: 12, // Changed from 18 to 12
+                                    top: 12,
                                     child: Container(
                                       padding: const EdgeInsets.all(4),
                                       decoration: BoxDecoration(
