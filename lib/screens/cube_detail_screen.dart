@@ -63,8 +63,18 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
 
   Map<String, dynamic> _getWorldContent() {
     final l10n = AppLocalizations.of(context)!;
+
+    // Helper to get list of steps/facts safely
+    List<String> getSteps(int faceIndex, int count) {
+      return List.generate(count, (i) => l10n.translate('demo_step_${faceIndex}_$i'));
+    }
+
+    List<String> getFacts(int faceIndex, int count) {
+      return List.generate(count, (i) => l10n.translate('fact_${faceIndex}_$i'));
+    }
+
     switch (widget.faceIndex) {
-      case 0:
+      case 0: // Infix → Postfix
         return {
           'worldName': l10n.translate('cube_world_0'),
           'description': l10n.translate('cube_desc_0'),
@@ -73,41 +83,31 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
             {
               'input': 'a + b',
               'correct': 'ab+',
-              'hint': 'Operands first, then operator',
+              'hint': l10n.translate('challenge_hint_0_0'),
               'reward': 10,
             },
             {
               'input': 'a + b * c',
               'correct': 'abc*+',
-              'hint': 'Remember: * has higher precedence',
+              'hint': l10n.translate('challenge_hint_0_1'),
               'reward': 15,
             },
             {
               'input': '(a + b) * c',
               'correct': 'ab+c*',
-              'hint': 'Parentheses first!',
+              'hint': l10n.translate('challenge_hint_0_2'),
               'reward': 20,
             },
           ],
           'realWorldDemo': {
-            'title': 'V8 Engine Processing',
+            'title': l10n.translate('demo_title_0'),
             'code': 'const result = x + y * z;',
-            'steps': [
-              'Parse: Tokenize expression',
-              'Convert: x y z * +',
-              'Stack: Push x, y, z',
-              'Execute: Pop, multiply, add',
-              'Result: Optimized bytecode',
-            ],
+            'steps': getSteps(0, 5),
           },
-          'funFacts': [
-            '💡 Every JavaScript calculation goes through postfix conversion',
-            '🚀 V8 Engine processes millions of expressions per second',
-            '⚡ Postfix notation eliminates parsing ambiguity',
-          ],
+          'funFacts': getFacts(0, 3),
         };
 
-      case 1:
+      case 1: // Infix → Prefix
         return {
           'worldName': l10n.translate('cube_world_1'),
           'description': l10n.translate('cube_desc_1'),
@@ -116,41 +116,31 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
             {
               'input': 'a + b',
               'correct': '+ab',
-              'hint': 'Operator comes first in LISP',
+              'hint': l10n.translate('challenge_hint_1_0'),
               'reward': 10,
             },
             {
               'input': 'a * b + c',
               'correct': '+*abc',
-              'hint': 'Start from the last operator',
+              'hint': l10n.translate('challenge_hint_1_1'),
               'reward': 15,
             },
             {
               'input': '(a + b) * (c - d)',
               'correct': '*+ab-cd',
-              'hint': 'Process each group separately',
+              'hint': l10n.translate('challenge_hint_1_2'),
               'reward': 20,
             },
           ],
           'realWorldDemo': {
-            'title': 'LISP Code Evolution',
+            'title': l10n.translate('demo_title_1'),
             'code': '(+ (* 2 3) (/ 8 4))',
-            'steps': [
-              'AI reads: + operator first',
-              'Left branch: (* 2 3) = 6',
-              'Right branch: (/ 8 4) = 2',
-              'Combine: (+ 6 2) = 8',
-              'Result: Symbolic computation',
-            ],
+            'steps': getSteps(1, 5),
           },
-          'funFacts': [
-            '🧠 Created by John McCarthy in 1958 for AI',
-            '🎯 Still used in Clojure, Racket, and Emacs',
-            '✨ Prefix notation is closer to how computers "think"',
-          ],
+          'funFacts': getFacts(1, 3),
         };
 
-      case 2:
+      case 2: // Postfix → Infix
         return {
           'worldName': l10n.translate('cube_world_2'),
           'description': l10n.translate('cube_desc_2'),
@@ -159,41 +149,31 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
             {
               'input': 'ab+',
               'correct': 'a+b',
-              'hint': 'Build expression from stack',
+              'hint': l10n.translate('challenge_hint_2_0'),
               'reward': 10,
             },
             {
               'input': 'abc*+',
               'correct': 'a+b*c',
-              'hint': 'Remember precedence rules',
+              'hint': l10n.translate('challenge_hint_2_1'),
               'reward': 15,
             },
             {
               'input': 'ab+cd-*',
               'correct': '(a+b)*(c-d)',
-              'hint': 'Two separate groups',
+              'hint': l10n.translate('challenge_hint_2_2'),
               'reward': 20,
             },
           ],
           'realWorldDemo': {
-            'title': 'Ghidra Decompilation',
+            'title': l10n.translate('demo_title_2'),
             'code': 'Assembly: PUSH A, PUSH B, ADD',
-            'steps': [
-              'Scan bytecode: ab+',
-              'Stack simulation: [a, b]',
-              'Process +: pop b, a',
-              'Reconstruct: (a + b)',
-              'Result: Human-readable C code',
-            ],
+            'steps': getSteps(2, 5),
           },
-          'funFacts': [
-            '🛡️ NSA uses this in Ghidra for malware analysis',
-            '🔍 Essential for understanding compiled programs',
-            '⚙️ Helps find security vulnerabilities',
-          ],
+          'funFacts': getFacts(2, 3),
         };
 
-      case 3:
+      case 3: // Prefix → Infix
         return {
           'worldName': l10n.translate('cube_world_3'),
           'description': l10n.translate('cube_desc_3'),
@@ -202,84 +182,64 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
             {
               'input': '+ab',
               'correct': 'a+b',
-              'hint': 'Operator is already at the front',
+              'hint': l10n.translate('challenge_hint_3_0'),
               'reward': 10,
             },
             {
               'input': '*+abc',
               'correct': '(a+b)*c',
-              'hint': 'Process from right to left',
+              'hint': l10n.translate('challenge_hint_3_1'),
               'reward': 15,
             },
             {
               'input': '+*ab-cd',
               'correct': 'a*b+c-d',
-              'hint': 'Multiple operations nested',
+              'hint': l10n.translate('challenge_hint_3_2'),
               'reward': 20,
             },
           ],
           'realWorldDemo': {
-            'title': 'Racket to JavaScript',
+            'title': l10n.translate('demo_title_3'),
             'code': '(* (+ 2 3) 4)',
-            'steps': [
-              'Read prefix: * + 2 3 4',
-              'Parse inner: (+ 2 3)',
-              'Convert: (2 + 3)',
-              'Outer operation: * 4',
-              'Result: (2 + 3) * 4',
-            ],
+            'steps': getSteps(3, 5),
           },
-          'funFacts': [
-            '📚 Used in academic language research',
-            '🎓 MIT still teaches LISP in AI courses',
-            '🔄 Bridges functional and imperative paradigms',
-          ],
+          'funFacts': getFacts(3, 3),
         };
 
-      case 4:
+      case 4: // Stack Structure
         return {
           'worldName': l10n.translate('cube_world_4'),
           'description': l10n.translate('cube_desc_4'),
           'interactiveType': 'stack_builder',
           'challenges': [
             {
-              'input': 'Push 3 items',
+              'input': l10n.translate('challenge_input_4_0'),
               'correct': 'ABC',
-              'hint': 'Add elements one by one',
+              'hint': l10n.translate('challenge_hint_4_0'),
               'reward': 10,
             },
             {
-              'input': 'Undo 2 operations',
+              'input': l10n.translate('challenge_input_4_1'),
               'correct': 'Pop twice',
-              'hint': 'Remove from top',
+              'hint': l10n.translate('challenge_hint_4_1'),
               'reward': 15,
             },
             {
-              'input': 'Evaluate: AB+',
+              'input': l10n.translate('challenge_input_4_2'),
               'correct': 'A+B',
-              'hint': 'Use stack to solve',
+              'hint': l10n.translate('challenge_hint_4_2'),
               'reward': 20,
             },
           ],
           'realWorldDemo': {
-            'title': 'Browser Back Button',
+            'title': l10n.translate('demo_title_4'),
             'code': 'Navigation: Home → About → Contact',
-            'steps': [
-              'Visit Home: Stack = [Home]',
-              'Visit About: Stack = [Home, About]',
-              'Visit Contact: Stack = [Home, About, Contact]',
-              'Back button: Pop → About',
-              'Back again: Pop → Home',
-            ],
+            'steps': getSteps(4, 5),
           },
-          'funFacts': [
-            '🌐 Every browser tab uses a stack for history',
-            '💾 Function calls in ALL programs use stack',
-            '⚠️ Stack Overflow = Too many function calls!',
-          ],
+          'funFacts': getFacts(4, 3),
         };
 
-      case 5:
+      case 5: // Precedence Rules
         return {
           'worldName': l10n.translate('cube_world_5'),
           'description': l10n.translate('cube_desc_5'),
@@ -288,38 +248,28 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
             {
               'input': '2+3*4',
               'correct': '14',
-              'hint': 'Multiplication first!',
+              'hint': l10n.translate('challenge_hint_5_0'),
               'reward': 10,
             },
             {
               'input': '10-2*3',
               'correct': '4',
-              'hint': '* before -',
+              'hint': l10n.translate('challenge_hint_5_1'),
               'reward': 15,
             },
             {
               'input': '2^3^2',
               'correct': '512',
-              'hint': 'Right associative!',
+              'hint': l10n.translate('challenge_hint_5_2'),
               'reward': 20,
             },
           ],
           'realWorldDemo': {
-            'title': 'Excel Formula Bug',
+            'title': l10n.translate('demo_title_5'),
             'code': '=A1+B1*C1',
-            'steps': [
-              'Excel reads: A1 + B1 * C1',
-              'Step 1: Calculate B1 * C1 first',
-              'Step 2: Add result to A1',
-              'Common error: (A1+B1)*C1',
-              'Fix: Use parentheses explicitly',
-            ],
+            'steps': getSteps(5, 5),
           },
-          'funFacts': [
-            '🐛 Excel once calculated -2^2 as 4 (bug fixed!)',
-            '📊 PEMDAS = Please Excuse My Dear Aunt Sally',
-            '🎯 Most spreadsheet errors come from wrong precedence',
-          ],
+          'funFacts': getFacts(5, 3),
         };
 
       default:

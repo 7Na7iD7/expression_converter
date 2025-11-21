@@ -1,18 +1,22 @@
 class NewScreensTranslations {
   static const Map<String, Map<String, String>> translations = {
-    // ENGLISH
+    // ==========================================
+    // ENGLISH (en)
+    // ==========================================
     'en': {
-      // ========== ADVANCED QUIZ SCREEN ==========
+      // Navigation
+      'nav_3d_cube': '3D Cube',
+      '3d_visualization': '3D Visualization',
+
+      // Advanced Quiz Screen
       'quiz_advanced_title': 'Advanced Quiz',
       'quiz_test_knowledge': 'Test Your Knowledge',
       'quiz_question_of': 'Question {0}/{1}',
       'quiz_percentage': '{0}%',
       'quiz_timer_seconds': 'seconds',
-
       'difficulty_easy': 'Easy',
       'difficulty_medium': 'Medium',
       'difficulty_hard': 'Hard',
-
       'quiz_your_answer': 'Your answer...',
       'quiz_submit': 'Submit',
       'quiz_show_hint': 'Show Hint',
@@ -20,13 +24,11 @@ class NewScreensTranslations {
       'quiz_hint': 'Hint 💡',
       'quiz_next': 'Next Question',
       'quiz_finish': 'Finish Quiz',
-
       'quiz_times_up': "Time's Up!",
       'quiz_correct': 'Correct!',
       'quiz_incorrect': 'Incorrect',
       'quiz_correct_answer': 'Correct Answer:',
       'quiz_explanation': 'Explanation:',
-
       'quiz_completed': 'Quiz Completed!',
       'quiz_outstanding': "Outstanding! You're a master!",
       'quiz_great': 'Great job! Keep it up!',
@@ -40,7 +42,108 @@ class NewScreensTranslations {
       'quiz_your_answer_label': 'Your answer:',
       'quiz_timeout': 'Time out - No answer given',
 
-      // ========== CUBE DETAIL SCREEN ==========
+      // Cube Detail - World 0 (Compiler)
+      'cube_world_0': '🏭 Compiler Factory',
+      'cube_desc_0': 'See how JavaScript engines process your code in real-time',
+      'demo_title_0': 'V8 Engine Processing',
+      'demo_step_0_0': 'Parse: Tokenize expression',
+      'demo_step_0_1': 'Convert: x y z * +',
+      'demo_step_0_2': 'Stack: Push x, y, z',
+      'demo_step_0_3': 'Execute: Pop, multiply, add',
+      'demo_step_0_4': 'Result: Optimized bytecode',
+      'fact_0_0': '💡 Every JavaScript calculation goes through postfix conversion',
+      'fact_0_1': '🚀 V8 Engine processes millions of expressions per second',
+      'fact_0_2': '⚡ Postfix notation eliminates parsing ambiguity',
+
+      // Cube Detail - World 1 (AI Lab)
+      'cube_world_1': '🤖 AI Research Lab',
+      'cube_desc_1': 'Experience how AI systems think in prefix notation',
+      'demo_title_1': 'LISP Code Evolution',
+      'demo_step_1_0': 'AI reads: + operator first',
+      'demo_step_1_1': 'Left branch: (* 2 3) = 6',
+      'demo_step_1_2': 'Right branch: (/ 8 4) = 2',
+      'demo_step_1_3': 'Combine: (+ 6 2) = 8',
+      'demo_step_1_4': 'Result: Symbolic computation',
+      'fact_1_0': '🧠 Created by John McCarthy in 1958 for AI',
+      'fact_1_1': '🎯 Still used in Clojure, Racket, and Emacs',
+      'fact_1_2': '✨ Prefix notation is closer to how computers "think"',
+
+      // Cube Detail - World 2 (Decompiler)
+      'cube_world_2': '🔬 Decompiler Lab',
+      'cube_desc_2': 'Reverse engineer machine code back to readable format',
+      'demo_title_2': 'Ghidra Decompilation',
+      'demo_step_2_0': 'Scan bytecode: ab+',
+      'demo_step_2_1': 'Stack simulation: [a, b]',
+      'demo_step_2_2': 'Process +: pop b, a',
+      'demo_step_2_3': 'Reconstruct: (a + b)',
+      'demo_step_2_4': 'Result: Human-readable C code',
+      'fact_2_0': '🛡️ NSA uses this in Ghidra for malware analysis',
+      'fact_2_1': '🔍 Essential for understanding compiled programs',
+      'fact_2_2': '⚙️ Helps find security vulnerabilities',
+
+      // Cube Detail - World 3 (Functional)
+      'cube_world_3': '⚡ Functional Programming Arena',
+      'cube_desc_3': 'Transform functional code to imperative style',
+      'demo_title_3': 'Racket to JavaScript',
+      'demo_step_3_0': 'Read prefix: * + 2 3 4',
+      'demo_step_3_1': 'Parse inner: (+ 2 3)',
+      'demo_step_3_2': 'Convert: (2 + 3)',
+      'demo_step_3_3': 'Outer operation: * 4',
+      'demo_step_3_4': 'Result: (2 + 3) * 4',
+      'fact_3_0': '📚 Used in academic language research',
+      'fact_3_1': '🎓 MIT still teaches LISP in AI courses',
+      'fact_3_2': '🔄 Bridges functional and imperative paradigms',
+
+      // Cube Detail - World 4 (Memory)
+      'cube_world_4': '🗄️ Memory Architecture Zone',
+      'cube_desc_4': 'Build and manipulate the stack like a CPU',
+      'demo_title_4': 'Browser Back Button',
+      'demo_step_4_0': 'Visit Home: Stack = [Home]',
+      'demo_step_4_1': 'Visit About: Stack = [Home, About]',
+      'demo_step_4_2': 'Visit Contact: Stack = [Home, About, Contact]',
+      'demo_step_4_3': 'Back button: Pop → About',
+      'demo_step_4_4': 'Back again: Pop → Home',
+      'fact_4_0': '🌐 Every browser tab uses a stack for history',
+      'fact_4_1': '💾 Function calls in ALL programs use stack',
+      'fact_4_2': '⚠️ Stack Overflow = Too many function calls!',
+
+      // Cube Detail - World 5 (Excel)
+      'cube_world_5': '🧮 Excel Formula Arena',
+      'cube_desc_5': 'Master operator precedence like a spreadsheet pro',
+      'demo_title_5': 'Excel Formula Bug',
+      'demo_step_5_0': 'Excel reads: A1 + B1 * C1',
+      'demo_step_5_1': 'Step 1: Calculate B1 * C1 first',
+      'demo_step_5_2': 'Step 2: Add result to A1',
+      'demo_step_5_3': 'Common error: (A1+B1)*C1',
+      'demo_step_5_4': 'Fix: Use parentheses explicitly',
+      'fact_5_0': '🐛 Excel once calculated -2^2 as 4 (bug fixed!)',
+      'fact_5_1': '📊 PEMDAS = Please Excuse My Dear Aunt Sally',
+      'fact_5_2': '🎯 Most spreadsheet errors come from wrong precedence',
+
+      // Challenges Hints & Inputs
+      'challenge_hint_0_0': 'Operands first, then operator',
+      'challenge_hint_0_1': 'Remember: * has higher precedence',
+      'challenge_hint_0_2': 'Parentheses first!',
+      'challenge_hint_1_0': 'Operator comes first in LISP',
+      'challenge_hint_1_1': 'Start from the last operator',
+      'challenge_hint_1_2': 'Process each group separately',
+      'challenge_hint_2_0': 'Build expression from stack',
+      'challenge_hint_2_1': 'Remember precedence rules',
+      'challenge_hint_2_2': 'Two separate groups',
+      'challenge_hint_3_0': 'Operator is already at the front',
+      'challenge_hint_3_1': 'Process from right to left',
+      'challenge_hint_3_2': 'Multiple operations nested',
+      'challenge_hint_4_0': 'Add elements one by one',
+      'challenge_hint_4_1': 'Remove from top',
+      'challenge_hint_4_2': 'Use stack to solve',
+      'challenge_hint_5_0': 'Multiplication first!',
+      'challenge_hint_5_1': '* before -',
+      'challenge_hint_5_2': 'Right associative!',
+      'challenge_input_4_0': 'Push 3 items',
+      'challenge_input_4_1': 'Undo 2 operations',
+      'challenge_input_4_2': 'Evaluate: AB+',
+
+      // Interactive Cube UI
       'cube_interactive_mode': 'Interactive Learning Mode',
       'cube_challenge': 'Challenge',
       'cube_your_answer': 'Your answer...',
@@ -56,34 +159,16 @@ class NewScreensTranslations {
       'cube_facts': 'Fun Facts',
       'cube_did_you_know': 'Did you know?',
       'cube_reward': '+{0}',
-
-      // World Names
-      'cube_world_0': '🏭 Compiler Factory',
-      'cube_world_1': '🤖 AI Research Lab',
-      'cube_world_2': '🔬 Decompiler Lab',
-      'cube_world_3': '⚡ Functional Programming Arena',
-      'cube_world_4': '🗄️ Memory Architecture Zone',
-      'cube_world_5': '🧮 Excel Formula Arena',
-
-      // Descriptions
-      'cube_desc_0': 'See how JavaScript engines process your code in real-time',
-      'cube_desc_1': 'Experience how AI systems think in prefix notation',
-      'cube_desc_2': 'Reverse engineer machine code back to readable format',
-      'cube_desc_3': 'Transform functional code to imperative style',
-      'cube_desc_4': 'Build and manipulate the stack like a CPU',
-      'cube_desc_5': 'Master operator precedence like a spreadsheet pro',
-
-      // ========== INTERACTIVE 3D CUBE SCREEN ==========
+      'cube_explore_world': 'Explore World',
+      'cube_points': 'pts',
       'cube_3d_title': '3D Concept Map',
       'cube_3d_explore': 'Explore real-world applications',
       'cube_3d_interactive': 'Interactive Learning Mode',
       'cube_3d_double_tap': 'Double tap to enter portal',
-
       'cube_pause': 'Pause',
       'cube_auto': 'Auto',
       'cube_reset': 'Reset',
       'cube_guide': 'Guide',
-
       'cube_guide_title': 'Concept Map Guide',
       'cube_guide_drag': 'Drag to rotate the concept hub',
       'cube_guide_tap': 'Single tap to preview',
@@ -93,10 +178,7 @@ class NewScreensTranslations {
       'cube_guide_explore': 'Explore all 6 connected concepts',
       'cube_guide_start': 'Start Exploring!',
 
-      'cube_explore_world': 'Explore World',
-      'cube_points': 'pts',
-
-      // Cube Titles
+      // Cube Face Titles
       'cube_title_0': 'Infix → Postfix',
       'cube_subtitle_0': 'Natural to Stack-based',
       'cube_title_1': 'Infix → Prefix',
@@ -112,20 +194,22 @@ class NewScreensTranslations {
     },
 
     // ==========================================
-    // PERSIAN (فارسی)
+    // PERSIAN (fa)
     // ==========================================
     'fa': {
-      // ========== ADVANCED QUIZ SCREEN ==========
-      'quiz_advanced_title': 'آزمون پیشرفته',
-      'quiz_test_knowledge': 'دانش خود را آزمایش کنید',
-      'quiz_question_of': 'سوال {0}/{1}',
-      'quiz_percentage': '{0}%',
-      'quiz_timer_seconds': 'ثانیه',
+      // Navigation
+      'nav_3d_cube': 'مکعب سه‌بعدی',
+      '3d_visualization': 'تجسم سه‌بعدی',
 
+      // Advanced Quiz Screen
+      'quiz_advanced_title': 'آزمون پیشرفته',
+      'quiz_test_knowledge': 'دانش خود را بسنجید',
+      'quiz_question_of': 'سوال {0} از {1}',
+      'quiz_percentage': '{0}٪',
+      'quiz_timer_seconds': 'ثانیه',
       'difficulty_easy': 'آسان',
       'difficulty_medium': 'متوسط',
       'difficulty_hard': 'سخت',
-
       'quiz_your_answer': 'پاسخ شما...',
       'quiz_submit': 'ارسال',
       'quiz_show_hint': 'نمایش راهنما',
@@ -133,13 +217,11 @@ class NewScreensTranslations {
       'quiz_hint': 'راهنما 💡',
       'quiz_next': 'سوال بعدی',
       'quiz_finish': 'پایان آزمون',
-
       'quiz_times_up': 'زمان تمام شد!',
       'quiz_correct': 'درست!',
       'quiz_incorrect': 'نادرست',
       'quiz_correct_answer': 'پاسخ صحیح:',
       'quiz_explanation': 'توضیحات:',
-
       'quiz_completed': 'آزمون تکمیل شد!',
       'quiz_outstanding': 'عالی! شما استاد هستید!',
       'quiz_great': 'کار خوبی کردید! ادامه دهید!',
@@ -153,7 +235,108 @@ class NewScreensTranslations {
       'quiz_your_answer_label': 'پاسخ شما:',
       'quiz_timeout': 'زمان تمام شد - پاسخی داده نشد',
 
-      // ========== CUBE DETAIL SCREEN ==========
+      // Cube Detail - World 0 (Compiler)
+      'cube_world_0': '🏭 کارخانه کامپایلر',
+      'cube_desc_0': 'ببینید موتورهای جاوااسکریپت چگونه کد شما را پردازش می‌کنند',
+      'demo_title_0': 'پردازش موتور V8',
+      'demo_step_0_0': 'تجزیه: توکن‌بندی عبارت',
+      'demo_step_0_1': 'تبدیل: x y z * +',
+      'demo_step_0_2': 'پشته: افزودن x, y, z',
+      'demo_step_0_3': 'اجرا: حذف، ضرب، جمع',
+      'demo_step_0_4': 'نتیجه: بایت‌کد بهینه شده',
+      'fact_0_0': '💡 هر محاسبه جاوااسکریپت از تبدیل پسوندی می‌گذرد',
+      'fact_0_1': '🚀 موتور V8 میلیون‌ها عبارت را در ثانیه پردازش می‌کند',
+      'fact_0_2': '⚡ نماد پسوندی ابهام در تجزیه را از بین می‌برد',
+
+      // Cube Detail - World 1 (AI Lab)
+      'cube_world_1': '🤖 آزمایشگاه هوش مصنوعی',
+      'cube_desc_1': 'تجربه کنید هوش مصنوعی چگونه با نماد پیشوندی فکر می‌کند',
+      'demo_title_1': 'تکامل کد LISP',
+      'demo_step_1_0': 'هوش مصنوعی می‌خواند: اول عملگر +',
+      'demo_step_1_1': 'شاخه چپ: (* 2 3) = 6',
+      'demo_step_1_2': 'شاخه راست: (/ 8 4) = 2',
+      'demo_step_1_3': 'ترکیب: (+ 6 2) = 8',
+      'demo_step_1_4': 'نتیجه: محاسبات نمادین',
+      'fact_1_0': '🧠 توسط جان مک‌کارتی در ۱۹۵۸ برای هوش مصنوعی ساخته شد',
+      'fact_1_1': '🎯 هنوز در Clojure، Racket و Emacs استفاده می‌شود',
+      'fact_1_2': '✨ نماد پیشوندی به نحوه "تفکر" کامپیوتر نزدیک‌تر است',
+
+      // Cube Detail - World 2 (Decompiler)
+      'cube_world_2': '🔬 آزمایشگاه مهندسی معکوس',
+      'cube_desc_2': 'بازگرداندن کد ماشین به فرمت خوانا',
+      'demo_title_2': 'دی‌کامپایل با Ghidra',
+      'demo_step_2_0': 'اسکن بایت‌کد: ab+',
+      'demo_step_2_1': 'شبیه‌سازی پشته: [a, b]',
+      'demo_step_2_2': 'پردازش +: حذف b, a',
+      'demo_step_2_3': 'بازسازی: (a + b)',
+      'demo_step_2_4': 'نتیجه: کد C خوانا برای انسان',
+      'fact_2_0': '🛡️ آژانس امنیت ملی (NSA) از این در Ghidra برای تحلیل بدافزار استفاده می‌کند',
+      'fact_2_1': '🔍 برای درک برنامه‌های کامپایل شده ضروری است',
+      'fact_2_2': '⚙️ به یافتن آسیب‌پذیری‌های امنیتی کمک می‌کند',
+
+      // Cube Detail - World 3 (Functional)
+      'cube_world_3': '⚡ عرصه برنامه‌نویسی تابعی',
+      'cube_desc_3': 'تبدیل کد تابعی به سبک دستوری',
+      'demo_title_3': 'Racket به JavaScript',
+      'demo_step_3_0': 'خواندن پیشوندی: * + 2 3 4',
+      'demo_step_3_1': 'تجزیه داخلی: (+ 2 3)',
+      'demo_step_3_2': 'تبدیل: (2 + 3)',
+      'demo_step_3_3': 'عملیات بیرونی: * 4',
+      'demo_step_3_4': 'نتیجه: (2 + 3) * 4',
+      'fact_3_0': '📚 در تحقیقات آکادمیک زبان استفاده می‌شود',
+      'fact_3_1': '🎓 دانشگاه MIT هنوز LISP را در دوره‌های هوش مصنوعی آموزش می‌دهد',
+      'fact_3_2': '🔄 پل ارتباطی بین پارادایم‌های تابعی و دستوری',
+
+      // Cube Detail - World 4 (Memory)
+      'cube_world_4': '🗄️ منطقه معماری حافظه',
+      'cube_desc_4': 'پشته را مانند یک CPU بسازید و مدیریت کنید',
+      'demo_title_4': 'دکمه بازگشت مرورگر',
+      'demo_step_4_0': 'بازدید خانه: پشته = [Home]',
+      'demo_step_4_1': 'بازدید درباره: پشته = [Home, About]',
+      'demo_step_4_2': 'بازدید تماس: پشته = [Home, About, Contact]',
+      'demo_step_4_3': 'دکمه بازگشت: حذف → About',
+      'demo_step_4_4': 'بازگشت دوباره: حذف → Home',
+      'fact_4_0': '🌐 هر تب مرورگر از یک پشته برای تاریخچه استفاده می‌کند',
+      'fact_4_1': '💾 فراخوانی توابع در تمام برنامه‌ها از پشته استفاده می‌کند',
+      'fact_4_2': '⚠️ سرریز پشته (Stack Overflow) = فراخوانی بیش از حد توابع!',
+
+      // Cube Detail - World 5 (Excel)
+      'cube_world_5': '🧮 عرصه فرمول اکسل',
+      'cube_desc_5': 'تسلط بر اولویت عملگرها مانند یک حرفه‌ای اکسل',
+      'demo_title_5': 'باگ فرمول اکسل',
+      'demo_step_5_0': 'اکسل می‌خواند: A1 + B1 * C1',
+      'demo_step_5_1': 'گام ۱: اول محاسبه B1 * C1',
+      'demo_step_5_2': 'گام ۲: افزودن نتیجه به A1',
+      'demo_step_5_3': 'خطای رایج: (A1+B1)*C1',
+      'demo_step_5_4': 'راه‌حل: استفاده صریح از پرانتز',
+      'fact_5_0': '🐛 اکسل زمانی -2^2 را به جای -4 برابر 4 محاسبه می‌کرد (باگ رفع شد!)',
+      'fact_5_1': '📊 اولویت‌ها: پرانتز، توان، ضرب/تقسیم، جمع/تفریق',
+      'fact_5_2': '🎯 بیشتر خطاهای اکسل ناشی از اشتباه در اولویت‌هاست',
+
+      // Challenges Hints & Inputs
+      'challenge_hint_0_0': 'اول عملوندها، سپس عملگر',
+      'challenge_hint_0_1': 'یادت باشد: * اولویت بالاتری دارد',
+      'challenge_hint_0_2': 'اول پرانتزها!',
+      'challenge_hint_1_0': 'در LISP اول عملگر می‌آید',
+      'challenge_hint_1_1': 'از آخرین عملگر شروع کن',
+      'challenge_hint_1_2': 'هر گروه را جداگانه پردازش کن',
+      'challenge_hint_2_0': 'عبارت را از پشته بساز',
+      'challenge_hint_2_1': 'قوانین اولویت را به یاد داشته باش',
+      'challenge_hint_2_2': 'دو گروه جداگانه',
+      'challenge_hint_3_0': 'عملگر قبلاً در ابتداست',
+      'challenge_hint_3_1': 'از راست به چپ پردازش کن',
+      'challenge_hint_3_2': 'چندین عملیات تودرتو',
+      'challenge_hint_4_0': 'عناصر را یکی یکی اضافه کن',
+      'challenge_hint_4_1': 'از بالا حذف کن',
+      'challenge_hint_4_2': 'از پشته برای حل استفاده کن',
+      'challenge_hint_5_0': 'اول ضرب!',
+      'challenge_hint_5_1': '* قبل از -',
+      'challenge_hint_5_2': 'شرکت‌پذیری راست!',
+      'challenge_input_4_0': 'افزودن ۳ مورد',
+      'challenge_input_4_1': 'لغو ۲ عملیات',
+      'challenge_input_4_2': 'ارزیابی: AB+',
+
+      // Interactive Cube UI
       'cube_interactive_mode': 'حالت یادگیری تعاملی',
       'cube_challenge': 'چالش',
       'cube_your_answer': 'پاسخ شما...',
@@ -169,34 +352,16 @@ class NewScreensTranslations {
       'cube_facts': 'حقایق جالب',
       'cube_did_you_know': 'آیا می‌دانستید؟',
       'cube_reward': '+{0}',
-
-      // World Names
-      'cube_world_0': '🏭 کارخانه کامپایلر',
-      'cube_world_1': '🤖 آزمایشگاه تحقیقات هوش مصنوعی',
-      'cube_world_2': '🔬 آزمایشگاه دیکامپایلر',
-      'cube_world_3': '⚡ عرصه برنامه‌نویسی تابعی',
-      'cube_world_4': '🗄️ منطقه معماری حافظه',
-      'cube_world_5': '🧮 عرصه فرمول اکسل',
-
-      // Descriptions
-      'cube_desc_0': 'ببینید موتورهای جاوااسکریپت چگونه کد شما را پردازش می‌کنند',
-      'cube_desc_1': 'تجربه کنید سیستم‌های هوش مصنوعی چگونه با نماد پیشوندی فکر می‌کنند',
-      'cube_desc_2': 'مهندسی معکوس کد ماشین به فرمت خوانا',
-      'cube_desc_3': 'تبدیل کد تابعی به سبک دستوری',
-      'cube_desc_4': 'پشته را مانند یک CPU بسازید و دستکاری کنید',
-      'cube_desc_5': 'اولویت عملگر را مانند یک حرفه‌ای صفحه گسترده تسلط کنید',
-
-      // ========== INTERACTIVE 3D CUBE SCREEN ==========
+      'cube_explore_world': 'کاوش در دنیا',
+      'cube_points': 'امتیاز',
       'cube_3d_title': 'نقشه مفهومی سه‌بعدی',
       'cube_3d_explore': 'کاربردهای دنیای واقعی را کشف کنید',
       'cube_3d_interactive': 'حالت یادگیری تعاملی',
       'cube_3d_double_tap': 'دوبار ضربه بزنید برای ورود به پورتال',
-
       'cube_pause': 'توقف',
       'cube_auto': 'خودکار',
       'cube_reset': 'بازنشانی',
       'cube_guide': 'راهنما',
-
       'cube_guide_title': 'راهنمای نقشه مفهومی',
       'cube_guide_drag': 'بکشید تا مرکز مفهوم بچرخد',
       'cube_guide_tap': 'یک ضربه برای پیش‌نمایش',
@@ -206,10 +371,7 @@ class NewScreensTranslations {
       'cube_guide_explore': 'همه ۶ مفهوم متصل را کاوش کنید',
       'cube_guide_start': 'شروع کاوش!',
 
-      'cube_explore_world': 'کاوش در دنیا',
-      'cube_points': 'امتیاز',
-
-      // Cube Titles
+      // Cube Face Titles
       'cube_title_0': 'میانوندی → پسوندی',
       'cube_subtitle_0': 'طبیعی به مبتنی بر پشته',
       'cube_title_1': 'میانوندی → پیشوندی',
@@ -225,20 +387,22 @@ class NewScreensTranslations {
     },
 
     // ==========================================
-    // CHINESE (中文)
+    // CHINESE (zh)
     // ==========================================
     'zh': {
-      // ========== ADVANCED QUIZ SCREEN ==========
+      // Navigation
+      'nav_3d_cube': '3D立方体',
+      '3d_visualization': '3D可视化',
+
+      // Advanced Quiz Screen
       'quiz_advanced_title': '高级测验',
       'quiz_test_knowledge': '测试您的知识',
       'quiz_question_of': '问题 {0}/{1}',
       'quiz_percentage': '{0}%',
       'quiz_timer_seconds': '秒',
-
       'difficulty_easy': '简单',
       'difficulty_medium': '中等',
       'difficulty_hard': '困难',
-
       'quiz_your_answer': '您的答案...',
       'quiz_submit': '提交',
       'quiz_show_hint': '显示提示',
@@ -246,13 +410,11 @@ class NewScreensTranslations {
       'quiz_hint': '提示 💡',
       'quiz_next': '下一题',
       'quiz_finish': '完成测验',
-
       'quiz_times_up': '时间到！',
       'quiz_correct': '正确！',
       'quiz_incorrect': '不正确',
       'quiz_correct_answer': '正确答案：',
       'quiz_explanation': '解释：',
-
       'quiz_completed': '测验完成！',
       'quiz_outstanding': '出色！您是大师！',
       'quiz_great': '做得好！继续保持！',
@@ -266,7 +428,108 @@ class NewScreensTranslations {
       'quiz_your_answer_label': '您的答案：',
       'quiz_timeout': '超时 - 未给出答案',
 
-      // ========== CUBE DETAIL SCREEN ==========
+      // Cube Detail - World 0 (Compiler)
+      'cube_world_0': '🏭 编译器工厂',
+      'cube_desc_0': '实时查看 JavaScript 引擎如何处理您的代码',
+      'demo_title_0': 'V8 引擎处理',
+      'demo_step_0_0': '解析：标记化表达式',
+      'demo_step_0_1': '转换：x y z * +',
+      'demo_step_0_2': '栈：压入 x, y, z',
+      'demo_step_0_3': '执行：弹出、乘法、加法',
+      'demo_step_0_4': '结果：优化的字节码',
+      'fact_0_0': '💡 每个 JavaScript 计算都经过后缀转换',
+      'fact_0_1': '🚀 V8 引擎每秒处理数百万个表达式',
+      'fact_0_2': '⚡ 后缀表示法消除了解析歧义',
+
+      // Cube Detail - World 1 (AI Lab)
+      'cube_world_1': '🤖 AI研究实验室',
+      'cube_desc_1': '体验 AI 系统如何用前缀表示法思考',
+      'demo_title_1': 'LISP 代码演变',
+      'demo_step_1_0': 'AI 读取：首先是 + 操作符',
+      'demo_step_1_1': '左分支：(* 2 3) = 6',
+      'demo_step_1_2': '右分支：(/ 8 4) = 2',
+      'demo_step_1_3': '结合：(+ 6 2) = 8',
+      'demo_step_1_4': '结果：符号计算',
+      'fact_1_0': '🧠 由 John McCarthy 于 1958 年为 AI 创建',
+      'fact_1_1': '🎯 仍用于 Clojure、Racket 和 Emacs',
+      'fact_1_2': '✨ 前缀表示法更接近计算机的“思维”方式',
+
+      // Cube Detail - World 2 (Decompiler)
+      'cube_world_2': '🔬 反编译器实验室',
+      'cube_desc_2': '将机器码逆向工程回可读格式',
+      'demo_title_2': 'Ghidra 反编译',
+      'demo_step_2_0': '扫描字节码：ab+',
+      'demo_step_2_1': '栈模拟：[a, b]',
+      'demo_step_2_2': '处理 +：弹出 b, a',
+      'demo_step_2_3': '重建：(a + b)',
+      'demo_step_2_4': '结果：人类可读的 C 代码',
+      'fact_2_0': '🛡️ NSA 在 Ghidra 中使用此技术进行恶意软件分析',
+      'fact_2_1': '🔍 对于理解编译程序至关重要',
+      'fact_2_2': '⚙️ 帮助发现安全漏洞',
+
+      // Cube Detail - World 3 (Functional)
+      'cube_world_3': '⚡ 函数式编程竞技场',
+      'cube_desc_3': '将函数式代码转换为命令式风格',
+      'demo_title_3': 'Racket 到 JavaScript',
+      'demo_step_3_0': '读取前缀：* + 2 3 4',
+      'demo_step_3_1': '解析内部：(+ 2 3)',
+      'demo_step_3_2': '转换：(2 + 3)',
+      'demo_step_3_3': '外部操作：* 4',
+      'demo_step_3_4': '结果：(2 + 3) * 4',
+      'fact_3_0': '📚 用于学术语言研究',
+      'fact_3_1': '🎓 MIT 仍在 AI 课程中教授 LISP',
+      'fact_3_2': '🔄 连接函数式和命令式范式',
+
+      // Cube Detail - World 4 (Memory)
+      'cube_world_4': '🗄️ 内存架构区',
+      'cube_desc_4': '像 CPU 一样构建和操作栈',
+      'demo_title_4': '浏览器后退按钮',
+      'demo_step_4_0': '访问主页：栈 = [Home]',
+      'demo_step_4_1': '访问关于：栈 = [Home, About]',
+      'demo_step_4_2': '访问联系：栈 = [Home, About, Contact]',
+      'demo_step_4_3': '后退按钮：弹出 → About',
+      'demo_step_4_4': '再次后退：弹出 → Home',
+      'fact_4_0': '🌐 每个浏览器标签页都使用栈作为历史记录',
+      'fact_4_1': '💾 所有程序中的函数调用都使用栈',
+      'fact_4_2': '⚠️ 栈溢出 (Stack Overflow) = 函数调用过多！',
+
+      // Cube Detail - World 5 (Excel)
+      'cube_world_5': '🧮 Excel公式竞技场',
+      'cube_desc_5': '像电子表格专家一样掌握操作符优先级',
+      'demo_title_5': 'Excel 公式错误',
+      'demo_step_5_0': 'Excel 读取：A1 + B1 * C1',
+      'demo_step_5_1': '步骤 1：首先计算 B1 * C1',
+      'demo_step_5_2': '步骤 2：将结果加到 A1',
+      'demo_step_5_3': '常见错误：(A1+B1)*C1',
+      'demo_step_5_4': '修复：明确使用括号',
+      'fact_5_0': '🐛 Excel 曾经将 -2^2 计算为 4 而不是 -4（错误已修复！）',
+      'fact_5_1': '📊 PEMDAS = 请原谅我亲爱的萨莉阿姨 (运算顺序助记符)',
+      'fact_5_2': '🎯 大多数电子表格错误来自错误的优先级',
+
+      // Challenges Hints & Inputs
+      'challenge_hint_0_0': '操作数优先，然后是操作符',
+      'challenge_hint_0_1': '记住：* 优先级更高',
+      'challenge_hint_0_2': '括号优先！',
+      'challenge_hint_1_0': '在 LISP 中操作符在最前面',
+      'challenge_hint_1_1': '从最后一个操作符开始',
+      'challenge_hint_1_2': '分别处理每个组',
+      'challenge_hint_2_0': '从栈构建表达式',
+      'challenge_hint_2_1': '记住优先级规则',
+      'challenge_hint_2_2': '两个分开的组',
+      'challenge_hint_3_0': '操作符已经在前面了',
+      'challenge_hint_3_1': '从右到左处理',
+      'challenge_hint_3_2': '多个操作嵌套',
+      'challenge_hint_4_0': '逐个添加元素',
+      'challenge_hint_4_1': '从顶部移除',
+      'challenge_hint_4_2': '使用栈来解决',
+      'challenge_hint_5_0': '乘法优先！',
+      'challenge_hint_5_1': '* 在 - 之前',
+      'challenge_hint_5_2': '右结合！',
+      'challenge_input_4_0': '推入 3 个项目',
+      'challenge_input_4_1': '撤销 2 个操作',
+      'challenge_input_4_2': '评估：AB+',
+
+      // Interactive Cube UI
       'cube_interactive_mode': '交互式学习模式',
       'cube_challenge': '挑战',
       'cube_your_answer': '您的答案...',
@@ -282,34 +545,16 @@ class NewScreensTranslations {
       'cube_facts': '趣味事实',
       'cube_did_you_know': '你知道吗？',
       'cube_reward': '+{0}',
-
-      // World Names
-      'cube_world_0': '🏭 编译器工厂',
-      'cube_world_1': '🤖 AI研究实验室',
-      'cube_world_2': '🔬 反编译器实验室',
-      'cube_world_3': '⚡ 函数式编程竞技场',
-      'cube_world_4': '🗄️ 内存架构区',
-      'cube_world_5': '🧮 Excel公式竞技场',
-
-      // Descriptions
-      'cube_desc_0': '查看JavaScript引擎如何实时处理您的代码',
-      'cube_desc_1': '体验AI系统如何用前缀表示法思考',
-      'cube_desc_2': '将机器码逆向工程回可读格式',
-      'cube_desc_3': '将函数式代码转换为命令式风格',
-      'cube_desc_4': '像CPU一样构建和操作栈',
-      'cube_desc_5': '像电子表格专家一样掌握运算符优先级',
-
-      // ========== INTERACTIVE 3D CUBE SCREEN ==========
+      'cube_explore_world': '探索世界',
+      'cube_points': '分',
       'cube_3d_title': '3D概念地图',
       'cube_3d_explore': '探索真实世界应用',
       'cube_3d_interactive': '交互式学习模式',
       'cube_3d_double_tap': '双击进入传送门',
-
       'cube_pause': '暂停',
       'cube_auto': '自动',
       'cube_reset': '重置',
       'cube_guide': '指南',
-
       'cube_guide_title': '概念地图指南',
       'cube_guide_drag': '拖动旋转概念中心',
       'cube_guide_tap': '单击预览',
@@ -319,10 +564,7 @@ class NewScreensTranslations {
       'cube_guide_explore': '探索所有6个连接的概念',
       'cube_guide_start': '开始探索！',
 
-      'cube_explore_world': '探索世界',
-      'cube_points': '分',
-
-      // Cube Titles
+      // Cube Face Titles
       'cube_title_0': '中缀 → 后缀',
       'cube_subtitle_0': '自然到基于栈',
       'cube_title_1': '中缀 → 前缀',
@@ -338,37 +580,37 @@ class NewScreensTranslations {
     },
 
     // ==========================================
-    // SPANISH (Español)
+    // SPANISH (es)
     // ==========================================
     'es': {
-      // ========== ADVANCED QUIZ SCREEN ==========
+      // Navigation
+      'nav_3d_cube': 'Cubo 3D',
+      '3d_visualization': 'Visualización 3D',
+
+      // Advanced Quiz Screen
       'quiz_advanced_title': 'Cuestionario Avanzado',
-      'quiz_test_knowledge': 'Pruebe Su Conocimiento',
+      'quiz_test_knowledge': 'Prueba tu Conocimiento',
       'quiz_question_of': 'Pregunta {0}/{1}',
       'quiz_percentage': '{0}%',
       'quiz_timer_seconds': 'segundos',
-
       'difficulty_easy': 'Fácil',
       'difficulty_medium': 'Medio',
       'difficulty_hard': 'Difícil',
-
-      'quiz_your_answer': 'Su respuesta...',
+      'quiz_your_answer': 'Tu respuesta...',
       'quiz_submit': 'Enviar',
       'quiz_show_hint': 'Mostrar Pista',
       'quiz_hide_hint': 'Ocultar Pista',
       'quiz_hint': 'Pista 💡',
       'quiz_next': 'Siguiente Pregunta',
-      'quiz_finish': 'Finalizar Cuestionario',
-
-      'quiz_times_up': '¡Se Acabó el Tiempo!',
+      'quiz_finish': 'Terminar Cuestionario',
+      'quiz_times_up': '¡Se acabó el tiempo!',
       'quiz_correct': '¡Correcto!',
       'quiz_incorrect': 'Incorrecto',
       'quiz_correct_answer': 'Respuesta Correcta:',
       'quiz_explanation': 'Explicación:',
-
       'quiz_completed': '¡Cuestionario Completado!',
       'quiz_outstanding': '¡Sobresaliente! ¡Eres un maestro!',
-      'quiz_great': '¡Buen trabajo! ¡Sigue así!',
+      'quiz_great': '¡Gran trabajo! ¡Sigue así!',
       'quiz_good': '¡Buen esfuerzo! ¡Revisa e inténtalo de nuevo!',
       'quiz_practice': '¡Sigue practicando! ¡Mejorarás!',
       'quiz_score': 'Puntuación',
@@ -377,17 +619,118 @@ class NewScreensTranslations {
       'quiz_retry': 'Reintentar Cuestionario',
       'quiz_back': 'Volver al Tutorial',
       'quiz_your_answer_label': 'Tu respuesta:',
-      'quiz_timeout': 'Tiempo agotado - No se dio respuesta',
+      'quiz_timeout': 'Tiempo agotado - Sin respuesta',
 
-      // ========== CUBE DETAIL SCREEN ==========
+      // Cube Detail - World 0 (Compiler)
+      'cube_world_0': '🏭 Fábrica de Compiladores',
+      'cube_desc_0': 'Ve cómo los motores JavaScript procesan tu código en tiempo real',
+      'demo_title_0': 'Procesamiento del Motor V8',
+      'demo_step_0_0': 'Analizar: Tokenizar expresión',
+      'demo_step_0_1': 'Convertir: x y z * +',
+      'demo_step_0_2': 'Pila: Push x, y, z',
+      'demo_step_0_3': 'Ejecutar: Pop, multiplicar, sumar',
+      'demo_step_0_4': 'Resultado: Bytecode optimizado',
+      'fact_0_0': '💡 Cada cálculo de JavaScript pasa por conversión postfija',
+      'fact_0_1': '🚀 El motor V8 procesa millones de expresiones por segundo',
+      'fact_0_2': '⚡ La notación postfija elimina la ambigüedad de análisis',
+
+      // Cube Detail - World 1 (AI Lab)
+      'cube_world_1': '🤖 Laboratorio de IA',
+      'cube_desc_1': 'Experimenta cómo los sistemas de IA piensan en notación prefija',
+      'demo_title_1': 'Evolución del Código LISP',
+      'demo_step_1_0': 'IA lee: operador + primero',
+      'demo_step_1_1': 'Rama izquierda: (* 2 3) = 6',
+      'demo_step_1_2': 'Rama derecha: (/ 8 4) = 2',
+      'demo_step_1_3': 'Combinar: (+ 6 2) = 8',
+      'demo_step_1_4': 'Resultado: Computación simbólica',
+      'fact_1_0': '🧠 Creado por John McCarthy en 1958 para IA',
+      'fact_1_1': '🎯 Todavía usado en Clojure, Racket y Emacs',
+      'fact_1_2': '✨ La notación prefija es más cercana a cómo "piensan" las computadoras',
+
+      // Cube Detail - World 2 (Decompiler)
+      'cube_world_2': '🔬 Laboratorio de Descompilación',
+      'cube_desc_2': 'Ingeniería inversa de código máquina a formato legible',
+      'demo_title_2': 'Descompilación con Ghidra',
+      'demo_step_2_0': 'Escanear bytecode: ab+',
+      'demo_step_2_1': 'Simulación de pila: [a, b]',
+      'demo_step_2_2': 'Procesar +: pop b, a',
+      'demo_step_2_3': 'Reconstruir: (a + b)',
+      'demo_step_2_4': 'Resultado: Código C legible por humanos',
+      'fact_2_0': '🛡️ La NSA usa esto en Ghidra para análisis de malware',
+      'fact_2_1': '🔍 Esencial para entender programas compilados',
+      'fact_2_2': '⚙️ Ayuda a encontrar vulnerabilidades de seguridad',
+
+      // Cube Detail - World 3 (Functional)
+      'cube_world_3': '⚡ Arena de Programación Funcional',
+      'cube_desc_3': 'Transforma código funcional a estilo imperativo',
+      'demo_title_3': 'Racket a JavaScript',
+      'demo_step_3_0': 'Leer prefijo: * + 2 3 4',
+      'demo_step_3_1': 'Analizar interno: (+ 2 3)',
+      'demo_step_3_2': 'Convertir: (2 + 3)',
+      'demo_step_3_3': 'Operación externa: * 4',
+      'demo_step_3_4': 'Resultado: (2 + 3) * 4',
+      'fact_3_0': '📚 Usado en investigación académica de lenguajes',
+      'fact_3_1': '🎓 MIT todavía enseña LISP en cursos de IA',
+      'fact_3_2': '🔄 Puente entre paradigmas funcionales e imperativos',
+
+      // Cube Detail - World 4 (Memory)
+      'cube_world_4': '🗄️ Zona de Arquitectura de Memoria',
+      'cube_desc_4': 'Construye y manipula la pila como una CPU',
+      'demo_title_4': 'Botón Atrás del Navegador',
+      'demo_step_4_0': 'Visitar Inicio: Pila = [Home]',
+      'demo_step_4_1': 'Visitar Acerca de: Pila = [Home, About]',
+      'demo_step_4_2': 'Visitar Contacto: Pila = [Home, About, Contact]',
+      'demo_step_4_3': 'Botón atrás: Pop → About',
+      'demo_step_4_4': 'Atrás de nuevo: Pop → Home',
+      'fact_4_0': '🌐 Cada pestaña del navegador usa una pila para el historial',
+      'fact_4_1': '💾 Las llamadas a funciones en TODOS los programas usan pila',
+      'fact_4_2': '⚠️ Desbordamiento de pila (Stack Overflow) = ¡Demasiadas llamadas!',
+
+      // Cube Detail - World 5 (Excel)
+      'cube_world_5': '🧮 Arena de Fórmulas de Excel',
+      'cube_desc_5': 'Domina la precedencia de operadores como un profesional',
+      'demo_title_5': 'Error de Fórmula de Excel',
+      'demo_step_5_0': 'Excel lee: A1 + B1 * C1',
+      'demo_step_5_1': 'Paso 1: Calcular B1 * C1 primero',
+      'demo_step_5_2': 'Paso 2: Sumar resultado a A1',
+      'demo_step_5_3': 'Error común: (A1+B1)*C1',
+      'demo_step_5_4': 'Arreglo: Usar paréntesis explícitamente',
+      'fact_5_0': '🐛 Excel calculó una vez -2^2 como 4 (¡error corregido!)',
+      'fact_5_1': '📊 PEMDAS = Paréntesis, Exponentes, Multiplicación, División...',
+      'fact_5_2': '🎯 La mayoría de errores en hojas de cálculo son por precedencia',
+
+      // Challenges Hints & Inputs
+      'challenge_hint_0_0': 'Operandos primero, luego operador',
+      'challenge_hint_0_1': 'Recuerda: * tiene mayor precedencia',
+      'challenge_hint_0_2': '¡Paréntesis primero!',
+      'challenge_hint_1_0': 'El operador va primero en LISP',
+      'challenge_hint_1_1': 'Empieza desde el último operador',
+      'challenge_hint_1_2': 'Procesa cada grupo por separado',
+      'challenge_hint_2_0': 'Construye la expresión desde la pila',
+      'challenge_hint_2_1': 'Recuerda las reglas de precedencia',
+      'challenge_hint_2_2': 'Dos grupos separados',
+      'challenge_hint_3_0': 'El operador ya está al frente',
+      'challenge_hint_3_1': 'Procesa de derecha a izquierda',
+      'challenge_hint_3_2': 'Múltiples operaciones anidadas',
+      'challenge_hint_4_0': 'Añade elementos uno por uno',
+      'challenge_hint_4_1': 'Elimina desde arriba',
+      'challenge_hint_4_2': 'Usa la pila para resolver',
+      'challenge_hint_5_0': '¡Multiplicación primero!',
+      'challenge_hint_5_1': '* antes de -',
+      'challenge_hint_5_2': '¡Asociativo a la derecha!',
+      'challenge_input_4_0': 'Empujar 3 ítems',
+      'challenge_input_4_1': 'Deshacer 2 operaciones',
+      'challenge_input_4_2': 'Evaluar: AB+',
+
+      // Interactive Cube UI
       'cube_interactive_mode': 'Modo de Aprendizaje Interactivo',
       'cube_challenge': 'Desafío',
-      'cube_your_answer': 'Su respuesta...',
+      'cube_your_answer': 'Tu respuesta...',
       'cube_submit': 'Enviar',
       'cube_show_hint': 'Mostrar Pista',
       'cube_hide_hint': 'Ocultar Pista',
       'cube_hint': 'Pista 💡',
-      'cube_try_again': '¡Intente de nuevo! Piense en la pista.',
+      'cube_try_again': '¡Intenta de nuevo! Piensa en la pista.',
       'cube_congratulations': '¡Felicitaciones!',
       'cube_completed': '¡Has completado todos los desafíos!',
       'cube_try_again_button': 'Intentar de Nuevo',
@@ -395,34 +738,16 @@ class NewScreensTranslations {
       'cube_facts': 'Datos Divertidos',
       'cube_did_you_know': '¿Sabías que?',
       'cube_reward': '+{0}',
-
-      // World Names
-      'cube_world_0': '🏭 Fábrica de Compiladores',
-      'cube_world_1': '🤖 Laboratorio de Investigación de IA',
-      'cube_world_2': '🔬 Laboratorio de Decompilador',
-      'cube_world_3': '⚡ Arena de Programación Funcional',
-      'cube_world_4': '🗄️ Zona de Arquitectura de Memoria',
-      'cube_world_5': '🧮 Arena de Fórmulas de Excel',
-
-      // Descriptions
-      'cube_desc_0': 'Ve cómo los motores JavaScript procesan tu código en tiempo real',
-      'cube_desc_1': 'Experimenta cómo los sistemas de IA piensan en notación prefija',
-      'cube_desc_2': 'Ingeniería inversa de código máquina a formato legible',
-      'cube_desc_3': 'Transforma código funcional a estilo imperativo',
-      'cube_desc_4': 'Construye y manipula la pila como una CPU',
-      'cube_desc_5': 'Domina la precedencia de operadores como un profesional de hojas de cálculo',
-
-      // ========== INTERACTIVE 3D CUBE SCREEN ==========
+      'cube_explore_world': 'Explorar Mundo',
+      'cube_points': 'pts',
       'cube_3d_title': 'Mapa Conceptual 3D',
-      'cube_3d_explore': 'Explore aplicaciones del mundo real',
+      'cube_3d_explore': 'Explora aplicaciones del mundo real',
       'cube_3d_interactive': 'Modo de Aprendizaje Interactivo',
-      'cube_3d_double_tap': 'Toque dos veces para entrar al portal',
-
+      'cube_3d_double_tap': 'Doble toque para entrar al portal',
       'cube_pause': 'Pausar',
       'cube_auto': 'Auto',
       'cube_reset': 'Restablecer',
       'cube_guide': 'Guía',
-
       'cube_guide_title': 'Guía del Mapa Conceptual',
       'cube_guide_drag': 'Arrastra para rotar el centro conceptual',
       'cube_guide_tap': 'Toque simple para vista previa',
@@ -432,10 +757,7 @@ class NewScreensTranslations {
       'cube_guide_explore': 'Explora los 6 conceptos conectados',
       'cube_guide_start': '¡Comienza a Explorar!',
 
-      'cube_explore_world': 'Explorar Mundo',
-      'cube_points': 'pts',
-
-      // Cube Titles
+      // Cube Face Titles
       'cube_title_0': 'Infijo → Postfijo',
       'cube_subtitle_0': 'Natural a Basado en Pila',
       'cube_title_1': 'Infijo → Prefijo',
