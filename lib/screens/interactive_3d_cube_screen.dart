@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import '../l10n/app_localizations.dart';
 import 'cube_detail_screen.dart';
 
-// Enhanced model for each cube face with real-world context
 class CubeFaceData {
   final String title;
   final String subtitle;

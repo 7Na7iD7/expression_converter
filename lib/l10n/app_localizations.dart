@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_translations.dart';
 
 class AppLocalizations {
   final Locale locale;
@@ -11,18 +12,33 @@ class AppLocalizations {
 
   static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
+  String translate(String key, {List<String>? args}) {
+    String? translation = _localizedValues[locale.languageCode]?[key];
+
+    if (translation == null) {
+      translation = NewScreensTranslations.translations[locale.languageCode]?[key];
+    }
+
+    translation = translation ?? key;
+
+    if (args != null) {
+      for (int i = 0; i < args.length; i++) {
+        translation = translation!.replaceAll('{$i}', args[i]);
+      }
+    }
+
+    return translation!;
+  }
+
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
-      // App Name
       'app_title': 'Expression Converter Pro',
-
-      // Main Navigation
       'nav_converter': 'Converter',
       'nav_examples': 'Examples',
       'nav_tutorial': 'Tutorial',
+      'nav_3d_cube': '3D Cube',
       'nav_settings': 'Settings',
-
-      // Home Screen
+      '3d_visualization': '3D Visualization',
       'conversion_type': 'Conversion Type',
       'enter_expression': 'Enter Expression',
       'convert': 'Convert',
@@ -32,14 +48,10 @@ class AppLocalizations {
       'result': 'Result',
       'steps_completed': 'steps completed',
       'view_detailed_steps': 'View Detailed Steps',
-
-      // Conversion Types
       'infix_to_postfix': 'Infix to Postfix',
       'infix_to_prefix': 'Infix to Prefix',
       'postfix_to_infix': 'Postfix to Infix',
       'prefix_to_infix': 'Prefix to Infix',
-
-      // Examples Screen
       'practice_examples': 'Practice Examples',
       'examples_count': 'examples • Tap to try',
       'search_placeholder': 'Search examples, expressions, or tags...',
@@ -60,8 +72,6 @@ class AppLocalizations {
       'expression': 'Expression',
       'hint': 'Hint',
       'expected': 'Expected',
-
-      // Tutorial Screen
       'welcome_title': 'Welcome to Expression Converter',
       'welcome_description': 'Learn how to convert between Infix, Postfix, and Prefix notations using stack data structure',
       'what_is_stack': 'What is a Stack?',
@@ -107,8 +117,6 @@ class AppLocalizations {
       'tip_watch': 'Watch the stack changes carefully',
       'tip_spaces': 'Spaces are ignored in expressions',
       'tip_practice': 'Practice makes perfect!',
-
-      // Advanced Tutorial Screen
       'advanced_tutorial_title': 'Advanced Tutorial',
       'advanced_intro_title': 'Advanced Concepts',
       'advanced_intro_desc': 'Deep dive into advanced expression conversion techniques and algorithms',
@@ -116,8 +124,6 @@ class AppLocalizations {
       'estimated_time': '20 mins',
       'expert_mode': 'Expert',
       'bookmark_saved': 'Bookmark saved',
-
-      // Operator Precedence Section
       'precedence_definition': 'Operator Precedence',
       'precedence_explanation': 'Operator precedence determines the order in which operators are evaluated in an expression. Operators with higher precedence are evaluated first.',
       'precedence_table': 'Precedence Table',
@@ -127,8 +133,6 @@ class AppLocalizations {
       'precedence_step1': 'First: Multiply 4 × 2 = 8 (highest precedence)',
       'precedence_step2': 'Then: Add 3 + 8 = 11',
       'precedence_step3': 'Final Result: 11',
-
-      // Associativity Section
       'associativity': 'Associativity',
       'associativity_definition': 'Associativity',
       'associativity_explanation': 'When operators have the same precedence, associativity determines the order of evaluation.',
@@ -139,8 +143,6 @@ class AppLocalizations {
       'detailed_examples': 'Detailed Examples',
       'left_assoc_desc': 'Evaluated left to right',
       'right_assoc_desc': 'Evaluated right to left',
-
-      // Parentheses Handling Section
       'parentheses_handling': 'Parentheses Handling',
       'parentheses_rules': 'Parentheses Rules',
       'parentheses_explanation': 'Parentheses override operator precedence and force evaluation of enclosed expressions first.',
@@ -151,22 +153,16 @@ class AppLocalizations {
       'nested_step1': 'Start with innermost parentheses',
       'nested_step2': 'Evaluate inner expression',
       'nested_step3': 'Complete conversion',
-
-      // Complex Examples Section
       'complex_examples': 'Complex Examples',
       'complex_example1_desc': 'This expression demonstrates multiple levels of precedence, parentheses, and operator associativity working together.',
       'complex_example2_desc': 'Shows how nested parentheses and exponentiation interact in complex expressions.',
       'infix_expression': 'Infix Expression',
-
-      // Algorithm Visualizer Section
       'algorithm_visualizer': 'Algorithm Visualizer',
       'visualizing_step': 'Visualizing Step {0}',
       'current_operation': 'Current Operation',
       'previous': 'Previous',
       'animate': 'Animate',
       'next': 'Next',
-
-      // Optimization Techniques Section
       'optimization_techniques': 'Optimization Techniques',
       'optimization_intro': 'Optimization',
       'optimization_desc': 'Learn how to optimize expression conversion algorithms for better performance.',
@@ -179,8 +175,6 @@ class AppLocalizations {
       'code_comparison': 'Code Comparison',
       'before': 'Before',
       'after': 'After',
-
-      // Edge Cases Section
       'edge_cases': 'Edge Cases',
       'edge_cases_intro': 'Edge Cases',
       'edge_cases_desc': 'Learn to handle special cases and potential errors in expression conversion.',
@@ -196,8 +190,6 @@ class AppLocalizations {
       'edge_case4_title': 'Multiple Operators',
       'edge_case4_example': 'A ++ B',
       'edge_case4_solution': 'Validate operator sequence',
-
-      // Time Complexity Section
       'time_complexity': 'Time Complexity',
       'complexity_analysis': 'Complexity Analysis',
       'complexity_desc': 'Understanding the time and space complexity of conversion algorithms.',
@@ -207,8 +199,6 @@ class AppLocalizations {
       'space': 'Space',
       'space_complexity_note': 'Space Complexity',
       'space_complexity_explanation': 'The stack requires O(n) space in the worst case, where n is the number of operators in the expression.',
-
-      // Comparative Analysis Section
       'comparative_analysis': 'Comparative Analysis',
       'notation_comparison': 'Notation Comparison',
       'advantages': 'Advantages',
@@ -218,14 +208,10 @@ class AppLocalizations {
       'disadvantages': 'Disadvantages',
       'disadvantage1': 'Not human-readable',
       'disadvantage2': 'Requires conversion from infix',
-
-      // Interactive Quiz Section
       'quiz_title': 'Test Your Knowledge',
       'quiz_desc': 'Take an interactive quiz to test your understanding of expression conversion',
       'start_quiz': 'Start Quiz',
       'quiz_coming_soon': 'Quiz feature coming soon!',
-
-      // Advanced Quiz Screen
       'advanced_quiz': 'Advanced Quiz',
       'test_your_knowledge': 'Test Your Knowledge',
       'question': 'Question',
@@ -235,6 +221,7 @@ class AppLocalizations {
       'explanation': 'Explanation:',
       'correct_answer': 'Correct Answer:',
       'show_hint': 'Show Hint',
+      'hide_hint': 'Hide Hint',
       'hint_label': 'Hint 💡',
       'next_question': 'Next Question',
       'finish_quiz': 'Finish Quiz',
@@ -251,21 +238,15 @@ class AppLocalizations {
       'your_answer': 'Your answer:',
       'time_out_no_answer': 'Time out - No answer given',
       'seconds': 'seconds',
-
-      // Custom Tutorial Screen
       'custom_tutorial_title': 'Step-by-Step Tutorial',
       'custom_intro_title': 'Learn Expression Conversion',
       'custom_intro_desc': 'Master the fundamentals of expression conversion with detailed examples',
-
-      // Stack Basics Section
       'stack_how_works': 'How Stack Works',
       'real_world_analogy': 'Real World Analogy',
       'stack_plate_analogy': 'Think of a stack of plates - you can only add or remove plates from the top!',
       'practical_example': 'Practical Example',
       'what_is_lifo': 'What is LIFO?',
       'lifo_explanation': 'Last-In-First-Out: The last element added is the first one to be removed.',
-
-      // Infix to Postfix Section
       'infix_to_postfix_steps': 'Infix to Postfix Conversion',
       'why_postfix_title': 'Why Postfix?',
       'why_postfix_reasons': 'Postfix notation eliminates the need for parentheses and operator precedence rules, making expression evaluation straightforward.',
@@ -301,8 +282,6 @@ class AppLocalizations {
       'step10_action': 'Check result',
       'step10_result': 'ABC*+',
       'final_result': 'Final Result: ABC*+',
-
-      // Postfix Evaluation Section
       'evaluation_algorithm': 'Evaluation Algorithm',
       'evaluation_steps': 'Scan left to right. For operands, push to stack. For operators, pop two operands, apply operation, and push result.',
       'evaluation_example': 'Example: 5 3 + 2 *',
@@ -328,8 +307,6 @@ class AppLocalizations {
       'eval_step7_op': 'Expression evaluated',
       'eval_step7_stack': 'Answer: 16',
       'eval_final_answer': 'Final Answer: 16',
-
-      // Common Mistakes Section
       'common_mistakes': 'Common Mistakes',
       'wrong_label': '✗ Wrong',
       'correct_label': '✓ Correct',
@@ -341,12 +318,46 @@ class AppLocalizations {
       'mistake3_correct': 'Pop until matching opening parenthesis',
       'mistake4_wrong': 'Pushing operands to stack',
       'mistake4_correct': 'Send operands directly to output',
-
-      // Practice Section
       'practice_title': 'Ready to Practice?',
       'practice_desc': 'Try the converter tool and test your understanding with real examples',
-
-      // Settings Screen
+      '3d_concept_map': '3D Concept Map',
+      'explore_real_world': 'Explore real-world applications',
+      'interactive_learning_mode': 'Interactive Learning Mode',
+      'double_tap_to_enter': 'Double tap to enter portal',
+      'challenge': 'Challenge',
+      'your_answer': 'Your answer...',
+      'submit': 'Submit',
+      'try_again': 'Try again! Think about the hint.',
+      'congratulations': 'Congratulations!',
+      'completed_all_challenges': 'You\'ve completed all challenges!',
+      'real_world_demo': 'Real-World Demo',
+      'fun_facts': 'Fun Facts',
+      'did_you_know': 'Did you know?',
+      'explore_world': 'Explore World',
+      'guide': 'Guide',
+      'concept_map_guide': 'Concept Map Guide',
+      'guide_drag': 'Drag to rotate the concept hub',
+      'guide_single_tap': 'Single tap to preview',
+      'guide_double_tap': 'Double tap to enter concept world',
+      'guide_companies': 'See real companies using this',
+      'guide_facts': 'Discover fun facts & insights',
+      'guide_explore': 'Explore all 6 connected concepts',
+      'start_exploring': 'Start Exploring!',
+      'pause': 'Pause',
+      'auto': 'Auto',
+      'reset': 'Reset',
+      'compiler_factory': '🏭 Compiler Factory',
+      'ai_research_lab': '🤖 AI Research Lab',
+      'decompiler_lab': '🔬 Decompiler Lab',
+      'functional_arena': '⚡ Functional Programming Arena',
+      'memory_zone': '🗄️ Memory Architecture Zone',
+      'excel_arena': '🧮 Excel Formula Arena',
+      'compiler_desc': 'See how JavaScript engines process your code in real-time',
+      'ai_desc': 'Experience how AI systems think in prefix notation',
+      'decompiler_desc': 'Reverse engineer machine code back to readable format',
+      'functional_desc': 'Transform functional code to imperative style',
+      'memory_desc': 'Build and manipulate the stack like a CPU',
+      'excel_desc': 'Master operator precedence like a spreadsheet pro',
       'version': 'Version 1.0.0',
       'theme_mode': 'Theme Mode',
       'theme_description': 'Choose your preferred theme mode',
@@ -381,19 +392,13 @@ class AppLocalizations {
       'reset_dialog_title': 'Reset Settings?',
       'reset_dialog_content': 'This will reset all theme settings to their default values. This action cannot be undone.',
       'cancel': 'Cancel',
-      'reset': 'Reset',
       'settings_reset': 'Settings reset to defaults',
-
-      // Conversion Result Screen
       'conversion_steps': 'Conversion Steps',
       'reset_to_start': 'Reset to Start',
       'no_conversion_data': 'No conversion data available',
       'go_back': 'Go Back',
-      'pause': 'Pause',
       'auto_play': 'Auto Play',
       'step': 'Step',
-
-      // Step Actions
       'action_start': 'Start',
       'action_push_operand': 'Push Operand',
       'action_push_operator': 'Push Operator',
@@ -402,8 +407,6 @@ class AppLocalizations {
       'action_pop_parenthesis': 'Pop Parenthesis',
       'action_combine': 'Combine',
       'action_complete': 'Complete',
-
-      // Stack Visualizer
       'stack': 'Stack',
       'top': 'TOP',
       'bottom': 'BOTTOM',
@@ -418,14 +421,10 @@ class AppLocalizations {
       'stack_state': 'Stack State',
       'empty': 'Empty',
       'description': 'Description',
-
-      // Messages
       'enter_expression_msg': 'Please enter an expression',
       'conversion_success': 'Conversion completed successfully!',
       'invalid_expression': 'Error: Invalid expression',
       'toggle_theme': 'Toggle Theme',
-
-      // Colors
       'color_blue': 'Blue',
       'color_green': 'Green',
       'color_purple': 'Purple',
@@ -435,18 +434,14 @@ class AppLocalizations {
       'color_teal': 'Teal',
       'color_indigo': 'Indigo',
     },
-
     'fa': {
-      // App Name
       'app_title': 'تبدیل‌کننده عبارت حرفه‌ای',
-
-      // Main Navigation
       'nav_converter': 'تبدیل‌کننده',
       'nav_examples': 'نمونه‌ها',
       'nav_tutorial': 'آموزش',
+      'nav_3d_cube': 'مکعب سه‌بعدی',
       'nav_settings': 'تنظیمات',
-
-      // Home Screen
+      '3d_visualization': 'بصری‌سازی سه‌بعدی',
       'conversion_type': 'نوع تبدیل',
       'enter_expression': 'عبارت را وارد کنید',
       'convert': 'تبدیل',
@@ -456,14 +451,10 @@ class AppLocalizations {
       'result': 'نتیجه',
       'steps_completed': 'مراحل تکمیل شد',
       'view_detailed_steps': 'مشاهده مراحل دقیق',
-
-      // Conversion Types
       'infix_to_postfix': 'میانوندی به پسوندی',
       'infix_to_prefix': 'میانوندی به پیشوندی',
       'postfix_to_infix': 'پسوندی به میانوندی',
       'prefix_to_infix': 'پیشوندی به میانوندی',
-
-      // Examples Screen
       'practice_examples': 'نمونه‌های تمرینی',
       'examples_count': 'نمونه • برای امتحان کلیک کنید',
       'search_placeholder': 'جستجو در نمونه‌ها، عبارت‌ها یا برچسب‌ها...',
@@ -484,8 +475,6 @@ class AppLocalizations {
       'expression': 'عبارت',
       'hint': 'راهنما',
       'expected': 'مورد انتظار',
-
-      // Tutorial Screen
       'welcome_title': 'به تبدیل‌کننده عبارت خوش آمدید',
       'welcome_description': 'نحوه تبدیل بین نمادهای میانوندی، پسوندی و پیشوندی را با استفاده از ساختار داده پشته یاد بگیرید',
       'what_is_stack': 'پشته چیست؟',
@@ -531,8 +520,6 @@ class AppLocalizations {
       'tip_watch': 'تغییرات پشته را با دقت تماشا کنید',
       'tip_spaces': 'فاصله‌ها در عبارت‌ها نادیده گرفته می‌شوند',
       'tip_practice': 'تمرین باعث کمال می‌شود!',
-
-      // Advanced Tutorial Screen
       'advanced_tutorial_title': 'آموزش پیشرفته',
       'advanced_intro_title': 'مفاهیم پیشرفته',
       'advanced_intro_desc': 'بررسی عمیق تکنیک‌ها و الگوریتم‌های پیشرفته تبدیل عبارت',
@@ -540,8 +527,6 @@ class AppLocalizations {
       'estimated_time': '۲۰ دقیقه',
       'expert_mode': 'حالت تخصصی',
       'bookmark_saved': 'نشانک ذخیره شد',
-
-      // Operator Precedence Section
       'precedence_definition': 'اولویت عملگر',
       'precedence_explanation': 'اولویت عملگر ترتیب ارزیابی عملگرها در یک عبارت را تعیین می‌کند.',
       'precedence_table': 'جدول اولویت',
@@ -551,8 +536,6 @@ class AppLocalizations {
       'precedence_step1': 'اول: ضرب ۴ × ۲ = ۸',
       'precedence_step2': 'سپس: جمع ۳ + ۸ = ۱۱',
       'precedence_step3': 'نتیجه نهایی: ۱۱',
-
-      // Associativity Section
       'associativity': 'شرکت‌پذیری',
       'associativity_definition': 'شرکت‌پذیری',
       'associativity_explanation': 'وقتی عملگرها اولویت یکسانی دارند، شرکت‌پذیری ترتیب ارزیابی را تعیین می‌کند.',
@@ -563,8 +546,6 @@ class AppLocalizations {
       'detailed_examples': 'مثال‌های تفصیلی',
       'left_assoc_desc': 'ارزیابی از چپ به راست',
       'right_assoc_desc': 'ارزیابی از راست به چپ',
-
-      // Parentheses Handling Section
       'parentheses_handling': 'مدیریت پرانتزها',
       'parentheses_rules': 'قوانین پرانتز',
       'parentheses_explanation': 'پرانتزها اولویت عملگر را لغو می‌کنند.',
@@ -575,22 +556,16 @@ class AppLocalizations {
       'nested_step1': 'شروع با درونی‌ترین پرانتزها',
       'nested_step2': 'ارزیابی عبارت داخلی',
       'nested_step3': 'تکمیل تبدیل',
-
-      // Complex Examples Section
       'complex_examples': 'مثال‌های پیچیده',
       'complex_example1_desc': 'این عبارت سطوح مختلف اولویت را نشان می‌دهد.',
       'complex_example2_desc': 'نشان می‌دهد چگونه پرانتزهای تودرتو کار می‌کنند.',
       'infix_expression': 'عبارت میانوندی',
-
-      // Algorithm Visualizer Section
       'algorithm_visualizer': 'تصویرساز الگوریتم',
       'visualizing_step': 'تصویرسازی مرحله {0}',
       'current_operation': 'عملیات فعلی',
       'previous': 'قبلی',
       'animate': 'انیمیشن',
       'next': 'بعدی',
-
-      // Optimization Techniques Section
       'optimization_techniques': 'تکنیک‌های بهینه‌سازی',
       'optimization_intro': 'بهینه‌سازی',
       'optimization_desc': 'یاد بگیرید الگوریتم‌ها را بهینه کنید.',
@@ -603,8 +578,6 @@ class AppLocalizations {
       'code_comparison': 'مقایسه کد',
       'before': 'قبل',
       'after': 'بعد',
-
-      // Edge Cases Section
       'edge_cases': 'موارد خاص',
       'edge_cases_intro': 'موارد خاص',
       'edge_cases_desc': 'یاد بگیرید موارد ویژه را مدیریت کنید.',
@@ -620,8 +593,6 @@ class AppLocalizations {
       'edge_case4_title': 'عملگرهای چندگانه',
       'edge_case4_example': 'A ++ B',
       'edge_case4_solution': 'اعتبارسنجی توالی',
-
-      // Time Complexity Section
       'time_complexity': 'پیچیدگی زمانی',
       'complexity_analysis': 'تحلیل پیچیدگی',
       'complexity_desc': 'درک پیچیدگی زمانی و فضایی.',
@@ -631,8 +602,6 @@ class AppLocalizations {
       'space': 'فضا',
       'space_complexity_note': 'پیچیدگی فضایی',
       'space_complexity_explanation': 'پشته در بدترین حالت به O(n) فضا نیاز دارد.',
-
-      // Comparative Analysis Section
       'comparative_analysis': 'تحلیل مقایسه‌ای',
       'notation_comparison': 'مقایسه نمادها',
       'advantages': 'مزایا',
@@ -642,14 +611,10 @@ class AppLocalizations {
       'disadvantages': 'معایب',
       'disadvantage1': 'برای انسان خوانا نیست',
       'disadvantage2': 'نیاز به تبدیل دارد',
-
-      // Interactive Quiz Section
       'quiz_title': 'دانش خود را آزمایش کنید',
       'quiz_desc': 'یک آزمون تعاملی برای آزمایش درک شما',
       'start_quiz': 'شروع آزمون',
       'quiz_coming_soon': 'قابلیت آزمون به زودی!',
-
-      // Advanced Quiz Screen
       'advanced_quiz': 'آزمون پیشرفته',
       'test_your_knowledge': 'دانش خود را آزمایش کنید',
       'question': 'سوال',
@@ -659,6 +624,7 @@ class AppLocalizations {
       'explanation': 'توضیحات:',
       'correct_answer': 'پاسخ صحیح:',
       'show_hint': 'نمایش راهنما',
+      'hide_hint': 'پنهان کردن راهنما',
       'hint_label': 'راهنما 💡',
       'next_question': 'سوال بعدی',
       'finish_quiz': 'پایان آزمون',
@@ -675,21 +641,15 @@ class AppLocalizations {
       'your_answer': 'پاسخ شما:',
       'time_out_no_answer': 'زمان تمام شد - پاسخی داده نشد',
       'seconds': 'ثانیه',
-
-      // Custom Tutorial Screen
       'custom_tutorial_title': 'آموزش گام‌به‌گام',
       'custom_intro_title': 'یادگیری تبدیل عبارت',
       'custom_intro_desc': 'تسلط بر مبانی تبدیل عبارت',
-
-      // Stack Basics Section
       'stack_how_works': 'نحوه کار پشته',
       'real_world_analogy': 'قیاس دنیای واقعی',
       'stack_plate_analogy': 'به یک پشته بشقاب فکر کنید!',
       'practical_example': 'مثال عملی',
       'what_is_lifo': 'LIFO چیست؟',
       'lifo_explanation': 'آخرین-ورودی-اولین-خروجی',
-
-      // Infix to Postfix Section
       'infix_to_postfix_steps': 'تبدیل میانوندی به پسوندی',
       'why_postfix_title': 'چرا پسوندی؟',
       'why_postfix_reasons': 'نماد پسوندی نیاز به پرانتز را حذف می‌کند.',
@@ -725,8 +685,6 @@ class AppLocalizations {
       'step10_action': 'بررسی نتیجه',
       'step10_result': 'ABC*+',
       'final_result': 'نتیجه نهایی: ABC*+',
-
-      // Postfix Evaluation Section
       'evaluation_algorithm': 'الگوریتم ارزیابی',
       'evaluation_steps': 'از چپ به راست اسکن کنید.',
       'evaluation_example': 'مثال: ۵ ۳ + ۲ *',
@@ -752,8 +710,6 @@ class AppLocalizations {
       'eval_step7_op': 'عبارت ارزیابی شد',
       'eval_step7_stack': 'پاسخ: ۱۶',
       'eval_final_answer': 'پاسخ نهایی: ۱۶',
-
-      // Common Mistakes Section
       'common_mistakes': 'اشتباهات رایج',
       'wrong_label': '✗ اشتباه',
       'correct_label': '✓ درست',
@@ -765,12 +721,46 @@ class AppLocalizations {
       'mistake3_correct': 'Pop تا پیدا کردن باز',
       'mistake4_wrong': 'Push کردن عملوندها',
       'mistake4_correct': 'عملوندها را به خروجی بفرستید',
-
-      // Practice Section
       'practice_title': 'آماده تمرین هستید؟',
       'practice_desc': 'ابزار تبدیل را امتحان کنید',
-
-      // Settings Screen
+      '3d_concept_map': 'نقشه مفهومی سه‌بعدی',
+      'explore_real_world': 'کاربردهای دنیای واقعی را کشف کنید',
+      'interactive_learning_mode': 'حالت یادگیری تعاملی',
+      'double_tap_to_enter': 'دوبار ضربه بزنید برای ورود به پورتال',
+      'challenge': 'چالش',
+      'your_answer': 'پاسخ شما...',
+      'submit': 'ارسال',
+      'try_again': 'دوباره تلاش کنید! به راهنما فکر کنید.',
+      'congratulations': 'تبریک!',
+      'completed_all_challenges': 'همه چالش‌ها را تکمیل کردید!',
+      'real_world_demo': 'نمایش دنیای واقعی',
+      'fun_facts': 'حقایق جالب',
+      'did_you_know': 'آیا می‌دانستید؟',
+      'explore_world': 'کاوش در دنیا',
+      'guide': 'راهنما',
+      'concept_map_guide': 'راهنمای نقشه مفهومی',
+      'guide_drag': 'بکشید تا مرکز مفهوم بچرخد',
+      'guide_single_tap': 'یک ضربه برای پیش‌نمایش',
+      'guide_double_tap': 'دو ضربه برای ورود به دنیای مفهوم',
+      'guide_companies': 'شرکت‌های واقعی را ببینید که از این استفاده می‌کنند',
+      'guide_facts': 'حقایق و بینش‌های جالب را کشف کنید',
+      'guide_explore': 'همه ۶ مفهوم متصل را کاوش کنید',
+      'start_exploring': 'شروع کاوش!',
+      'pause': 'توقف',
+      'auto': 'خودکار',
+      'reset': 'بازنشانی',
+      'compiler_factory': '🏭 کارخانه کامپایلر',
+      'ai_research_lab': '🤖 آزمایشگاه تحقیقات هوش مصنوعی',
+      'decompiler_lab': '🔬 آزمایشگاه دیکامپایلر',
+      'functional_arena': '⚡ عرصه برنامه‌نویسی تابعی',
+      'memory_zone': '🗄️ منطقه معماری حافظه',
+      'excel_arena': '🧮 عرصه فرمول اکسل',
+      'compiler_desc': 'ببینید موتورهای جاوااسکریپت چگونه کد شما را پردازش می‌کنند',
+      'ai_desc': 'تجربه کنید سیستم‌های هوش مصنوعی چگونه با نماد پیشوندی فکر می‌کنند',
+      'decompiler_desc': 'مهندسی معکوس کد ماشین به فرمت خوانا',
+      'functional_desc': 'تبدیل کد تابعی به سبک دستوری',
+      'memory_desc': 'پشته را مانند یک CPU بسازید و دستکاری کنید',
+      'excel_desc': 'اولویت عملگر را مانند یک حرفه‌ای صفحه گسترده تسلط کنید',
       'version': 'نسخه ۱.۰.۰',
       'theme_mode': 'حالت تم',
       'theme_description': 'حالت تم را انتخاب کنید',
@@ -805,19 +795,13 @@ class AppLocalizations {
       'reset_dialog_title': 'بازنشانی؟',
       'reset_dialog_content': 'این کار همه را بازمی‌گرداند.',
       'cancel': 'لغو',
-      'reset': 'بازنشانی',
       'settings_reset': 'تنظیمات بازنشانی شد',
-
-      // Conversion Result Screen
       'conversion_steps': 'مراحل تبدیل',
       'reset_to_start': 'بازنشانی به ابتدا',
       'no_conversion_data': 'داده در دسترس نیست',
       'go_back': 'بازگشت',
-      'pause': 'توقف',
       'auto_play': 'پخش خودکار',
       'step': 'مرحله',
-
-      // Step Actions
       'action_start': 'شروع',
       'action_push_operand': 'Push عملوند',
       'action_push_operator': 'Push عملگر',
@@ -826,8 +810,6 @@ class AppLocalizations {
       'action_pop_parenthesis': 'Pop پرانتز',
       'action_combine': 'ترکیب',
       'action_complete': 'کامل',
-
-      // Stack Visualizer
       'stack': 'پشته',
       'top': 'بالا',
       'bottom': 'پایین',
@@ -842,14 +824,10 @@ class AppLocalizations {
       'stack_state': 'وضعیت پشته',
       'empty': 'خالی',
       'description': 'توضیحات',
-
-      // Messages
       'enter_expression_msg': 'لطفاً عبارت وارد کنید',
       'conversion_success': 'تبدیل با موفقیت انجام شد!',
       'invalid_expression': 'خطا: عبارت نامعتبر',
       'toggle_theme': 'تغییر تم',
-
-      // Colors
       'color_blue': 'آبی',
       'color_green': 'سبز',
       'color_purple': 'بنفش',
@@ -859,14 +837,14 @@ class AppLocalizations {
       'color_teal': 'فیروزه‌ای',
       'color_indigo': 'نیلی',
     },
-
     'zh': {
       'app_title': '专业表达式转换器',
       'nav_converter': '转换器',
       'nav_examples': '示例',
       'nav_tutorial': '教程',
+      'nav_3d_cube': '3D立方体',
       'nav_settings': '设置',
-
+      '3d_visualization': '3D可视化',
       'conversion_type': '转换类型',
       'enter_expression': '输入表达式',
       'convert': '转换',
@@ -876,12 +854,10 @@ class AppLocalizations {
       'result': '结果',
       'steps_completed': '步骤已完成',
       'view_detailed_steps': '查看详细步骤',
-
       'infix_to_postfix': '中缀到后缀',
       'infix_to_prefix': '中缀到前缀',
       'postfix_to_infix': '后缀到中缀',
       'prefix_to_infix': '前缀到中缀',
-
       'practice_examples': '练习示例',
       'examples_count': '个示例 • 点击尝试',
       'search_placeholder': '搜索示例、表达式或标签...',
@@ -902,7 +878,6 @@ class AppLocalizations {
       'expression': '表达式',
       'hint': '提示',
       'expected': '预期',
-
       'welcome_title': '欢迎使用表达式转换器',
       'welcome_description': '学习如何使用栈数据结构在中缀、后缀和前缀表示法之间进行转换',
       'what_is_stack': '什么是栈？',
@@ -948,7 +923,6 @@ class AppLocalizations {
       'tip_watch': '仔细观察栈的变化',
       'tip_spaces': '表达式中的空格被忽略',
       'tip_practice': '熟能生巧！',
-
       'advanced_tutorial_title': '高级教程',
       'advanced_intro_title': '高级概念',
       'advanced_intro_desc': '深入了解高级表达式转换技术和算法',
@@ -956,7 +930,6 @@ class AppLocalizations {
       'estimated_time': '20分钟',
       'expert_mode': '专家模式',
       'bookmark_saved': '书签已保存',
-
       'precedence_definition': '操作符优先级',
       'precedence_explanation': '操作符优先级确定表达式中操作符的评估顺序。',
       'precedence_table': '优先级表',
@@ -966,7 +939,6 @@ class AppLocalizations {
       'precedence_step1': '首先：乘 4 × 2 = 8',
       'precedence_step2': '然后：加 3 + 8 = 11',
       'precedence_step3': '最终结果：11',
-
       'associativity': '结合性',
       'associativity_definition': '结合性',
       'associativity_explanation': '当操作符优先级相同时，结合性确定评估顺序。',
@@ -977,7 +949,6 @@ class AppLocalizations {
       'detailed_examples': '详细示例',
       'left_assoc_desc': '从左到右评估',
       'right_assoc_desc': '从右到左评估',
-
       'parentheses_handling': '括号处理',
       'parentheses_rules': '括号规则',
       'parentheses_explanation': '括号覆盖操作符优先级。',
@@ -988,19 +959,16 @@ class AppLocalizations {
       'nested_step1': '从最内层括号开始',
       'nested_step2': '评估内部表达式',
       'nested_step3': '完成转换',
-
       'complex_examples': '复杂示例',
       'complex_example1_desc': '此表达式展示多级优先级。',
       'complex_example2_desc': '展示嵌套括号如何工作。',
       'infix_expression': '中缀表达式',
-
       'algorithm_visualizer': '算法可视化器',
       'visualizing_step': '可视化步骤 {0}',
       'current_operation': '当前操作',
       'previous': '上一步',
       'animate': '动画',
       'next': '下一步',
-
       'optimization_techniques': '优化技术',
       'optimization_intro': '优化',
       'optimization_desc': '学习优化算法。',
@@ -1013,7 +981,6 @@ class AppLocalizations {
       'code_comparison': '代码比较',
       'before': '之前',
       'after': '之后',
-
       'edge_cases': '边缘情况',
       'edge_cases_intro': '边缘情况',
       'edge_cases_desc': '学习处理特殊情况。',
@@ -1029,7 +996,6 @@ class AppLocalizations {
       'edge_case4_title': '多个操作符',
       'edge_case4_example': 'A ++ B',
       'edge_case4_solution': '验证操作符序列',
-
       'time_complexity': '时间复杂度',
       'complexity_analysis': '复杂度分析',
       'complexity_desc': '理解时间和空间复杂度。',
@@ -1039,7 +1005,6 @@ class AppLocalizations {
       'space': '空间',
       'space_complexity_note': '空间复杂度',
       'space_complexity_explanation': '栈在最坏情况下需要O(n)空间。',
-
       'comparative_analysis': '比较分析',
       'notation_comparison': '表示法比较',
       'advantages': '优点',
@@ -1049,12 +1014,10 @@ class AppLocalizations {
       'disadvantages': '缺点',
       'disadvantage1': '人类不可读',
       'disadvantage2': '需要转换',
-
       'quiz_title': '测试您的知识',
       'quiz_desc': '进行交互式测验',
       'start_quiz': '开始测验',
       'quiz_coming_soon': '测验功能即将推出！',
-
       'advanced_quiz': '高级测验',
       'test_your_knowledge': '测试您的知识',
       'question': '问题',
@@ -1064,6 +1027,7 @@ class AppLocalizations {
       'explanation': '解释：',
       'correct_answer': '正确答案：',
       'show_hint': '显示提示',
+      'hide_hint': '隐藏提示',
       'hint_label': '提示 💡',
       'next_question': '下一题',
       'finish_quiz': '完成测验',
@@ -1080,18 +1044,15 @@ class AppLocalizations {
       'your_answer': '您的答案：',
       'time_out_no_answer': '超时 - 未给出答案',
       'seconds': '秒',
-
       'custom_tutorial_title': '分步教程',
       'custom_intro_title': '学习表达式转换',
       'custom_intro_desc': '掌握表达式转换的基础',
-
       'stack_how_works': '栈如何工作',
       'real_world_analogy': '现实世界类比',
       'stack_plate_analogy': '想象一堆盘子！',
       'practical_example': '实际示例',
       'what_is_lifo': '什么是LIFO？',
       'lifo_explanation': '后进先出',
-
       'infix_to_postfix_steps': '中缀到后缀转换',
       'why_postfix_title': '为什么后缀？',
       'why_postfix_reasons': '后缀表示法消除了对括号的需要。',
@@ -1127,7 +1088,6 @@ class AppLocalizations {
       'step10_action': '检查结果',
       'step10_result': 'ABC*+',
       'final_result': '最终结果：ABC*+',
-
       'evaluation_algorithm': '评估算法',
       'evaluation_steps': '从左到右扫描。',
       'evaluation_example': '示例：5 3 + 2 *',
@@ -1153,7 +1113,6 @@ class AppLocalizations {
       'eval_step7_op': '表达式已评估',
       'eval_step7_stack': '答案：16',
       'eval_final_answer': '最终答案：16',
-
       'common_mistakes': '常见错误',
       'wrong_label': '✗ 错误',
       'correct_label': '✓ 正确',
@@ -1165,10 +1124,46 @@ class AppLocalizations {
       'mistake3_correct': '弹出直到匹配左括号',
       'mistake4_wrong': '推入操作数到栈',
       'mistake4_correct': '操作数直接到输出',
-
       'practice_title': '准备练习了吗？',
       'practice_desc': '尝试转换工具',
-
+      '3d_concept_map': '3D概念地图',
+      'explore_real_world': '探索真实世界应用',
+      'interactive_learning_mode': '交互式学习模式',
+      'double_tap_to_enter': '双击进入传送门',
+      'challenge': '挑战',
+      'your_answer': '您的答案...',
+      'submit': '提交',
+      'try_again': '再试一次！想想提示。',
+      'congratulations': '恭喜！',
+      'completed_all_challenges': '您已完成所有挑战！',
+      'real_world_demo': '真实世界演示',
+      'fun_facts': '趣味事实',
+      'did_you_know': '你知道吗？',
+      'explore_world': '探索世界',
+      'guide': '指南',
+      'concept_map_guide': '概念地图指南',
+      'guide_drag': '拖动旋转概念中心',
+      'guide_single_tap': '单击预览',
+      'guide_double_tap': '双击进入概念世界',
+      'guide_companies': '查看使用此技术的真实公司',
+      'guide_facts': '发现有趣的事实和见解',
+      'guide_explore': '探索所有6个连接的概念',
+      'start_exploring': '开始探索！',
+      'pause': '暂停',
+      'auto': '自动',
+      'reset': '重置',
+      'compiler_factory': '🏭 编译器工厂',
+      'ai_research_lab': '🤖 AI研究实验室',
+      'decompiler_lab': '🔬 反编译器实验室',
+      'functional_arena': '⚡ 函数式编程竞技场',
+      'memory_zone': '🗄️ 内存架构区',
+      'excel_arena': '🧮 Excel公式竞技场',
+      'compiler_desc': '查看JavaScript引擎如何实时处理您的代码',
+      'ai_desc': '体验AI系统如何用前缀表示法思考',
+      'decompiler_desc': '将机器码逆向工程回可读格式',
+      'functional_desc': '将函数式代码转换为命令式风格',
+      'memory_desc': '像CPU一样构建和操作栈',
+      'excel_desc': '像电子表格专家一样掌握操作符优先级',
       'version': '版本 1.0.0',
       'theme_mode': '主题模式',
       'theme_description': '选择您的主题模式',
@@ -1203,17 +1198,13 @@ class AppLocalizations {
       'reset_dialog_title': '重置设置？',
       'reset_dialog_content': '这将重置所有设置。',
       'cancel': '取消',
-      'reset': '重置',
       'settings_reset': '设置已重置',
-
       'conversion_steps': '转换步骤',
       'reset_to_start': '重置到开始',
       'no_conversion_data': '没有可用数据',
       'go_back': '返回',
-      'pause': '暂停',
       'auto_play': '自动播放',
       'step': '步骤',
-
       'action_start': '开始',
       'action_push_operand': '推入操作数',
       'action_push_operator': '推入操作符',
@@ -1222,7 +1213,6 @@ class AppLocalizations {
       'action_pop_parenthesis': '弹出括号',
       'action_combine': '组合',
       'action_complete': '完成',
-
       'stack': '栈',
       'top': '顶部',
       'bottom': '底部',
@@ -1237,12 +1227,10 @@ class AppLocalizations {
       'stack_state': '栈状态',
       'empty': '空',
       'description': '描述',
-
       'enter_expression_msg': '请输入表达式',
       'conversion_success': '转换成功完成！',
       'invalid_expression': '错误：无效表达式',
       'toggle_theme': '切换主题',
-
       'color_blue': '蓝色',
       'color_green': '绿色',
       'color_purple': '紫色',
@@ -1252,14 +1240,14 @@ class AppLocalizations {
       'color_teal': '青色',
       'color_indigo': '靛蓝',
     },
-
     'es': {
       'app_title': 'Convertidor de Expresiones Pro',
       'nav_converter': 'Convertidor',
       'nav_examples': 'Ejemplos',
       'nav_tutorial': 'Tutorial',
+      'nav_3d_cube': 'Cubo 3D',
       'nav_settings': 'Ajustes',
-
+      '3d_visualization': 'Visualización 3D',
       'conversion_type': 'Tipo de Conversión',
       'enter_expression': 'Ingrese Expresión',
       'convert': 'Convertir',
@@ -1269,12 +1257,10 @@ class AppLocalizations {
       'result': 'Resultado',
       'steps_completed': 'pasos completados',
       'view_detailed_steps': 'Ver Pasos Detallados',
-
       'infix_to_postfix': 'Infijo a Postfijo',
       'infix_to_prefix': 'Infijo a Prefijo',
       'postfix_to_infix': 'Postfijo a Infijo',
       'prefix_to_infix': 'Prefijo a Infijo',
-
       'practice_examples': 'Ejemplos de Práctica',
       'examples_count': 'ejemplos • Toca para probar',
       'search_placeholder': 'Buscar ejemplos, expresiones o etiquetas...',
@@ -1295,7 +1281,6 @@ class AppLocalizations {
       'expression': 'Expresión',
       'hint': 'Pista',
       'expected': 'Esperado',
-
       'welcome_title': 'Bienvenido al Convertidor de Expresiones',
       'welcome_description': 'Aprenda cómo convertir entre notaciones Infija, Postfija y Prefija usando la estructura de datos de pila',
       'what_is_stack': '¿Qué es una Pila?',
@@ -1341,7 +1326,6 @@ class AppLocalizations {
       'tip_watch': 'Observe cuidadosamente los cambios de la pila',
       'tip_spaces': 'Los espacios se ignoran en las expresiones',
       'tip_practice': '¡La práctica hace al maestro!',
-
       'advanced_tutorial_title': 'Tutorial Avanzado',
       'advanced_intro_title': 'Conceptos Avanzados',
       'advanced_intro_desc': 'Profundice en técnicas y algoritmos avanzados de conversión de expresiones',
@@ -1349,7 +1333,6 @@ class AppLocalizations {
       'estimated_time': '20 min',
       'expert_mode': 'Modo Experto',
       'bookmark_saved': 'Marcador guardado',
-
       'precedence_definition': 'Precedencia de Operadores',
       'precedence_explanation': 'La precedencia de operadores determina el orden de evaluación.',
       'precedence_table': 'Tabla de Precedencia',
@@ -1359,7 +1342,6 @@ class AppLocalizations {
       'precedence_step1': 'Primero: Multiplicar 4 × 2 = 8',
       'precedence_step2': 'Luego: Sumar 3 + 8 = 11',
       'precedence_step3': 'Resultado Final: 11',
-
       'associativity': 'Asociatividad',
       'associativity_definition': 'Asociatividad',
       'associativity_explanation': 'Cuando los operadores tienen la misma precedencia, la asociatividad determina el orden.',
@@ -1370,7 +1352,6 @@ class AppLocalizations {
       'detailed_examples': 'Ejemplos Detallados',
       'left_assoc_desc': 'Evaluado de izquierda a derecha',
       'right_assoc_desc': 'Evaluado de derecha a izquierda',
-
       'parentheses_handling': 'Manejo de Paréntesis',
       'parentheses_rules': 'Reglas de Paréntesis',
       'parentheses_explanation': 'Los paréntesis anulan la precedencia.',
@@ -1381,19 +1362,16 @@ class AppLocalizations {
       'nested_step1': 'Comenzar con los más internos',
       'nested_step2': 'Evaluar expresión interna',
       'nested_step3': 'Completar conversión',
-
       'complex_examples': 'Ejemplos Complejos',
       'complex_example1_desc': 'Esta expresión demuestra múltiples niveles de precedencia.',
       'complex_example2_desc': 'Muestra cómo funcionan los paréntesis anidados.',
       'infix_expression': 'Expresión Infija',
-
       'algorithm_visualizer': 'Visualizador de Algoritmos',
       'visualizing_step': 'Visualizando Paso {0}',
       'current_operation': 'Operación Actual',
       'previous': 'Anterior',
       'animate': 'Animar',
       'next': 'Siguiente',
-
       'optimization_techniques': 'Técnicas de Optimización',
       'optimization_intro': 'Optimización',
       'optimization_desc': 'Aprenda a optimizar algoritmos.',
@@ -1406,7 +1384,6 @@ class AppLocalizations {
       'code_comparison': 'Comparación de Código',
       'before': 'Antes',
       'after': 'Después',
-
       'edge_cases': 'Casos Extremos',
       'edge_cases_intro': 'Casos Extremos',
       'edge_cases_desc': 'Aprenda a manejar casos especiales.',
@@ -1422,7 +1399,6 @@ class AppLocalizations {
       'edge_case4_title': 'Múltiples Operadores',
       'edge_case4_example': 'A ++ B',
       'edge_case4_solution': 'Validar secuencia',
-
       'time_complexity': 'Complejidad Temporal',
       'complexity_analysis': 'Análisis de Complejidad',
       'complexity_desc': 'Comprender la complejidad temporal y espacial.',
@@ -1432,7 +1408,6 @@ class AppLocalizations {
       'space': 'Espacio',
       'space_complexity_note': 'Complejidad Espacial',
       'space_complexity_explanation': 'La pila requiere espacio O(n) en el peor caso.',
-
       'comparative_analysis': 'Análisis Comparativo',
       'notation_comparison': 'Comparación de Notaciones',
       'advantages': 'Ventajas',
@@ -1442,12 +1417,10 @@ class AppLocalizations {
       'disadvantages': 'Desventajas',
       'disadvantage1': 'No es legible para humanos',
       'disadvantage2': 'Requiere conversión',
-
       'quiz_title': 'Pruebe Su Conocimiento',
       'quiz_desc': 'Realice un cuestionario interactivo',
       'start_quiz': 'Iniciar Cuestionario',
       'quiz_coming_soon': '¡Función de cuestionario próximamente!',
-
       'advanced_quiz': 'Cuestionario Avanzado',
       'test_your_knowledge': 'Pruebe Su Conocimiento',
       'question': 'Pregunta',
@@ -1457,6 +1430,7 @@ class AppLocalizations {
       'explanation': 'Explicación:',
       'correct_answer': 'Respuesta Correcta:',
       'show_hint': 'Mostrar Pista',
+      'hide_hint': 'Ocultar Pista',
       'hint_label': 'Pista 💡',
       'next_question': 'Siguiente Pregunta',
       'finish_quiz': 'Finalizar Cuestionario',
@@ -1473,18 +1447,15 @@ class AppLocalizations {
       'your_answer': 'Tu respuesta:',
       'time_out_no_answer': 'Tiempo agotado - No se dio respuesta',
       'seconds': 'segundos',
-
       'custom_tutorial_title': 'Tutorial Paso a Paso',
       'custom_intro_title': 'Aprenda Conversión de Expresiones',
       'custom_intro_desc': 'Domine los fundamentos de la conversión',
-
       'stack_how_works': 'Cómo Funciona la Pila',
       'real_world_analogy': 'Analogía del Mundo Real',
       'stack_plate_analogy': '¡Piense en una pila de platos!',
       'practical_example': 'Ejemplo Práctico',
       'what_is_lifo': '¿Qué es LIFO?',
       'lifo_explanation': 'Último en Entrar, Primero en Salir',
-
       'infix_to_postfix_steps': 'Conversión Infijo a Postfijo',
       'why_postfix_title': '¿Por Qué Postfijo?',
       'why_postfix_reasons': 'La notación postfija elimina la necesidad de paréntesis.',
@@ -1520,7 +1491,6 @@ class AppLocalizations {
       'step10_action': 'Comprobar resultado',
       'step10_result': 'ABC*+',
       'final_result': 'Resultado Final: ABC*+',
-
       'evaluation_algorithm': 'Algoritmo de Evaluación',
       'evaluation_steps': 'Escanear de izquierda a derecha.',
       'evaluation_example': 'Ejemplo: 5 3 + 2 *',
@@ -1546,7 +1516,6 @@ class AppLocalizations {
       'eval_step7_op': 'Expresión evaluada',
       'eval_step7_stack': 'Respuesta: 16',
       'eval_final_answer': 'Respuesta Final: 16',
-
       'common_mistakes': 'Errores Comunes',
       'wrong_label': '✗ Incorrecto',
       'correct_label': '✓ Correcto',
@@ -1558,10 +1527,46 @@ class AppLocalizations {
       'mistake3_correct': 'Pop hasta coincidencia',
       'mistake4_wrong': 'Push operandos a pila',
       'mistake4_correct': 'Operandos directo a salida',
-
       'practice_title': '¿Listo para Practicar?',
       'practice_desc': 'Pruebe la herramienta',
-
+      '3d_concept_map': 'Mapa Conceptual 3D',
+      'explore_real_world': 'Explore aplicaciones del mundo real',
+      'interactive_learning_mode': 'Modo de Aprendizaje Interactivo',
+      'double_tap_to_enter': 'Toque dos veces para entrar al portal',
+      'challenge': 'Desafío',
+      'your_answer': 'Su respuesta...',
+      'submit': 'Enviar',
+      'try_again': '¡Intente de nuevo! Piense en la pista.',
+      'congratulations': '¡Felicitaciones!',
+      'completed_all_challenges': '¡Has completado todos los desafíos!',
+      'real_world_demo': 'Demostración del Mundo Real',
+      'fun_facts': 'Datos Divertidos',
+      'did_you_know': '¿Sabías que?',
+      'explore_world': 'Explorar Mundo',
+      'guide': 'Guía',
+      'concept_map_guide': 'Guía del Mapa Conceptual',
+      'guide_drag': 'Arrastra para rotar el centro conceptual',
+      'guide_single_tap': 'Toque simple para vista previa',
+      'guide_double_tap': 'Doble toque para entrar al mundo conceptual',
+      'guide_companies': 'Ver empresas reales que usan esto',
+      'guide_facts': 'Descubre datos e ideas divertidas',
+      'guide_explore': 'Explora los 6 conceptos conectados',
+      'start_exploring': '¡Comienza a Explorar!',
+      'pause': 'Pausar',
+      'auto': 'Auto',
+      'reset': 'Restablecer',
+      'compiler_factory': '🏭 Fábrica de Compiladores',
+      'ai_research_lab': '🤖 Laboratorio de Investigación de IA',
+      'decompiler_lab': '🔬 Laboratorio de Decompilador',
+      'functional_arena': '⚡ Arena de Programación Funcional',
+      'memory_zone': '🗄️ Zona de Arquitectura de Memoria',
+      'excel_arena': '🧮 Arena de Fórmulas de Excel',
+      'compiler_desc': 'Ve cómo los motores JavaScript procesan tu código en tiempo real',
+      'ai_desc': 'Experimenta cómo los sistemas de IA piensan en notación prefija',
+      'decompiler_desc': 'Ingeniería inversa de código máquina a formato legible',
+      'functional_desc': 'Transforma código funcional a estilo imperativo',
+      'memory_desc': 'Construye y manipula la pila como una CPU',
+      'excel_desc': 'Domina la precedencia de operadores como un profesional de hojas de cálculo',
       'version': 'Versión 1.0.0',
       'theme_mode': 'Modo de Tema',
       'theme_description': 'Elija su modo de tema',
@@ -1596,17 +1601,13 @@ class AppLocalizations {
       'reset_dialog_title': '¿Restablecer?',
       'reset_dialog_content': 'Esto restablecerá todo.',
       'cancel': 'Cancelar',
-      'reset': 'Restablecer',
       'settings_reset': 'Ajustes restablecidos',
-
       'conversion_steps': 'Pasos de Conversión',
       'reset_to_start': 'Reiniciar',
       'no_conversion_data': 'No hay datos disponibles',
       'go_back': 'Volver',
-      'pause': 'Pausar',
       'auto_play': 'Auto',
       'step': 'Paso',
-
       'action_start': 'Iniciar',
       'action_push_operand': 'Push Operando',
       'action_push_operator': 'Push Operador',
@@ -1615,7 +1616,6 @@ class AppLocalizations {
       'action_pop_parenthesis': 'Pop Paréntesis',
       'action_combine': 'Combinar',
       'action_complete': 'Completar',
-
       'stack': 'Pila',
       'top': 'ARRIBA',
       'bottom': 'ABAJO',
@@ -1630,12 +1630,10 @@ class AppLocalizations {
       'stack_state': 'Estado de Pila',
       'empty': 'Vacío',
       'description': 'Descripción',
-
       'enter_expression_msg': 'Por favor ingrese una expresión',
       'conversion_success': '¡Conversión completada exitosamente!',
       'invalid_expression': 'Error: Expresión inválida',
       'toggle_theme': 'Cambiar Tema',
-
       'color_blue': 'Azul',
       'color_green': 'Verde',
       'color_purple': 'Púrpura',
@@ -1646,18 +1644,6 @@ class AppLocalizations {
       'color_indigo': 'Índigo',
     },
   };
-
-  String translate(String key, {List<String>? args}) {
-    String translation = _localizedValues[locale.languageCode]?[key] ?? key;
-
-    if (args != null) {
-      for (int i = 0; i < args.length; i++) {
-        translation = translation.replaceAll('{$i}', args[i]);
-      }
-    }
-
-    return translation;
-  }
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

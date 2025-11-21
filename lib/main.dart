@@ -6,7 +6,7 @@ import 'providers/theme_provider.dart';
 import 'providers/converter_provider.dart';
 import 'providers/locale_provider.dart';
 import 'l10n/app_localizations.dart';
-import 'screens/main_screen.dart';
+import 'screens/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,7 +59,7 @@ class ExpressionConverterApp extends StatelessWidget {
             darkTheme: themeProvider.darkTheme,
             themeMode: themeProvider.themeMode,
 
-            home: const MainScreen(),
+            home: const SplashScreen(),
           );
         },
       ),
