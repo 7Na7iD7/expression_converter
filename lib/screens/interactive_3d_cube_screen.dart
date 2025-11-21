@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import '../l10n/app_localizations.dart';
 import 'cube_detail_screen.dart';
 
-// Model for each cube face
+// Enhanced model for each cube face with real-world context
 class CubeFaceData {
   final String title;
   final String subtitle;
@@ -12,6 +12,10 @@ class CubeFaceData {
   final Color color;
   final List<String> details;
   final String example;
+  final List<String> realWorldApps;
+  final List<String> companies;
+  final String whyItMatters;
+  final String funFact;
 
   CubeFaceData({
     required this.title,
@@ -20,6 +24,10 @@ class CubeFaceData {
     required this.color,
     required this.details,
     required this.example,
+    required this.realWorldApps,
+    required this.companies,
+    required this.whyItMatters,
+    required this.funFact,
   });
 }
 
@@ -35,17 +43,14 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
   late AnimationController _rotationController;
   late AnimationController _pulseController;
   late AnimationController _particleController;
-  late AnimationController _glowController;
+  late AnimationController _portalController;
 
   double _rotationX = -0.5;
   double _rotationY = 0.0;
   double _lastRotationY = 0.0;
   bool _autoRotate = true;
   int? _selectedFace;
-
-  // متغیرهای مربوط به زوم
-  double _scale = 1.0;
-  double _baseScale = 1.0;
+  bool _showingPortal = false;
 
   final List<Offset> _particles = [];
 
@@ -53,31 +58,26 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
   void initState() {
     super.initState();
 
-    // Main rotation animation
     _rotationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 20),
     )..repeat();
 
-    // Pulse animation for selected face
     _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     )..repeat(reverse: true);
 
-    // Particle animation
     _particleController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
     )..repeat();
 
-    // Glow animation
-    _glowController = AnimationController(
+    _portalController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2000),
-    )..repeat(reverse: true);
+      duration: const Duration(milliseconds: 800),
+    );
 
-    // Generate random particles
     _generateParticles();
 
     _rotationController.addListener(() {
@@ -93,8 +93,8 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
     final random = math.Random();
     for (int i = 0; i < 50; i++) {
       _particles.add(Offset(
-        random.nextDouble() * 400 - 200,
-        random.nextDouble() * 400 - 200,
+        random.nextDouble() * 600 - 300,
+        random.nextDouble() * 600 - 300,
       ));
     }
   }
@@ -104,13 +104,13 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
     _rotationController.dispose();
     _pulseController.dispose();
     _particleController.dispose();
-    _glowController.dispose();
+    _portalController.dispose();
     super.dispose();
   }
 
-  List<CubeFaceData> _getCubeFaces(AppLocalizations? l10n) {
-    // اگر لوکالایزیشن نال بود، مقادیر پیش‌فرض نمایش داده می‌شود
+  List<CubeFaceData> _getCubeFaces(AppLocalizations l10n) {
     return [
+      // Front Face - Infix to Postfix
       CubeFaceData(
         title: 'Infix → Postfix',
         subtitle: 'Natural to Stack-based',
@@ -123,206 +123,296 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
           'Stack-based processing',
         ],
         example: 'A+B*C → ABC*+',
+        realWorldApps: [
+          'Compilers & Interpreters',
+          'Scientific Calculators',
+          'Expression Evaluators',
+          'JavaScript V8 Engine',
+        ],
+        companies: [
+          'Google (V8 Engine)',
+          'GCC Compiler',
+          'LLVM Project',
+          'Java Bytecode',
+        ],
+        whyItMatters: 'Expression evaluation in JavaScript and modern compilers relies on postfix notation for efficient computation without ambiguity.',
+        funFact: 'Every time you use a calculator app, it converts your expression to postfix behind the scenes!',
       ),
+
+      // Back Face - Infix to Prefix
       CubeFaceData(
         title: 'Infix → Prefix',
-        subtitle: 'Natural to Polish',
+        subtitle: 'Natural to Polish Notation',
         icon: Icons.arrow_upward,
         color: const Color(0xFF4CAF50),
         details: [
           'Operators before operands',
           'Right-to-left evaluation',
-          'Polish notation',
+          'Polish notation system',
           'Efficient for compilers',
         ],
         example: 'A+B*C → +A*BC',
+        realWorldApps: [
+          'LISP Programming',
+          'AI & Expert Systems',
+          'Functional Programming',
+          'Symbolic Math Systems',
+        ],
+        companies: [
+          'Symbolics (LISP Machines)',
+          'Mathematica',
+          'Maple CAS',
+          'Clojure Language',
+        ],
+        whyItMatters: 'Functional programming languages like LISP are built on prefix notation, making it fundamental to AI research.',
+        funFact: 'Named after Polish mathematician Jan Łukasiewicz who invented it in 1924 - before computers even existed!',
       ),
+
+      // Right Face - Postfix to Infix
       CubeFaceData(
         title: 'Postfix → Infix',
-        subtitle: 'Stack to Natural',
+        subtitle: 'Stack to Human-Readable',
         icon: Icons.arrow_back,
         color: const Color(0xFFFF9800),
         details: [
           'Reconstruct parentheses',
-          'Pop and combine',
+          'Pop and combine operands',
           'Stack-based approach',
-          'Human-readable result',
+          'Human-readable output',
         ],
-        example: 'ABC*+ → A+B*C',
+        example: 'ABC*+ → A+(B*C)',
+        realWorldApps: [
+          'Reverse Engineering',
+          'Decompilers',
+          'Code Analysis Tools',
+          'Assembly to C Conversion',
+        ],
+        companies: [
+          'IDA Pro (Hex-Rays)',
+          'Ghidra (NSA)',
+          'Binary Ninja',
+          'Hopper Disassembler',
+        ],
+        whyItMatters: 'When reverse engineering software, decompilers convert low-level postfix operations back to readable code.',
+        funFact: 'Security researchers use this to understand malware by converting machine code back to human-readable form!',
       ),
+
+      // Left Face - Prefix to Infix
       CubeFaceData(
         title: 'Prefix → Infix',
         subtitle: 'Polish to Natural',
         icon: Icons.arrow_downward,
         color: const Color(0xFF9C27B0),
         details: [
-          'Right-to-left scan',
-          'Reverse polish notation',
+          'Right-to-left scanning',
+          'Reverse Polish notation',
           'Build expression tree',
           'Add necessary parentheses',
         ],
-        example: '+A*BC → A+B*C',
+        example: '+A*BC → A+(B*C)',
+        realWorldApps: [
+          'LISP to C Converters',
+          'Functional to Imperative',
+          'Math Expression Parsers',
+          'Academic Research Tools',
+        ],
+        companies: [
+          'Racket Language',
+          'MIT Scheme',
+          'Common LISP Compilers',
+          'Wolfram Research',
+        ],
+        whyItMatters: 'Converting between programming paradigms requires understanding prefix-to-infix transformation.',
+        funFact: 'The challenge is handling deeply nested expressions like (+ (* 2 3) (/ 8 4)) correctly!',
       ),
+
+      // Top Face - Stack Structure
       CubeFaceData(
         title: 'Stack Structure',
         subtitle: 'LIFO Data Structure',
         icon: Icons.layers,
         color: const Color(0xFFE91E63),
         details: [
-          'Last In First Out',
+          'Last In First Out (LIFO)',
           'Push & Pop operations',
-          'Top element access',
-          'Expression evaluation',
+          'Top element access only',
+          'Expression evaluation core',
         ],
         example: 'Push(A) Push(B) Pop() → B',
+        realWorldApps: [
+          'Browser Back Button',
+          'Undo/Redo Systems',
+          'Function Call Stack',
+          'Memory Management',
+        ],
+        companies: [
+          'All Web Browsers',
+          'Operating Systems',
+          'CPU Architecture',
+          'Adobe Creative Suite',
+        ],
+        whyItMatters: 'Every function call in your program uses a stack - it\'s the foundation of program execution!',
+        funFact: 'When you press Ctrl+Z, you\'re popping from an undo stack. Stack overflow? That\'s when the stack gets too deep!',
       ),
+
+      // Bottom Face - Precedence Rules
       CubeFaceData(
         title: 'Precedence Rules',
-        subtitle: 'Operator Priority',
+        subtitle: 'Operator Priority System',
         icon: Icons.format_list_numbered,
         color: const Color(0xFFFFEB3B),
         details: [
-          '^ has highest priority',
-          '*, / medium priority',
-          '+, - lowest priority',
-          '() override all',
+          '^ (Power) - Highest priority',
+          '*, / - Medium priority',
+          '+, - - Lowest priority',
+          '() - Override all rules',
         ],
         example: 'A+B*C = A+(B*C)',
+        realWorldApps: [
+          'Math Expression Parsers',
+          'Spreadsheet Formulas',
+          'Calculator Apps',
+          'Programming Languages',
+        ],
+        companies: [
+          'Microsoft Excel',
+          'Google Sheets',
+          'MATLAB',
+          'Wolfram Alpha',
+        ],
+        whyItMatters: 'Spreadsheet formulas in Excel use these exact rules - wrong precedence means wrong calculations!',
+        funFact: 'Excel had a famous bug where -2^2 gave 4 instead of -4 due to precedence handling!',
       ),
     ];
   }
 
   void _openDetailScreen(CubeFaceData data, int index) {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => CubeDetailScreen(
-          title: data.title,
-          subtitle: data.subtitle,
-          icon: data.icon,
-          color: data.color,
-          details: data.details,
-          example: data.example,
-          faceIndex: index,
-        ),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const begin = Offset(1.0, 0.0);
-          const end = Offset.zero;
-          const curve = Curves.easeInOutCubic;
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          var offsetAnimation = animation.drive(tween);
+    setState(() {
+      _showingPortal = true;
+    });
 
-          return SlideTransition(
-            position: offsetAnimation,
-            child: FadeTransition(
+    _portalController.forward().then((_) {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => CubeDetailScreen(
+            title: data.title,
+            subtitle: data.subtitle,
+            icon: data.icon,
+            color: data.color,
+            details: data.details,
+            example: data.example,
+            faceIndex: index,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
               opacity: animation,
-              child: child,
-            ),
-          );
-        },
-        transitionDuration: const Duration(milliseconds: 500),
-      ),
-    );
+              child: ScaleTransition(
+                scale: Tween<double>(begin: 0.8, end: 1.0).animate(animation),
+                child: child,
+              ),
+            );
+          },
+        ),
+      ).then((_) {
+        _portalController.reverse();
+        setState(() {
+          _showingPortal = false;
+        });
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final cubeFaces = _getCubeFaces(l10n);
 
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              const Color(0xFF0F0F1E),
-              const Color(0xFF1A1A2E),
-              const Color(0xFF16213E),
-            ],
-            stops: const [0.0, 0.5, 1.0],
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Theme.of(context).colorScheme.surface,
+            Theme.of(context).colorScheme.surfaceContainerHighest,
+          ],
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(l10n),
-              Expanded(
-                child: Stack(
-                  children: [
-                    _buildParticleBackground(),
-                    _buildCubeContainer(cubeFaces),
-                    if (_selectedFace != null)
-                      _buildQuickActionPanel(cubeFaces[_selectedFace!]),
-                  ],
+      ),
+      child: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                _buildHeader(l10n),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      _buildParticleBackground(),
+                      _buildCubeContainer(cubeFaces),
+                      if (_selectedFace != null && !_showingPortal)
+                        _buildEnhancedQuickPanel(cubeFaces[_selectedFace!]),
+                    ],
+                  ),
                 ),
-              ),
-              _buildControls(l10n),
-            ],
-          ),
+                _buildControls(l10n),
+              ],
+            ),
+            if (_showingPortal) _buildPortalEffect(),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildHeader(AppLocalizations? l10n) {
+  Widget _buildHeader(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                '3D Visualization',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  shadows: [
-                    Shadow(
-                      color: Colors.blue.withOpacity(0.5),
-                      offset: const Offset(0, 0),
-                      blurRadius: 20,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '3D Concept Map',
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Explore real-world applications',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 4),
-              Text(
-                'Tap any face to explore',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white70,
-                ),
-              ),
-            ],
-          ),
-          AnimatedBuilder(
-            animation: _glowController,
-            builder: (context, child) {
-              return Container(
+              Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
                       Colors.purple.shade400,
                       Colors.blue.shade400,
-                      Colors.cyan.shade400,
                     ],
                   ),
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.purple.withOpacity(0.3 + _glowController.value * 0.3),
-                      blurRadius: 15 + _glowController.value * 10,
+                      color: Colors.purple.withOpacity(0.3),
+                      blurRadius: 15,
                       offset: const Offset(0, 5),
                     ),
                   ],
                 ),
-                child: const Icon(Icons.view_in_ar, color: Colors.white, size: 28),
-              );
-            },
+                child: const Icon(Icons.hub, color: Colors.white, size: 28),
+              ),
+            ],
           ),
         ],
       ),
@@ -334,10 +424,10 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
       animation: _particleController,
       builder: (context, child) {
         return CustomPaint(
-          painter: ParticlePainter(
+          painter: EnhancedParticlePainter(
             particles: _particles,
             progress: _particleController.value,
-            color: Colors.cyan,
+            color: Theme.of(context).colorScheme.primary,
           ),
           size: Size.infinite,
         );
@@ -346,61 +436,42 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
   }
 
   Widget _buildCubeContainer(List<CubeFaceData> faces) {
-    // بهینه سازی: ساخت محتوای مکعب خارج از بیلدر انیمیشن
-    // این کار باعث می‌شود با هر فریم انیمیشن، ویجت‌ها دوباره ساخته نشوند
-    final cubeContent = SizedBox(
-      width: 300,
-      height: 300,
-      child: Stack(
-        children: [
-          _buildCubeFace(faces[0], 0, 0, 0, 150, 0), // Front
-          _buildCubeFace(faces[1], 0, math.pi, 0, 150, 1), // Back
-          _buildCubeFace(faces[2], 0, math.pi / 2, 0, 150, 2), // Right
-          _buildCubeFace(faces[3], 0, -math.pi / 2, 0, 150, 3), // Left
-          _buildCubeFace(faces[4], -math.pi / 2, 0, 0, 150, 4), // Top
-          _buildCubeFace(faces[5], math.pi / 2, 0, 0, 150, 5), // Bottom
-        ],
-      ),
-    );
-
-    return Center(
-      child: GestureDetector(
-        // استفاده از Scale برای هم هندل کردن زوم و هم چرخش
-        onScaleStart: (details) {
-          _baseScale = _scale;
-          setState(() {
-            _autoRotate = false;
-          });
-        },
-        onScaleUpdate: (details) {
-          setState(() {
-            // چرخش با استفاده از حرکت انگشت
-            _rotationY += details.focalPointDelta.dx * 0.01;
-            _rotationX += details.focalPointDelta.dy * 0.01;
-            _rotationX = _rotationX.clamp(-math.pi / 2, math.pi / 2);
-
-            // زوم
-            _scale = (_baseScale * details.scale).clamp(0.5, 2.0);
-          });
-        },
-        onScaleEnd: (details) {
-          _lastRotationY = _rotationY;
-        },
-
+    return GestureDetector(
+      onPanUpdate: (details) {
+        setState(() {
+          _autoRotate = false;
+          _rotationY += details.delta.dx * 0.01;
+          _rotationX += details.delta.dy * 0.01;
+          _rotationX = _rotationX.clamp(-math.pi / 2, math.pi / 2);
+        });
+      },
+      onPanEnd: (details) {
+        _lastRotationY = _rotationY;
+      },
+      child: Center(
         child: AnimatedBuilder(
           animation: Listenable.merge([_rotationController, _pulseController]),
-          // پاس دادن محتوای ثابت به عنوان child
-          child: cubeContent,
           builder: (context, child) {
             return Transform(
               alignment: Alignment.center,
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.001)
                 ..rotateX(_rotationX)
-                ..rotateY(_rotationY)
-                ..scale(_scale),
-              // استفاده از child کش شده برای جلوگیری از خطای Assertion
-              child: child,
+                ..rotateY(_rotationY),
+              child: SizedBox(
+                width: 280,
+                height: 280,
+                child: Stack(
+                  children: [
+                    _buildCubeFace(faces[0], 0, 0, 0, 140, 0),
+                    _buildCubeFace(faces[1], 0, math.pi, 0, 140, 1),
+                    _buildCubeFace(faces[2], 0, math.pi / 2, 0, 140, 2),
+                    _buildCubeFace(faces[3], 0, -math.pi / 2, 0, 140, 3),
+                    _buildCubeFace(faces[4], -math.pi / 2, 0, 0, 140, 4),
+                    _buildCubeFace(faces[5], math.pi / 2, 0, 0, 140, 5),
+                  ],
+                ),
+              ),
             );
           },
         ),
@@ -440,8 +511,8 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
             _openDetailScreen(data, index);
           },
           child: Container(
-            width: 300,
-            height: 300,
+            width: 280,
+            height: 280,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -449,7 +520,6 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                 colors: [
                   data.color,
                   data.color.withOpacity(0.7),
-                  data.color.withOpacity(0.5),
                 ],
               ),
               borderRadius: BorderRadius.circular(20),
@@ -459,47 +529,21 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
               ),
               boxShadow: [
                 BoxShadow(
-                  color: data.color.withOpacity(0.6),
-                  blurRadius: isSelected ? 40 : 25,
-                  spreadRadius: isSelected ? 8 : 2,
-                ),
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  blurRadius: 15,
-                  offset: const Offset(5, 5),
+                  color: data.color.withOpacity(0.5),
+                  blurRadius: isSelected ? 30 : 20,
+                  spreadRadius: isSelected ? 5 : 0,
                 ),
               ],
             ),
             child: Stack(
               children: [
-                // Animated grid background - Note: Since we moved this out of main builder,
-                // we need a separate AnimatedBuilder here if we want the grid lines to animate.
-                // But keeping it simple to fix crash first.
                 Positioned.fill(
                   child: CustomPaint(
                     painter: GridPatternPainter(
                       color: Colors.white.withOpacity(0.1),
-                      offset: 0, // Static for now to improve performance
                     ),
                   ),
                 ),
-                // Gradient overlay
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: RadialGradient(
-                        colors: [
-                          Colors.white.withOpacity(0.1),
-                          Colors.transparent,
-                        ],
-                        center: Alignment.topLeft,
-                        radius: 1.5,
-                      ),
-                    ),
-                  ),
-                ),
-                // Content
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -509,13 +553,6 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.2),
                           shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white.withOpacity(0.3),
-                              blurRadius: 20,
-                              spreadRadius: 2,
-                            ),
-                          ],
                         ),
                         child: Icon(
                           data.icon,
@@ -524,21 +561,19 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        data.title,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black38,
-                              offset: Offset(0, 2),
-                              blurRadius: 4,
-                            ),
-                          ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          data.title,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 8),
                       Padding(
@@ -548,44 +583,44 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.white.withOpacity(0.9),
-                            letterSpacing: 0.5,
                           ),
                           textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       if (isSelected) ...[
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 12),
                         Container(
+                          key: ValueKey('hint_$index'),
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
+                            horizontal: 12,
+                            vertical: 6,
                           ),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.3),
                             borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: Colors.white.withOpacity(0.5),
-                              width: 1,
-                            ),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.touch_app, color: Colors.white, size: 18),
-                              SizedBox(width: 8),
-                              Text(
-                                'Double tap to explore',
+                              Icon(Icons.open_in_full, color: Colors.white, size: 16),
+                              const SizedBox(width: 6),
+                              const Text(
+                                'Double tap to enter portal',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 13,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
-                                  letterSpacing: 0.5,
                                 ),
                               ),
                             ],
                           ),
                         )
-                            .animate(onPlay: (controller) => controller.repeat())
+                            .animate(
+                          key: ValueKey('hint_anim_$index'),
+                          onPlay: (controller) => controller.repeat(),
+                        )
                             .fadeIn(duration: 800.ms)
                             .then()
                             .fadeOut(duration: 800.ms),
@@ -601,136 +636,336 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
     );
   }
 
-  Widget _buildQuickActionPanel(CubeFaceData data) {
+  Widget _buildEnhancedQuickPanel(CubeFaceData data) {
     return Positioned(
       left: 0,
       right: 0,
       bottom: 0,
       child: Container(
+        key: ValueKey('panel_${_selectedFace}'),
         margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              data.color.withOpacity(0.95),
-              data.color.withOpacity(0.85),
-              data.color.withOpacity(0.75),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(28),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.3),
-            width: 2,
-          ),
+          borderRadius: BorderRadius.circular(32),
           boxShadow: [
             BoxShadow(
               color: data.color.withOpacity(0.6),
-              blurRadius: 30,
-              offset: const Offset(0, 10),
+              blurRadius: 40,
               spreadRadius: 5,
-            ),
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 20,
-              offset: const Offset(0, 5),
+              offset: const Offset(0, 15),
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(data.icon, color: Colors.white, size: 28),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data.title,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(32),
+          child: Stack(
+            children: [
+              // Animated gradient background
+              AnimatedBuilder(
+                animation: _pulseController,
+                builder: (context, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          data.color.withOpacity(0.95 + _pulseController.value * 0.05),
+                          data.color.withOpacity(0.85 + _pulseController.value * 0.05),
+                          data.color.withOpacity(0.75),
+                        ],
                       ),
-                      Text(
-                        data.subtitle,
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.9),
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
+                    ),
+                  );
+                },
+              ),
+
+              // Animated particles in background
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: MiniParticlePainter(
+                    color: Colors.white.withOpacity(0.1),
+                    progress: _pulseController.value,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () {
-                    setState(() {
-                      _selectedFace = null;
-                    });
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
               ),
-              child: Text(
-                data.example,
-                style: const TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+
+              // Content
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Header with icon and close button
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.25),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Icon(data.icon, color: Colors.white, size: 32),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data.title,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                data.subtitle,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white.withOpacity(0.9),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.close_rounded, color: Colors.white),
+                            onPressed: () {
+                              setState(() {
+                                _selectedFace = null;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Companies badge
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.business, color: Colors.white, size: 16),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              '${data.companies.take(2).join(' • ')} +${data.companies.length - 2}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // Fun fact card with glassmorphism
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white.withOpacity(0.25),
+                            Colors.white.withOpacity(0.15),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.3),
+                          width: 1.5,
+                        ),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Colors.amber, Colors.orange],
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Did you know?',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  data.funFact,
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.95),
+                                    fontSize: 13,
+                                    fontStyle: FontStyle.italic,
+                                    height: 1.4,
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Action buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 56,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white,
+                                  Colors.white.withOpacity(0.9),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  blurRadius: 15,
+                                  offset: const Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _openDetailScreen(data, _selectedFace!);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.rocket_launch, color: data.color, size: 24),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    'Explore World',
+                                    style: TextStyle(
+                                      color: data.color,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: () {
-                _openDetailScreen(data, _selectedFace!);
-              },
-              icon: const Icon(Icons.read_more),
-              label: const Text('Learn More'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: data.color,
-                minimumSize: const Size(double.infinity, 56),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                elevation: 8,
-                shadowColor: Colors.black38,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       )
           .animate()
-          .fadeIn(duration: 300.ms)
-          .slideY(begin: 0.5, end: 0, curve: Curves.easeOutCubic)
-          .scale(begin: const Offset(0.8, 0.8), end: const Offset(1, 1)),
+          .fadeIn(duration: 400.ms, curve: Curves.easeOutCubic)
+          .slideY(begin: 0.3, end: 0, curve: Curves.easeOutBack)
+          .scale(
+        begin: const Offset(0.85, 0.85),
+        end: const Offset(1, 1),
+        curve: Curves.easeOutBack,
+      ),
     );
   }
 
-  Widget _buildControls(AppLocalizations? l10n) {
+  Widget _buildPortalEffect() {
+    return AnimatedBuilder(
+      animation: _portalController,
+      builder: (context, child) {
+        return Container(
+          color: Colors.black.withOpacity(_portalController.value * 0.7),
+          child: Center(
+            child: Transform.scale(
+              scale: _portalController.value * 3,
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      Colors.purple.withOpacity(0.8),
+                      Colors.blue.withOpacity(0.6),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildControls(AppLocalizations l10n) {
     return Container(
       padding: const EdgeInsets.all(16),
       child: Row(
@@ -739,7 +974,7 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
           _buildControlButton(
             icon: _autoRotate ? Icons.pause : Icons.play_arrow,
             label: _autoRotate ? 'Pause' : 'Auto',
-            color: const Color(0xFF2196F3),
+            color: Colors.blue,
             onPressed: () {
               setState(() {
                 _autoRotate = !_autoRotate;
@@ -753,7 +988,7 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
           _buildControlButton(
             icon: Icons.refresh,
             label: 'Reset',
-            color: const Color(0xFF4CAF50),
+            color: Colors.green,
             onPressed: () {
               setState(() {
                 _rotationX = -0.5;
@@ -761,24 +996,13 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                 _lastRotationY = 0.0;
                 _selectedFace = null;
                 _autoRotate = true;
-                _scale = 1.0;
-              });
-            },
-          ),
-          _buildControlButton(
-            icon: Icons.zoom_in,
-            label: 'Zoom',
-            color: const Color(0xFFFF9800),
-            onPressed: () {
-              setState(() {
-                _scale = (_scale + 0.2).clamp(0.5, 2.0);
               });
             },
           ),
           _buildControlButton(
             icon: Icons.info_outline,
             label: 'Guide',
-            color: const Color(0xFF9C27B0),
+            color: Colors.orange,
             onPressed: () {
               _showGuideDialog();
             },
@@ -797,37 +1021,31 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: AnimatedBuilder(
-          animation: _glowController,
-          builder: (context, child) {
-            return ElevatedButton(
-              onPressed: onPressed,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: color,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            elevation: 5,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 24),
+              const SizedBox(height: 4),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
                 ),
-                elevation: 8,
-                shadowColor: color.withOpacity(0.5),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(icon, size: 24),
-                  const SizedBox(height: 4),
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
+            ],
+          ),
         ),
       ),
     );
@@ -837,66 +1055,45 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1A2E),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Row(
           children: [
-            Icon(Icons.help_outline, color: Colors.cyan, size: 28),
+            Icon(Icons.help_outline, color: Colors.blue),
             SizedBox(width: 12),
-            Text(
-              'How to Use',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
+            Text('Concept Map Guide'),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildGuideItem(Icons.touch_app, 'Drag to rotate the cube', Colors.blue),
-            _buildGuideItem(Icons.pinch, 'Pinch to zoom in/out', Colors.green),
-            _buildGuideItem(Icons.tap_and_play, 'Single tap to select face', Colors.orange),
-            _buildGuideItem(Icons.touch_app, 'Double tap for detailed view', Colors.purple),
-            _buildGuideItem(Icons.auto_awesome, 'Auto-rotate mode available', Colors.cyan),
-            _buildGuideItem(Icons.explore, 'Explore all 6 conversion concepts', Colors.pink),
+            _buildGuideItem(Icons.touch_app, 'Drag to rotate the concept hub'),
+            _buildGuideItem(Icons.tap_and_play, 'Single tap to preview'),
+            _buildGuideItem(Icons.open_in_full, 'Double tap to enter concept world'),
+            _buildGuideItem(Icons.business, 'See real companies using this'),
+            _buildGuideItem(Icons.lightbulb, 'Discover fun facts & insights'),
+            _buildGuideItem(Icons.explore, 'Explore all 6 connected concepts'),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            style: TextButton.styleFrom(
-              foregroundColor: Colors.cyan,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: const Text(
-              'Got it!',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
+            child: const Text('Start Exploring!'),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildGuideItem(IconData icon, String text, Color color) {
+  Widget _buildGuideItem(IconData icon, String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, size: 20, color: color),
-          ),
+          Icon(icon, size: 20, color: Colors.blue),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(color: Colors.white70, fontSize: 14),
-            ),
+            child: Text(text),
           ),
         ],
       ),
@@ -904,13 +1101,12 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
   }
 }
 
-// Custom painter for particle background
-class ParticlePainter extends CustomPainter {
+class EnhancedParticlePainter extends CustomPainter {
   final List<Offset> particles;
   final double progress;
   final Color color;
 
-  ParticlePainter({
+  EnhancedParticlePainter({
     required this.particles,
     required this.progress,
     required this.color,
@@ -924,48 +1120,46 @@ class ParticlePainter extends CustomPainter {
 
     for (int i = 0; i < particles.length; i++) {
       final particle = particles[i];
-      final animatedY = particle.dy + (progress * 400) % 800 - 400;
-      final animatedX = particle.dx + math.sin(progress * math.pi * 2 + i) * 30;
-      final opacity = (1 - (animatedY.abs() / 400)).clamp(0.0, 1.0);
+      final animatedY = particle.dy + (progress * 300) % 600 - 300;
+      final animatedX = particle.dx + math.sin(progress * math.pi * 2 + i) * 20;
+      final opacity = (1 - (animatedY.abs() / 300)).clamp(0.0, 1.0);
+
+      // Create varied particle sizes
+      final size1 = 2 + (i % 4).toDouble();
 
       paint.color = color.withOpacity(opacity * 0.2);
 
-      // Create glowing effect
+      // Draw particle with glow effect
       canvas.drawCircle(
         Offset(
           size.width / 2 + animatedX,
           size.height / 2 + animatedY,
         ),
-        3 + (i % 4).toDouble(),
+        size1,
         paint,
       );
 
-      // Add glow halo
+      // Add glow
       paint.color = color.withOpacity(opacity * 0.1);
       canvas.drawCircle(
         Offset(
           size.width / 2 + animatedX,
           size.height / 2 + animatedY,
         ),
-        6 + (i % 4).toDouble(),
+        size1 * 2,
         paint,
       );
     }
   }
 
   @override
-  bool shouldRepaint(covariant ParticlePainter oldDelegate) => true;
+  bool shouldRepaint(covariant EnhancedParticlePainter oldDelegate) => true;
 }
 
-// Custom painter for animated grid pattern
 class GridPatternPainter extends CustomPainter {
   final Color color;
-  final double offset;
 
-  GridPatternPainter({
-    required this.color,
-    this.offset = 0,
-  });
+  GridPatternPainter({required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -975,12 +1169,9 @@ class GridPatternPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     const spacing = 20.0;
-    final animatedOffset = offset % spacing;
 
-    // Vertical lines with animation
-    for (double i = -spacing + animatedOffset; i < size.width + spacing; i += spacing) {
-      final opacity = (1 - (i - size.width / 2).abs() / (size.width / 2)).clamp(0.3, 1.0);
-      paint.color = color.withOpacity(opacity * color.opacity);
+    // Vertical lines
+    for (double i = 0; i < size.width; i += spacing) {
       canvas.drawLine(
         Offset(i, 0),
         Offset(i, size.height),
@@ -988,10 +1179,8 @@ class GridPatternPainter extends CustomPainter {
       );
     }
 
-    // Horizontal lines with animation
-    for (double i = -spacing + animatedOffset; i < size.height + spacing; i += spacing) {
-      final opacity = (1 - (i - size.height / 2).abs() / (size.height / 2)).clamp(0.3, 1.0);
-      paint.color = color.withOpacity(opacity * color.opacity);
+    // Horizontal lines
+    for (double i = 0; i < size.height; i += spacing) {
       canvas.drawLine(
         Offset(0, i),
         Offset(size.width, i),
@@ -999,23 +1188,49 @@ class GridPatternPainter extends CustomPainter {
       );
     }
 
-    // Draw center cross highlight
-    paint.color = color.withOpacity(0.3);
-    paint.strokeWidth = 2;
+    // Add diagonal accents
+    paint.strokeWidth = 0.5;
     canvas.drawLine(
-      Offset(size.width / 2, 0),
-      Offset(size.width / 2, size.height),
+      const Offset(0, 0),
+      Offset(size.width, size.height),
       paint,
     );
     canvas.drawLine(
-      Offset(0, size.height / 2),
-      Offset(size.width, size.height / 2),
+      Offset(size.width, 0),
+      Offset(0, size.height),
       paint,
     );
   }
 
   @override
-  bool shouldRepaint(covariant GridPatternPainter oldDelegate) {
-    return offset != oldDelegate.offset;
+  bool shouldRepaint(covariant GridPatternPainter oldDelegate) => false;
+}
+
+// Mini particle painter for panel background
+class MiniParticlePainter extends CustomPainter {
+  final Color color;
+  final double progress;
+
+  MiniParticlePainter({
+    required this.color,
+    required this.progress,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    for (int i = 0; i < 12; i++) {
+      final x = (i * 30.0 + progress * 20) % size.width;
+      final y = (i * 40.0 + progress * 30) % size.height;
+      final radius = 2 + (i % 3).toDouble();
+
+      canvas.drawCircle(Offset(x, y), radius, paint);
+    }
   }
+
+  @override
+  bool shouldRepaint(covariant MiniParticlePainter oldDelegate) => true;
 }
