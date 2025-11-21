@@ -109,10 +109,9 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
 
   List<CubeFaceData> _getCubeFaces(AppLocalizations l10n) {
     return [
-      // Front Face - Infix to Postfix
       CubeFaceData(
-        title: 'Infix → Postfix',
-        subtitle: 'Natural to Stack-based',
+        title: l10n.translate('cube_title_0'),
+        subtitle: l10n.translate('cube_subtitle_0'),
         icon: Icons.arrow_forward,
         color: const Color(0xFF2196F3),
         details: [
@@ -137,11 +136,9 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
         whyItMatters: 'Expression evaluation in JavaScript and modern compilers relies on postfix notation for efficient computation without ambiguity.',
         funFact: 'Every time you use a calculator app, it converts your expression to postfix behind the scenes!',
       ),
-
-      // Back Face - Infix to Prefix
       CubeFaceData(
-        title: 'Infix → Prefix',
-        subtitle: 'Natural to Polish Notation',
+        title: l10n.translate('cube_title_1'),
+        subtitle: l10n.translate('cube_subtitle_1'),
         icon: Icons.arrow_upward,
         color: const Color(0xFF4CAF50),
         details: [
@@ -166,11 +163,9 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
         whyItMatters: 'Functional programming languages like LISP are built on prefix notation, making it fundamental to AI research.',
         funFact: 'Named after Polish mathematician Jan Łukasiewicz who invented it in 1924 - before computers even existed!',
       ),
-
-      // Right Face - Postfix to Infix
       CubeFaceData(
-        title: 'Postfix → Infix',
-        subtitle: 'Stack to Human-Readable',
+        title: l10n.translate('cube_title_2'),
+        subtitle: l10n.translate('cube_subtitle_2'),
         icon: Icons.arrow_back,
         color: const Color(0xFFFF9800),
         details: [
@@ -195,11 +190,9 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
         whyItMatters: 'When reverse engineering software, decompilers convert low-level postfix operations back to readable code.',
         funFact: 'Security researchers use this to understand malware by converting machine code back to human-readable form!',
       ),
-
-      // Left Face - Prefix to Infix
       CubeFaceData(
-        title: 'Prefix → Infix',
-        subtitle: 'Polish to Natural',
+        title: l10n.translate('cube_title_3'),
+        subtitle: l10n.translate('cube_subtitle_3'),
         icon: Icons.arrow_downward,
         color: const Color(0xFF9C27B0),
         details: [
@@ -224,11 +217,9 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
         whyItMatters: 'Converting between programming paradigms requires understanding prefix-to-infix transformation.',
         funFact: 'The challenge is handling deeply nested expressions like (+ (* 2 3) (/ 8 4)) correctly!',
       ),
-
-      // Top Face - Stack Structure
       CubeFaceData(
-        title: 'Stack Structure',
-        subtitle: 'LIFO Data Structure',
+        title: l10n.translate('cube_title_4'),
+        subtitle: l10n.translate('cube_subtitle_4'),
         icon: Icons.layers,
         color: const Color(0xFFE91E63),
         details: [
@@ -253,11 +244,9 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
         whyItMatters: 'Every function call in your program uses a stack - it\'s the foundation of program execution!',
         funFact: 'When you press Ctrl+Z, you\'re popping from an undo stack. Stack overflow? That\'s when the stack gets too deep!',
       ),
-
-      // Bottom Face - Precedence Rules
       CubeFaceData(
-        title: 'Precedence Rules',
-        subtitle: 'Operator Priority System',
+        title: l10n.translate('cube_title_5'),
+        subtitle: l10n.translate('cube_subtitle_5'),
         icon: Icons.format_list_numbered,
         color: const Color(0xFFFFEB3B),
         details: [
@@ -350,7 +339,7 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                       _buildParticleBackground(),
                       _buildCubeContainer(cubeFaces),
                       if (_selectedFace != null && !_showingPortal)
-                        _buildEnhancedQuickPanel(cubeFaces[_selectedFace!]),
+                        _buildEnhancedQuickPanel(cubeFaces[_selectedFace!], l10n),
                     ],
                   ),
                 ),
@@ -377,13 +366,13 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '3D Concept Map',
+                      l10n.translate('cube_3d_title'),
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      'Explore real-world applications',
+                      l10n.translate('cube_3d_explore'),
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
@@ -435,6 +424,7 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
   }
 
   Widget _buildCubeContainer(List<CubeFaceData> faces) {
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
       onPanUpdate: (details) {
         setState(() {
@@ -462,12 +452,12 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                 height: 280,
                 child: Stack(
                   children: [
-                    _buildCubeFace(faces[0], 0, 0, 0, 140, 0),
-                    _buildCubeFace(faces[1], 0, math.pi, 0, 140, 1),
-                    _buildCubeFace(faces[2], 0, math.pi / 2, 0, 140, 2),
-                    _buildCubeFace(faces[3], 0, -math.pi / 2, 0, 140, 3),
-                    _buildCubeFace(faces[4], -math.pi / 2, 0, 0, 140, 4),
-                    _buildCubeFace(faces[5], math.pi / 2, 0, 0, 140, 5),
+                    _buildCubeFace(faces[0], 0, 0, 0, 140, 0, l10n),
+                    _buildCubeFace(faces[1], 0, math.pi, 0, 140, 1, l10n),
+                    _buildCubeFace(faces[2], 0, math.pi / 2, 0, 140, 2, l10n),
+                    _buildCubeFace(faces[3], 0, -math.pi / 2, 0, 140, 3, l10n),
+                    _buildCubeFace(faces[4], -math.pi / 2, 0, 0, 140, 4, l10n),
+                    _buildCubeFace(faces[5], math.pi / 2, 0, 0, 140, 5, l10n),
                   ],
                 ),
               ),
@@ -485,6 +475,7 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
       double rotateZ,
       double translateZ,
       int index,
+      AppLocalizations l10n,
       ) {
     final isSelected = _selectedFace == index;
     final scale = isSelected ? 1.0 + (_pulseController.value * 0.1) : 1.0;
@@ -603,11 +594,11 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.open_in_full, color: Colors.white, size: 16),
+                              const Icon(Icons.open_in_full, color: Colors.white, size: 16),
                               const SizedBox(width: 6),
-                              const Text(
-                                'Double tap to enter portal',
-                                style: TextStyle(
+                              Text(
+                                l10n.translate('cube_3d_double_tap'),
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -635,7 +626,7 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
     );
   }
 
-  Widget _buildEnhancedQuickPanel(CubeFaceData data) {
+  Widget _buildEnhancedQuickPanel(CubeFaceData data, AppLocalizations l10n) {
     return Positioned(
       left: 0,
       right: 0,
@@ -658,7 +649,6 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
           borderRadius: BorderRadius.circular(32),
           child: Stack(
             children: [
-              // Animated gradient background
               AnimatedBuilder(
                 animation: _pulseController,
                 builder: (context, child) {
@@ -678,7 +668,6 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                 },
               ),
 
-              // Animated particles in background
               Positioned.fill(
                 child: CustomPaint(
                   painter: MiniParticlePainter(
@@ -688,14 +677,12 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                 ),
               ),
 
-              // Content
               Padding(
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Header with icon and close button
                     Row(
                       children: [
                         Container(
@@ -758,7 +745,6 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
 
                     const SizedBox(height: 20),
 
-                    // Companies badge
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       decoration: BoxDecoration(
@@ -798,7 +784,6 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
 
                     const SizedBox(height: 16),
 
-                    // Fun fact card with glassmorphism
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -832,9 +817,9 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
-                                  'Did you know?',
-                                  style: TextStyle(
+                                Text(
+                                  l10n.translate('cube_did_you_know'),
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 11,
                                     fontWeight: FontWeight.bold,
@@ -862,7 +847,6 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
 
                     const SizedBox(height: 20),
 
-                    // Action buttons
                     Row(
                       children: [
                         Expanded(
@@ -901,7 +885,7 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
                                   Icon(Icons.rocket_launch, color: data.color, size: 24),
                                   const SizedBox(width: 12),
                                   Text(
-                                    'Explore World',
+                                    l10n.translate('cube_explore_world'),
                                     style: TextStyle(
                                       color: data.color,
                                       fontSize: 16,
@@ -972,7 +956,7 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
         children: [
           _buildControlButton(
             icon: _autoRotate ? Icons.pause : Icons.play_arrow,
-            label: _autoRotate ? 'Pause' : 'Auto',
+            label: _autoRotate ? l10n.translate('cube_pause') : l10n.translate('cube_auto'),
             color: Colors.blue,
             onPressed: () {
               setState(() {
@@ -986,7 +970,7 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
           ),
           _buildControlButton(
             icon: Icons.refresh,
-            label: 'Reset',
+            label: l10n.translate('cube_reset'),
             color: Colors.green,
             onPressed: () {
               setState(() {
@@ -1000,10 +984,10 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
           ),
           _buildControlButton(
             icon: Icons.info_outline,
-            label: 'Guide',
+            label: l10n.translate('cube_guide'),
             color: Colors.orange,
             onPressed: () {
-              _showGuideDialog();
+              _showGuideDialog(l10n);
             },
           ),
         ],
@@ -1050,34 +1034,34 @@ class _Interactive3DCubeScreenState extends State<Interactive3DCubeScreen>
     );
   }
 
-  void _showGuideDialog() {
+  void _showGuideDialog(AppLocalizations l10n) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.help_outline, color: Colors.blue),
-            SizedBox(width: 12),
-            Text('Concept Map Guide'),
+            const Icon(Icons.help_outline, color: Colors.blue),
+            const SizedBox(width: 12),
+            Text(l10n.translate('cube_guide_title')),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildGuideItem(Icons.touch_app, 'Drag to rotate the concept hub'),
-            _buildGuideItem(Icons.tap_and_play, 'Single tap to preview'),
-            _buildGuideItem(Icons.open_in_full, 'Double tap to enter concept world'),
-            _buildGuideItem(Icons.business, 'See real companies using this'),
-            _buildGuideItem(Icons.lightbulb, 'Discover fun facts & insights'),
-            _buildGuideItem(Icons.explore, 'Explore all 6 connected concepts'),
+            _buildGuideItem(Icons.touch_app, l10n.translate('cube_guide_drag')),
+            _buildGuideItem(Icons.tap_and_play, l10n.translate('cube_guide_tap')),
+            _buildGuideItem(Icons.open_in_full, l10n.translate('cube_guide_double')),
+            _buildGuideItem(Icons.business, l10n.translate('cube_guide_companies')),
+            _buildGuideItem(Icons.lightbulb, l10n.translate('cube_guide_facts')),
+            _buildGuideItem(Icons.explore, l10n.translate('cube_guide_explore')),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Start Exploring!'),
+            child: Text(l10n.translate('cube_guide_start')),
           ),
         ],
       ),
@@ -1123,12 +1107,10 @@ class EnhancedParticlePainter extends CustomPainter {
       final animatedX = particle.dx + math.sin(progress * math.pi * 2 + i) * 20;
       final opacity = (1 - (animatedY.abs() / 300)).clamp(0.0, 1.0);
 
-      // Create varied particle sizes
       final size1 = 2 + (i % 4).toDouble();
 
       paint.color = color.withOpacity(opacity * 0.2);
 
-      // Draw particle with glow effect
       canvas.drawCircle(
         Offset(
           size.width / 2 + animatedX,
@@ -1138,7 +1120,6 @@ class EnhancedParticlePainter extends CustomPainter {
         paint,
       );
 
-      // Add glow
       paint.color = color.withOpacity(opacity * 0.1);
       canvas.drawCircle(
         Offset(
@@ -1169,7 +1150,6 @@ class GridPatternPainter extends CustomPainter {
 
     const spacing = 20.0;
 
-    // Vertical lines
     for (double i = 0; i < size.width; i += spacing) {
       canvas.drawLine(
         Offset(i, 0),
@@ -1178,7 +1158,6 @@ class GridPatternPainter extends CustomPainter {
       );
     }
 
-    // Horizontal lines
     for (double i = 0; i < size.height; i += spacing) {
       canvas.drawLine(
         Offset(0, i),
@@ -1187,7 +1166,6 @@ class GridPatternPainter extends CustomPainter {
       );
     }
 
-    // Add diagonal accents
     paint.strokeWidth = 0.5;
     canvas.drawLine(
       const Offset(0, 0),
@@ -1205,7 +1183,6 @@ class GridPatternPainter extends CustomPainter {
   bool shouldRepaint(covariant GridPatternPainter oldDelegate) => false;
 }
 
-// Mini particle painter for panel background
 class MiniParticlePainter extends CustomPainter {
   final Color color;
   final double progress;

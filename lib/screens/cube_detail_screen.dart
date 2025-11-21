@@ -3,7 +3,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:math' as math;
 import '../l10n/app_localizations.dart';
 
-/// Interactive Concept World - Each face opens a unique interactive experience
 class CubeDetailScreen extends StatefulWidget {
   final String title;
   final String subtitle;
@@ -37,7 +36,6 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
   int _score = 0;
   bool _showingHint = false;
 
-  // Interactive elements state
   String _userInput = '';
   bool _animatingSuccess = false;
 
@@ -63,13 +61,13 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
     super.dispose();
   }
 
-  // Get unique content for each face
   Map<String, dynamic> _getWorldContent() {
+    final l10n = AppLocalizations.of(context)!;
     switch (widget.faceIndex) {
-      case 0: // Infix → Postfix - "Compiler World"
+      case 0:
         return {
-          'worldName': '🏭 Compiler Factory',
-          'description': 'See how JavaScript engines process your code in real-time',
+          'worldName': l10n.translate('cube_world_0'),
+          'description': l10n.translate('cube_desc_0'),
           'interactiveType': 'compiler_simulation',
           'challenges': [
             {
@@ -109,10 +107,10 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
           ],
         };
 
-      case 1: // Infix → Prefix - "LISP World"
+      case 1:
         return {
-          'worldName': '🤖 AI Research Lab',
-          'description': 'Experience how AI systems think in prefix notation',
+          'worldName': l10n.translate('cube_world_1'),
+          'description': l10n.translate('cube_desc_1'),
           'interactiveType': 'lisp_playground',
           'challenges': [
             {
@@ -152,10 +150,10 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
           ],
         };
 
-      case 2: // Postfix → Infix - "Reverse Engineer Lab"
+      case 2:
         return {
-          'worldName': '🔬 Decompiler Lab',
-          'description': 'Reverse engineer machine code back to readable format',
+          'worldName': l10n.translate('cube_world_2'),
+          'description': l10n.translate('cube_desc_2'),
           'interactiveType': 'reverse_engineering',
           'challenges': [
             {
@@ -195,10 +193,10 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
           ],
         };
 
-      case 3: // Prefix → Infix - "Functional World"
+      case 3:
         return {
-          'worldName': '⚡ Functional Programming Arena',
-          'description': 'Transform functional code to imperative style',
+          'worldName': l10n.translate('cube_world_3'),
+          'description': l10n.translate('cube_desc_3'),
           'interactiveType': 'functional_converter',
           'challenges': [
             {
@@ -238,10 +236,10 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
           ],
         };
 
-      case 4: // Stack Structure - "Memory World"
+      case 4:
         return {
-          'worldName': '🏗️ Memory Architecture Zone',
-          'description': 'Build and manipulate the stack like a CPU',
+          'worldName': l10n.translate('cube_world_4'),
+          'description': l10n.translate('cube_desc_4'),
           'interactiveType': 'stack_builder',
           'challenges': [
             {
@@ -281,10 +279,10 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
           ],
         };
 
-      case 5: // Precedence Rules - "Calculator World"
+      case 5:
         return {
-          'worldName': '🧮 Excel Formula Arena',
-          'description': 'Master operator precedence like a spreadsheet pro',
+          'worldName': l10n.translate('cube_world_5'),
+          'description': l10n.translate('cube_desc_5'),
           'interactiveType': 'precedence_puzzle',
           'challenges': [
             {
@@ -326,7 +324,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
 
       default:
         return {
-          'worldName': '🎯 Concept World',
+          'worldName': 'Concept World',
           'description': 'Explore interactive concepts',
           'interactiveType': 'default',
           'challenges': [],
@@ -450,6 +448,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
   }
 
   Widget _buildWorldIntro(Map<String, dynamic> content) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.all(24),
@@ -491,14 +490,14 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
               color: Colors.white.withOpacity(0.2),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.stars, color: Colors.amber, size: 20),
-                SizedBox(width: 8),
+                const Icon(Icons.stars, color: Colors.amber, size: 20),
+                const SizedBox(width: 8),
                 Text(
-                  'Interactive Learning Mode',
-                  style: TextStyle(
+                  l10n.translate('cube_interactive_mode'),
+                  style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
@@ -512,6 +511,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
   }
 
   Widget _buildInteractiveChallenge(Map<String, dynamic> content) {
+    final l10n = AppLocalizations.of(context)!;
     final challenges = content['challenges'] as List<Map<String, dynamic>>? ?? [];
     if (challenges.isEmpty || _currentChallenge >= challenges.length) {
       return Container(
@@ -534,19 +534,19 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
           children: [
             const Icon(Icons.emoji_events, color: Colors.white, size: 80),
             const SizedBox(height: 16),
-            const Text(
-              'Congratulations!',
-              style: TextStyle(
+            Text(
+              l10n.translate('cube_congratulations'),
+              style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'You\'ve completed all challenges!',
+            Text(
+              l10n.translate('cube_completed'),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),
@@ -562,7 +562,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
                 });
               },
               icon: const Icon(Icons.refresh),
-              label: const Text('Try Again'),
+              label: Text(l10n.translate('cube_try_again_button')),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.green,
@@ -611,9 +611,9 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
                 ),
               ),
               const SizedBox(width: 12),
-              const Text(
-                'Challenge',
-                style: TextStyle(
+              Text(
+                l10n.translate('cube_challenge'),
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -631,7 +631,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
                     const Icon(Icons.star, color: Colors.white, size: 16),
                     const SizedBox(width: 4),
                     Text(
-                      '+${challenge['reward']}',
+                      l10n.translate('cube_reward', args: ['${challenge['reward']}']),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -676,7 +676,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
               color: Colors.white,
             ),
             decoration: InputDecoration(
-              hintText: 'Your answer...',
+              hintText: l10n.translate('cube_your_answer'),
               hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
               filled: true,
               fillColor: Colors.black.withOpacity(0.3),
@@ -712,7 +712,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
                     });
                   },
                   icon: Icon(_showingHint ? Icons.visibility_off : Icons.lightbulb),
-                  label: Text(_showingHint ? 'Hide Hint' : 'Show Hint'),
+                  label: Text(_showingHint ? l10n.translate('cube_hide_hint') : l10n.translate('cube_show_hint')),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
                     padding: const EdgeInsets.symmetric(vertical: 16),
@@ -728,7 +728,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
                 child: ElevatedButton.icon(
                   onPressed: _userInput.isEmpty ? null : () => _checkAnswer(challenge),
                   icon: const Icon(Icons.check_circle),
-                  label: const Text('Submit'),
+                  label: Text(l10n.translate('cube_submit')),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: widget.color,
                     disabledBackgroundColor: Colors.grey,
@@ -756,7 +756,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      challenge['hint'],
+                      l10n.translate('cube_hint') + ' ' + challenge['hint'],
                       style: const TextStyle(
                         color: Colors.white,
                         fontStyle: FontStyle.italic,
@@ -777,14 +777,14 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.celebration, color: Colors.white),
-                  SizedBox(width: 12),
+                  const Icon(Icons.celebration, color: Colors.white),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Correct! Amazing work! 🎉',
-                      style: TextStyle(
+                      l10n.translate('quiz_correct'),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
@@ -801,6 +801,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
   }
 
   void _checkAnswer(Map<String, dynamic> challenge) {
+    final l10n = AppLocalizations.of(context)!;
     final correct = challenge['correct'].toString().toLowerCase();
     final userAnswer = _userInput.trim().toLowerCase();
 
@@ -822,8 +823,8 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Try again! Think about the hint.'),
+        SnackBar(
+          content: Text(l10n.translate('cube_try_again')),
           backgroundColor: Colors.red,
           behavior: SnackBarBehavior.floating,
         ),
@@ -832,6 +833,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
   }
 
   Widget _buildRealWorldDemo(Map<String, dynamic> content) {
+    final l10n = AppLocalizations.of(context)!;
     final demo = content['realWorldDemo'] as Map<String, dynamic>?;
     if (demo == null) return Container();
 
@@ -866,10 +868,10 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
                 child: const Icon(Icons.computer, color: Colors.white, size: 28),
               ),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Real-World Demo',
-                  style: TextStyle(
+                  l10n.translate('cube_demo'),
+                  style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -959,6 +961,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
   }
 
   Widget _buildFunFacts(Map<String, dynamic> content) {
+    final l10n = AppLocalizations.of(context)!;
     final facts = content['funFacts'] as List<String>? ?? [];
     if (facts.isEmpty) return Container();
 
@@ -967,13 +970,13 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.auto_awesome, color: Colors.amber, size: 28),
-              SizedBox(width: 12),
+              const Icon(Icons.auto_awesome, color: Colors.amber, size: 28),
+              const SizedBox(width: 12),
               Text(
-                'Fun Facts',
-                style: TextStyle(
+                l10n.translate('cube_facts'),
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -1014,6 +1017,7 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
   }
 
   Widget _buildFloatingScore() {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       decoration: BoxDecoration(
@@ -1043,9 +1047,9 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
             ),
           ),
           const SizedBox(width: 4),
-          const Text(
-            'pts',
-            style: TextStyle(
+          Text(
+            l10n.translate('cube_points'),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 14,
             ),
@@ -1062,7 +1066,6 @@ class _CubeDetailScreenState extends State<CubeDetailScreen>
   }
 }
 
-/// Custom painter for world-specific backgrounds
 class WorldBackgroundPainter extends CustomPainter {
   final double progress;
   final Color color;
@@ -1082,22 +1085,22 @@ class WorldBackgroundPainter extends CustomPainter {
       ..strokeWidth = 2;
 
     switch (faceIndex) {
-      case 0: // Compiler Factory - Grid pattern
+      case 0:
         _drawGridPattern(canvas, size, paint);
         break;
-      case 1: // AI Lab - Neural network
+      case 1:
         _drawNeuralNetwork(canvas, size, paint);
         break;
-      case 2: // Reverse Engineer - Circuit board
+      case 2:
         _drawCircuitBoard(canvas, size, paint);
         break;
-      case 3: // Functional - Lambda symbols
+      case 3:
         _drawLambdaPattern(canvas, size, paint);
         break;
-      case 4: // Memory - Stack layers
+      case 4:
         _drawStackLayers(canvas, size, paint);
         break;
-      case 5: // Calculator - Math symbols
+      case 5:
         _drawMathSymbols(canvas, size, paint);
         break;
     }
@@ -1128,7 +1131,6 @@ class WorldBackgroundPainter extends CustomPainter {
     final random = math.Random(42);
     final nodes = <Offset>[];
 
-    // Generate node positions
     for (int i = 0; i < 20; i++) {
       nodes.add(Offset(
         random.nextDouble() * size.width,
@@ -1136,7 +1138,6 @@ class WorldBackgroundPainter extends CustomPainter {
       ));
     }
 
-    // Draw connections with animation
     paint.strokeWidth = 1;
     for (int i = 0; i < nodes.length; i++) {
       for (int j = i + 1; j < nodes.length; j++) {
@@ -1149,7 +1150,6 @@ class WorldBackgroundPainter extends CustomPainter {
       }
     }
 
-    // Draw nodes
     paint.style = PaintingStyle.fill;
     for (var node in nodes) {
       paint.color = color.withOpacity(0.6);
@@ -1161,7 +1161,6 @@ class WorldBackgroundPainter extends CustomPainter {
     paint.strokeWidth = 2;
     final offset = progress * 100;
 
-    // Draw circuit traces
     for (int i = 0; i < 5; i++) {
       final y = (i * 50 + offset) % size.height;
       final path = Path();
@@ -1179,7 +1178,6 @@ class WorldBackgroundPainter extends CustomPainter {
       canvas.drawPath(path, paint);
     }
 
-    // Draw connection points
     paint.style = PaintingStyle.fill;
     for (int i = 0; i < 8; i++) {
       for (int j = 0; j < 6; j++) {
@@ -1201,7 +1199,6 @@ class WorldBackgroundPainter extends CustomPainter {
       final centerY = size.height * 0.5;
       final radius = 40 + math.sin(angle + i) * 10;
 
-      // Draw lambda symbol (simplified)
       final path = Path();
       path.moveTo(centerX - radius, centerY + radius);
       path.lineTo(centerX, centerY - radius);
@@ -1229,7 +1226,6 @@ class WorldBackgroundPainter extends CustomPainter {
 
       canvas.drawPath(path, paint);
 
-      // Draw stack indicators
       if (i < layers) {
         canvas.drawLine(
           Offset(10, y + 5),
@@ -1254,7 +1250,6 @@ class WorldBackgroundPainter extends CustomPainter {
       final opacity = (1 - y / size.height) * 0.5;
       paint.color = color.withOpacity(opacity);
 
-      // Simple symbol representation with circle
       canvas.drawCircle(Offset(x, y), 15, paint);
     }
   }

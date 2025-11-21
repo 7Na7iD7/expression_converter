@@ -24,7 +24,6 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
   bool _showHint = false;
 
   final List<QuizQuestion> _questions = [
-
     QuizQuestion(
       question: 'What does LIFO stand for in Stack data structure?',
       options: [
@@ -38,7 +37,6 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
       hint: 'Think about a stack of plates - which plate do you take first?',
       difficulty: QuizDifficulty.easy,
     ),
-
     QuizQuestion(
       question: 'Convert the infix expression "A + B" to postfix notation.',
       options: [
@@ -52,7 +50,6 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
       hint: 'In postfix, the operator comes AFTER the operands.',
       difficulty: QuizDifficulty.easy,
     ),
-
     QuizQuestion(
       question: 'Which operator has the HIGHEST precedence?',
       options: [
@@ -66,7 +63,6 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
       hint: 'Remember PEMDAS/BODMAS - which operation comes first?',
       difficulty: QuizDifficulty.easy,
     ),
-
     QuizQuestion(
       question: 'Convert "(A + B) × C" to postfix notation.',
       options: [
@@ -80,7 +76,6 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
       hint: 'Process what\'s inside parentheses first!',
       difficulty: QuizDifficulty.medium,
     ),
-
     QuizQuestion(
       question: 'Evaluate the postfix expression: "5 3 + 2 ×"',
       options: [
@@ -94,7 +89,6 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
       hint: 'When you see an operator, apply it to the two previous numbers.',
       difficulty: QuizDifficulty.medium,
     ),
-
     QuizQuestion(
       question: 'What is the associativity of the exponentiation operator (^)?',
       options: [
@@ -108,7 +102,6 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
       hint: 'Is 2^3^2 equal to (2^3)^2 or 2^(3^2)?',
       difficulty: QuizDifficulty.medium,
     ),
-
     QuizQuestion(
       question: 'Convert "A + B × C - D" to postfix (without parentheses).',
       options: [
@@ -122,7 +115,6 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
       hint: 'Multiplication has higher precedence than addition and subtraction!',
       difficulty: QuizDifficulty.hard,
     ),
-
     QuizQuestion(
       question: 'In the Infix to Postfix conversion algorithm, when do we pop an operator from the stack?',
       options: [
@@ -136,7 +128,6 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
       hint: 'Think about when we need to output operators before continuing.',
       difficulty: QuizDifficulty.hard,
     ),
-
     QuizQuestion(
       question: 'What is the time complexity of converting an infix expression of length n to postfix?',
       options: [
@@ -150,7 +141,6 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
       hint: 'We process each character in the expression exactly once.',
       difficulty: QuizDifficulty.medium,
     ),
-
     QuizQuestion(
       question: 'Evaluate: "8 2 / 3 + 5 ×"',
       options: [
@@ -312,7 +302,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
           child: ListView(
             padding: const EdgeInsets.all(20),
             children: [
-              _buildProgressIndicator(),
+              _buildProgressIndicator(l10n),
               const SizedBox(height: 20),
               _buildTimerCard(l10n),
               const SizedBox(height: 24),
@@ -369,7 +359,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Advanced Quiz',
+                  l10n.translate('quiz_advanced_title'),
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -378,7 +368,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
                   ),
                 ),
                 Text(
-                  'Test Your Knowledge',
+                  l10n.translate('quiz_test_knowledge'),
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.white.withOpacity(0.9),
@@ -425,14 +415,17 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
     );
   }
 
-  Widget _buildProgressIndicator() {
+  Widget _buildProgressIndicator(AppLocalizations l10n) {
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Question ${_currentQuestionIndex + 1}/$_totalQuestions',
+              l10n.translate('quiz_question_of', args: [
+                '${_currentQuestionIndex + 1}',
+                '$_totalQuestions'
+              ]),
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -440,7 +433,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
               ),
             ),
             Text(
-              '${((_currentQuestionIndex + 1) / _totalQuestions * 100).toInt()}%',
+              l10n.translate('quiz_percentage', args: [
+                '${((_currentQuestionIndex + 1) / _totalQuestions * 100).toInt()}'
+              ]),
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -488,7 +483,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.timer_outlined, color: Colors.white, size: 36),
+          const Icon(Icons.timer_outlined, color: Colors.white, size: 36),
           const SizedBox(width: 16),
           Text(
             '$_timeRemaining',
@@ -500,7 +495,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
           ),
           const SizedBox(width: 12),
           Text(
-            'seconds',
+            l10n.translate('quiz_timer_seconds'),
             style: TextStyle(
               fontSize: 20,
               color: Colors.white.withOpacity(0.95),
@@ -532,7 +527,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
         children: [
           Row(
             children: [
-              _buildDifficultyBadge(question.difficulty),
+              _buildDifficultyBadge(question.difficulty, l10n),
               const Spacer(),
               if (!_isAnswered)
                 Container(
@@ -570,7 +565,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
     ).animate().fadeIn(duration: 500.ms).scale(begin: const Offset(0.95, 0.95));
   }
 
-  Widget _buildDifficultyBadge(QuizDifficulty difficulty) {
+  Widget _buildDifficultyBadge(QuizDifficulty difficulty, AppLocalizations l10n) {
     Color color;
     String text;
     IconData icon;
@@ -578,17 +573,17 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
     switch (difficulty) {
       case QuizDifficulty.easy:
         color = Colors.green;
-        text = 'Easy';
+        text = l10n.translate('difficulty_easy');
         icon = Icons.sentiment_satisfied;
         break;
       case QuizDifficulty.medium:
         color = Colors.orange;
-        text = 'Medium';
+        text = l10n.translate('difficulty_medium');
         icon = Icons.sentiment_neutral;
         break;
       case QuizDifficulty.hard:
         color = Colors.red;
-        text = 'Hard';
+        text = l10n.translate('difficulty_hard');
         icon = Icons.sentiment_very_dissatisfied;
         break;
     }
@@ -748,7 +743,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
               ),
               const SizedBox(width: 12),
               Text(
-                wasTimeout ? 'Time\'s Up!' : (isCorrect ? 'Correct!' : 'Incorrect'),
+                wasTimeout
+                    ? l10n.translate('quiz_times_up')
+                    : (isCorrect ? l10n.translate('quiz_correct') : l10n.translate('quiz_incorrect')),
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -770,7 +767,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Correct Answer: ${String.fromCharCode(65 + question.correctAnswer)}',
+                    l10n.translate('quiz_correct_answer') + ' ${String.fromCharCode(65 + question.correctAnswer)}',
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -783,7 +780,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
           ),
           const SizedBox(height: 16),
           Text(
-            'Explanation:',
+            l10n.translate('quiz_explanation'),
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -813,9 +810,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
           });
         },
         icon: const Icon(Icons.lightbulb_outline, size: 24),
-        label: const Text(
-          'Show Hint',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        label: Text(
+          l10n.translate('quiz_show_hint'),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.amber,
@@ -856,7 +853,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hint 💡',
+                  l10n.translate('quiz_hint'),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -891,7 +888,7 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
           size: 24,
         ),
         label: Text(
-          isLastQuestion ? 'Finish Quiz' : 'Next Question',
+          isLastQuestion ? l10n.translate('quiz_finish') : l10n.translate('quiz_next'),
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         style: ElevatedButton.styleFrom(
@@ -915,19 +912,19 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
     IconData feedbackIcon;
 
     if (percentage >= 90) {
-      feedback = 'Outstanding! You\'re a master!';
+      feedback = l10n.translate('quiz_outstanding');
       feedbackColor = Colors.green;
       feedbackIcon = Icons.emoji_events;
     } else if (percentage >= 70) {
-      feedback = 'Great job! Keep it up!';
+      feedback = l10n.translate('quiz_great');
       feedbackColor = Colors.blue;
       feedbackIcon = Icons.thumb_up;
     } else if (percentage >= 50) {
-      feedback = 'Good effort! Review and try again!';
+      feedback = l10n.translate('quiz_good');
       feedbackColor = Colors.orange;
       feedbackIcon = Icons.sentiment_neutral;
     } else {
-      feedback = 'Keep practicing! You\'ll get better!';
+      feedback = l10n.translate('quiz_practice');
       feedbackColor = Colors.red;
       feedbackIcon = Icons.sentiment_dissatisfied;
     }
@@ -967,9 +964,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
                 child: Icon(feedbackIcon, size: 80, color: Colors.white),
               ),
               const SizedBox(height: 24),
-              const Text(
-                'Quiz Completed!',
-                style: TextStyle(
+              Text(
+                l10n.translate('quiz_completed'),
+                style: const TextStyle(
                   fontSize: 36,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -991,9 +988,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildScoreStat('Score', '$_score/$_totalQuestions', Icons.star),
+                  _buildScoreStat(l10n.translate('quiz_score'), '$_score/$_totalQuestions', Icons.star),
                   const SizedBox(width: 24),
-                  _buildScoreStat('Percentage', '$percentage%', Icons.percent),
+                  _buildScoreStat(l10n.translate('quiz_percentage_label'), '$percentage%', Icons.percent),
                 ],
               ),
             ],
@@ -1069,9 +1066,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
                 child: const Icon(Icons.analytics, color: Colors.deepPurple, size: 32),
               ),
               const SizedBox(width: 16),
-              const Text(
-                'Detailed Results',
-                style: TextStyle(
+              Text(
+                l10n.translate('quiz_results'),
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.deepPurple,
@@ -1169,9 +1166,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
                             children: [
                               const Icon(Icons.close, color: Colors.red, size: 20),
                               const SizedBox(width: 8),
-                              const Text(
-                                'Your answer: ',
-                                style: TextStyle(
+                              Text(
+                                l10n.translate('quiz_your_answer_label') + ' ',
+                                style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.red,
@@ -1194,9 +1191,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
                             children: [
                               const Icon(Icons.check, color: Colors.green, size: 20),
                               const SizedBox(width: 8),
-                              const Text(
-                                'Correct answer: ',
-                                style: TextStyle(
+                              Text(
+                                l10n.translate('quiz_correct_answer') + ' ',
+                                style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.green,
@@ -1230,9 +1227,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
                         children: [
                           const Icon(Icons.access_time, color: Colors.orange, size: 18),
                           const SizedBox(width: 8),
-                          const Text(
-                            'Time out - No answer given',
-                            style: TextStyle(
+                          Text(
+                            l10n.translate('quiz_timeout'),
+                            style: const TextStyle(
                               fontSize: 14,
                               color: Colors.orange,
                               fontWeight: FontWeight.w600,
@@ -1260,9 +1257,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
           child: ElevatedButton.icon(
             onPressed: _restartQuiz,
             icon: const Icon(Icons.replay, size: 28),
-            label: const Text(
-              'Retry Quiz',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            label: Text(
+              l10n.translate('quiz_retry'),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.deepPurple,
@@ -1282,9 +1279,9 @@ class _AdvancedQuizScreenState extends State<AdvancedQuizScreen> with TickerProv
           child: OutlinedButton.icon(
             onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(Icons.arrow_back, size: 28),
-            label: const Text(
-              'Back to Tutorial',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            label: Text(
+              l10n.translate('quiz_back'),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.white,
