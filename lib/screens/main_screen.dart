@@ -73,7 +73,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
       l10n.translate('app_title'),
       l10n.translate('practice_examples'),
       l10n.translate('welcome_title'),
-      '3D Visualization',
+      l10n.translate('3d_visualization'), // Fixed: Changed from '3D Visualization' to translation key
       l10n.translate('reset_settings'),
     ];
   }
@@ -232,7 +232,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
           NavigationDestination(
             icon: const Icon(Icons.view_in_ar_outlined),
             selectedIcon: _buildSelectedIcon(Icons.view_in_ar, Colors.cyan),
-            label: '3D Cube',
+            label: l10n.translate('nav_3d_cube'), // Fixed: Changed from '3D Cube' to translation key
           ),
           NavigationDestination(
             icon: const Icon(Icons.settings_outlined),
