@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'dart:async';
+import 'dart:math' as math;
 import 'main_screen.dart';
 
-/// Professional Splash Screen - Clean Architecture
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -22,7 +22,6 @@ class _SplashScreenState extends State<SplashScreen>
     _initializeApp();
   }
 
-  /// Initialize app and navigate after delay
   Future<void> _initializeApp() async {
     await _animationController.startAnimations();
     await Future.delayed(const Duration(milliseconds: 1800));
@@ -62,7 +61,6 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-/// Animation Controller - Manages all animations
 class SplashAnimationController {
   final TickerProvider vsync;
 
@@ -114,7 +112,6 @@ class SplashAnimationController {
   }
 }
 
-/// Main View - Presentation Layer
 class SplashScreenView extends StatelessWidget {
   final SplashAnimationController controller;
 
@@ -141,10 +138,7 @@ class SplashScreenView extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // Animated particles background
           _AnimatedParticleBackground(controller: controller),
-
-          // Gradient overlay for depth
           Container(
             decoration: BoxDecoration(
               gradient: RadialGradient(
@@ -157,36 +151,22 @@ class SplashScreenView extends StatelessWidget {
               ),
             ),
           ),
-
-          // Main content
           SafeArea(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo with glassmorphism
                   _GlassmorphicLogo(controller: controller),
-
                   const SizedBox(height: 48),
-
-                  // App title
                   _AnimatedTitle(controller: controller),
-
                   const SizedBox(height: 16),
-
-                  // Subtitle
                   _AnimatedSubtitle(controller: controller),
-
                   const SizedBox(height: 80),
-
-                  // Loading indicator
                   _ModernLoadingIndicator(controller: controller),
                 ],
               ),
             ),
           ),
-
-          // Footer info
           _FooterInfo(controller: controller),
         ],
       ),
@@ -194,7 +174,6 @@ class SplashScreenView extends StatelessWidget {
   }
 }
 
-/// Glassmorphic Logo Component
 class _GlassmorphicLogo extends StatelessWidget {
   final SplashAnimationController controller;
 
@@ -239,7 +218,6 @@ class _GlassmorphicLogo extends StatelessWidget {
                   )!.withOpacity(0.6),
                 ),
                 boxShadow: [
-                  // Outer glow
                   BoxShadow(
                     color: Color.lerp(
                       const Color(0xFF00E5FF),
@@ -249,7 +227,6 @@ class _GlassmorphicLogo extends StatelessWidget {
                     blurRadius: 50 + glowIntensity * 30,
                     spreadRadius: 10,
                   ),
-                  // Inner shadow for depth
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),
                     blurRadius: 20,
@@ -261,7 +238,6 @@ class _GlassmorphicLogo extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50),
                 child: Stack(
                   children: [
-                    // Glass effect
                     Positioned.fill(
                       child: Container(
                         decoration: BoxDecoration(
@@ -277,8 +253,6 @@ class _GlassmorphicLogo extends StatelessWidget {
                         ),
                       ),
                     ),
-
-                    // Grid pattern
                     Positioned.fill(
                       child: CustomPaint(
                         painter: _ModernGridPainter(
@@ -286,65 +260,10 @@ class _GlassmorphicLogo extends StatelessWidget {
                         ),
                       ),
                     ),
-
-                    // Logo content - EC with arrow
                     Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              // E letter
-                              _buildGradientText('E', 80),
-                              const SizedBox(width: 8),
-                              // C letter with arrow
-                              Stack(
-                                clipBehavior: Clip.none,
-                                children: [
-                                  _buildGradientText('C', 80),
-                                  // Arrow positioned higher
-                                  Positioned(
-                                    right: -12,
-                                    top: 12,
-                                    child: Container(
-                                      padding: const EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF00E5FF)
-                                            .withOpacity(0.2),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: const Icon(
-                                        Icons.arrow_forward_rounded,
-                                        color: Color(0xFF00E5FF),
-                                        size: 32,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          // CONVERTER text
-                          Text(
-                            'CONVERTER',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 6,
-                              foreground: Paint()
-                                ..shader = const LinearGradient(
-                                  colors: [
-                                    Color(0xFF00E5FF),
-                                    Color(0xFF0099FF),
-                                  ],
-                                ).createShader(
-                                  const Rect.fromLTWH(0, 0, 200, 50),
-                                ),
-                            ),
-                          ),
-                        ],
+                      child: CustomPaint(
+                        size: const Size(200, 200),
+                        painter: _LogoPainter(glowIntensity: glowIntensity),
                       ),
                     ),
                   ],
@@ -356,11 +275,19 @@ class _GlassmorphicLogo extends StatelessWidget {
       },
     );
   }
+}
 
-  /// Build gradient text for logo letters
-  Widget _buildGradientText(String text, double fontSize) {
-    return ShaderMask(
-      shaderCallback: (bounds) => const LinearGradient(
+class _LogoPainter extends CustomPainter {
+  final double glowIntensity;
+
+  _LogoPainter({required this.glowIntensity});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+
+    final textPaint = Paint()
+      ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
@@ -368,20 +295,122 @@ class _GlassmorphicLogo extends StatelessWidget {
           Color(0xFF0099FF),
           Color(0xFF0066FF),
         ],
-      ).createShader(bounds),
-      child: Text(
-        text,
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
+      ..style = PaintingStyle.fill;
+
+    final textPainterE = TextPainter(
+      text: TextSpan(
+        text: 'E',
         style: TextStyle(
-          fontSize: fontSize,
+          fontSize: 80,
           fontWeight: FontWeight.w900,
-          color: Colors.white,
+          foreground: textPaint,
         ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    textPainterE.layout();
+    textPainterE.paint(
+      canvas,
+      Offset(center.dx - 65, center.dy - 55),
+    );
+
+    final textPainterC = TextPainter(
+      text: TextSpan(
+        text: 'C',
+        style: TextStyle(
+          fontSize: 80,
+          fontWeight: FontWeight.w900,
+          foreground: textPaint,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    textPainterC.layout();
+    final cLetterX = center.dx + 5;
+    final cLetterY = center.dy - 55;
+    textPainterC.paint(
+      canvas,
+      Offset(cLetterX, cLetterY),
+    );
+
+    final arrowCenter = Offset(
+      cLetterX + textPainterC.width / 2 + 40,
+      cLetterY + textPainterC.height / 2,
+    );
+
+    final arrowPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFF00E5FF),
+          Color(0xFF0099FF),
+          Color(0xFF0066FF),
+        ],
+      ).createShader(Rect.fromCircle(center: arrowCenter, radius: 25))
+      ..style = PaintingStyle.fill;
+
+    final arrowPath = Path();
+
+    arrowPath.addRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromCenter(
+          center: Offset(arrowCenter.dx - 5, arrowCenter.dy),
+          width: 16,
+          height: 5,
+        ),
+        const Radius.circular(2.5),
+      ),
+    );
+
+    arrowPath.moveTo(arrowCenter.dx + 3, arrowCenter.dy - 7);
+    arrowPath.lineTo(arrowCenter.dx + 12, arrowCenter.dy);
+    arrowPath.lineTo(arrowCenter.dx + 3, arrowCenter.dy + 7);
+    arrowPath.close();
+
+    canvas.drawPath(arrowPath, arrowPaint);
+
+    final glowPaint = Paint()
+      ..color = const Color(0xFF00E5FF).withOpacity(0.3 * glowIntensity)
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, 10 + glowIntensity * 5);
+
+    canvas.drawCircle(arrowCenter, 20, glowPaint);
+
+    final converterPainter = TextPainter(
+      text: TextSpan(
+        text: 'CONVERTER',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 6,
+          foreground: Paint()
+            ..shader = const LinearGradient(
+              colors: [
+                Color(0xFF00E5FF),
+                Color(0xFF0099FF),
+              ],
+            ).createShader(const Rect.fromLTWH(0, 0, 200, 50)),
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    );
+    converterPainter.layout();
+    converterPainter.paint(
+      canvas,
+      Offset(
+        center.dx - converterPainter.width / 2,
+        center.dy + 45,
       ),
     );
   }
+
+  @override
+  bool shouldRepaint(covariant _LogoPainter oldDelegate) {
+    return oldDelegate.glowIntensity != glowIntensity;
+  }
 }
 
-/// Animated Title
 class _AnimatedTitle extends StatelessWidget {
   final SplashAnimationController controller;
 
@@ -422,7 +451,6 @@ class _AnimatedTitle extends StatelessWidget {
   }
 }
 
-/// Animated Subtitle
 class _AnimatedSubtitle extends StatelessWidget {
   final SplashAnimationController controller;
 
@@ -461,7 +489,6 @@ class _AnimatedSubtitle extends StatelessWidget {
   }
 }
 
-/// Modern Loading Indicator
 class _ModernLoadingIndicator extends StatelessWidget {
   final SplashAnimationController controller;
 
@@ -478,14 +505,12 @@ class _ModernLoadingIndicator extends StatelessWidget {
             height: 50,
             child: Stack(
               children: [
-                // Outer ring
                 CircularProgressIndicator(
                   strokeWidth: 3,
                   valueColor: AlwaysStoppedAnimation<Color>(
                     const Color(0xFF00E5FF).withOpacity(0.3),
                   ),
                 ),
-                // Inner ring
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: CircularProgressIndicator(
@@ -519,7 +544,6 @@ class _ModernLoadingIndicator extends StatelessWidget {
   }
 }
 
-/// Footer Information
 class _FooterInfo extends StatelessWidget {
   final SplashAnimationController controller;
 
@@ -581,7 +605,6 @@ class _FooterInfo extends StatelessWidget {
   }
 }
 
-/// Animated Particle Background
 class _AnimatedParticleBackground extends StatelessWidget {
   final SplashAnimationController controller;
 
@@ -603,7 +626,6 @@ class _AnimatedParticleBackground extends StatelessWidget {
   }
 }
 
-/// Enhanced Particles Painter - Creates animated background particles
 class _EnhancedParticlesPainter extends CustomPainter {
   final double progress;
 
@@ -613,7 +635,6 @@ class _EnhancedParticlesPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()..style = PaintingStyle.fill;
 
-    // Layer 1: Large slow particles
     for (int i = 0; i < 15; i++) {
       final x = (i * 100.0 + progress * 50) % size.width;
       final y = ((i * 120.0 + progress * 80) % size.height);
@@ -628,7 +649,6 @@ class _EnhancedParticlesPainter extends CustomPainter {
       canvas.drawCircle(Offset(x, y), 2.5, paint);
     }
 
-    // Layer 2: Small fast particles
     for (int i = 0; i < 40; i++) {
       final x = (i * 40.0 + progress * 150) % size.width;
       final y = ((i * 60.0 + progress * 200) % size.height);
@@ -638,7 +658,6 @@ class _EnhancedParticlesPainter extends CustomPainter {
       canvas.drawCircle(Offset(x, y), 1.0, paint);
     }
 
-    // Layer 3: Connection lines
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = 0.5;
 
@@ -657,7 +676,6 @@ class _EnhancedParticlesPainter extends CustomPainter {
   bool shouldRepaint(covariant _EnhancedParticlesPainter oldDelegate) => true;
 }
 
-/// Modern Grid Pattern Painter - Creates grid background
 class _ModernGridPainter extends CustomPainter {
   final Color color;
 
@@ -672,7 +690,6 @@ class _ModernGridPainter extends CustomPainter {
 
     const spacing = 25.0;
 
-    // Draw vertical lines
     for (double i = 0; i < size.width; i += spacing) {
       canvas.drawLine(
         Offset(i, 0),
@@ -681,7 +698,6 @@ class _ModernGridPainter extends CustomPainter {
       );
     }
 
-    // Draw horizontal lines
     for (double i = 0; i < size.height; i += spacing) {
       canvas.drawLine(
         Offset(0, i),
